@@ -89,6 +89,17 @@ export const validateEmail = (value: string): string | undefined => {
 };
 
 /**
+ * [회원가입 페이지]
+ *
+ * 이메일 인증 코드: 6자리 숫자
+ */
+export const validateEmailCode = (value: string): string | undefined => {
+  if (value.trim() === '') return '인증 코드를 입력해 주세요.';
+  if (!/^\d{6}$/.test(value.trim())) return '인증 코드는 6자리 숫자예요.';
+  return undefined;
+};
+
+/**
  * [카테고리 페이지]
  *
  * 분류 이름: 앞뒤 공백을 뺀 1~100자
