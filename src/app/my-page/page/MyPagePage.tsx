@@ -8,10 +8,13 @@ import { UnderlineTabs } from '@/app/common/style/CommonTabs.style';
 import useDeleteThumbnail from '@/app/common/service/useDeleteThumbnail';
 import useUploadThumbnail from '@/app/common/service/useUploadThumbnail';
 import { showConfirmAlert } from '@/app/common/utils/AlertUtils';
+import type { ChangePasswordRequestBody } from '@/app/auth/interface/ChangePasswordRequestBody';
 import type { WithdrawRequestBody } from '@/app/auth/interface/WithdrawRequestBody';
 import useAuth from '@/app/auth/service/useAuth';
+import useChangePassword from '@/app/auth/service/useChangePassword';
 import useReadMe from '@/app/auth/service/useReadMe';
 import useWithdraw from '@/app/auth/service/useWithdraw';
+import ChangePasswordDialog from '@/app/my-page/component/ChangePasswordDialog';
 import ProfileView from '@/app/my-page/component/ProfileView';
 import WithdrawForm from '@/app/my-page/component/WithdrawForm';
 import { isMyPageTabKey, MY_PAGE_TABS, type MyPageTabKey } from '@/app/my-page/constant/myPageTab';
@@ -35,9 +38,11 @@ const MyPagePage = () => {
   const { uploadThumbnailLoading, fetchUploadThumbnail } = useUploadThumbnail();
   const { deleteThumbnailLoading, fetchDeleteThumbnail } = useDeleteThumbnail();
   const { withdrawLoading, fetchWithdraw } = useWithdraw();
+  const { changePasswordLoading, fetchChangePassword } = useChangePassword();
   const showResult = useUiStore((state) => state.showResult);
   const [tab, setTab] = useState<MyPageTabKey>('PROFILE');
   const [thumbnail, setThumbnail] = useState<ThumbnailChange>({ type: 'none' });
+  const [passwordDialogOpen, setPasswordDialogOpen] = useState<boolean>(false);
 
   const handleTabChange = (_event: SyntheticEvent, value: string) => {
     if (isMyPageTabKey(value)) setTab(value);
@@ -56,6 +61,13 @@ const MyPagePage = () => {
 
     setThumbnail({ type: 'none' });
     await fetchReadMe();
+  };
+
+  /* 성공하면 창을 닫는다. 로그인 상태는 그대로 유지된다(기존 토큰이 계속 유효) */
+  const handleChangePassword = async (body: ChangePasswordRequestBody) => {
+    const res = await fetchChangePassword(body);
+    showResult(res);
+    if (res.code === API_CODE.OK) setPasswordDialogOpen(false);
   };
 
   const handleWithdraw = async (body: WithdrawRequestBody) => {
@@ -91,9 +103,18 @@ const MyPagePage = () => {
           onThumbnailChange={setThumbnail}
           loading={uploadThumbnailLoading || deleteThumbnailLoading || meLoading}
           onSave={handleThumbnailSave}
+          onChangePassword={() => setPasswordDialogOpen(true)}
         />
       )}
       {tab === 'WITHDRAW' && <WithdrawForm loading={withdrawLoading} onSubmit={handleWithdraw} />}
+
+      {passwordDialogOpen && (
+        <ChangePasswordDialog
+          loading={changePasswordLoading}
+          onSubmit={handleChangePassword}
+          onClose={() => setPasswordDialogOpen(false)}
+        />
+      )}
 
       <LoadingOverlay open={uploadThumbnailLoading || deleteThumbnailLoading || meLoading || withdrawLoading} />
     </PageContainer>

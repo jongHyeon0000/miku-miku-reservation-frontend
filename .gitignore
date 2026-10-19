@@ -24,3 +24,6 @@ dist-ssr
 
 # IDE 모듈 파일
 *.iml
+
+# 설계 문서와 시안
+doc/

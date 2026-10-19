@@ -2,7 +2,9 @@ import dayjs from 'dayjs';
 import { Button } from '@mui/material';
 import ThumbnailUploader from '@/app/common/component/ThumbnailUploader';
 import type { ThumbnailChange } from '@/app/common/interface/ThumbnailChange';
+import { TonalButton } from '@/app/common/style/CommonButton.style';
 import { ColumnCard, MediaCard } from '@/app/common/style/CommonCard.style';
+import { FieldStack } from '@/app/common/style/CommonForm.style';
 import { EndRow, SplitLayout } from '@/app/common/style/CommonLayout.style';
 import { LabelText, LabelValueGrid, LabelValueRow, ValueText } from '@/app/common/style/CommonText.style';
 import type { UserInfo } from '@/app/auth/interface/UserInfo';
@@ -23,13 +25,16 @@ interface ProfileViewProps {
 
   /** 저장 버튼 (서버 요청은 페이지가 한다) */
   onSave: () => void;
+
+  /** 비밀번호 변경 버튼 (창 열기는 페이지가 한다) */
+  onChangePassword: () => void;
 }
 
 /**
  * 내 정보 탭. 왼쪽은 아이디, 이메일, 닉네임, 가입일(표시 전용), 오른쪽은 프로필 이미지 카드(고르면 저장 버튼으로 올린다).
- * 상품 상세와 같은 2:1 배치이고, 저장 버튼은 정보 카드의 맨 아래 오른쪽이다.
+ * 상품 상세와 같은 2:1 배치이고, 비밀번호 변경 버튼은 정보 카드의 맨 아래 오른쪽, 저장 버튼은 이미지 카드의 맨 아래 오른쪽이다.
  */
-const ProfileView = ({ user, thumbnail, onThumbnailChange, loading, onSave }: ProfileViewProps) => {
+const ProfileView = ({ user, thumbnail, onThumbnailChange, loading, onSave, onChangePassword }: ProfileViewProps) => {
   return (
     <SplitLayout>
       <ColumnCard>
@@ -52,13 +57,18 @@ const ProfileView = ({ user, thumbnail, onThumbnailChange, loading, onSave }: Pr
           </LabelValueRow>
         </Info>
         <ButtonRow>
-          <Button variant="contained" disabled={loading || thumbnail.type === 'none'} onClick={onSave}>
-            저장
-          </Button>
+          <TonalButton onClick={onChangePassword}>비밀번호 변경</TonalButton>
         </ButtonRow>
       </ColumnCard>
       <MediaCard>
-        <ThumbnailUploader currentUrl={user.thumbnailUrl} value={thumbnail} onChange={onThumbnailChange} disabled={loading} />
+        <FieldStack>
+          <ThumbnailUploader currentUrl={user.thumbnailUrl} value={thumbnail} onChange={onThumbnailChange} disabled={loading} />
+          <EndRow>
+            <Button variant="contained" disabled={loading || thumbnail.type === 'none'} onClick={onSave}>
+              저장
+            </Button>
+          </EndRow>
+        </FieldStack>
       </MediaCard>
     </SplitLayout>
   );
@@ -73,7 +83,7 @@ const Info = styled(LabelValueGrid)(({ theme }) => ({
   rowGap: theme.spacing(2),
 }));
 
-/* 카드가 길어져도 저장 버튼은 맨 아래 오른쪽에 붙는다 */
+/* 카드가 길어져도 비밀번호 변경 버튼은 맨 아래 오른쪽에 붙는다 */
 const ButtonRow = styled(EndRow)({
   marginTop: 'auto',
 });

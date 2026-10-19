@@ -1,4 +1,5 @@
 import type { Dayjs } from 'dayjs';
+import type { ChangePasswordFormValues } from '@/app/auth/interface/ChangePasswordFormValues';
 import type { SignupFormValues } from '@/app/auth/interface/SignupFormValues';
 import { THUMBNAIL_EXTENSIONS, THUMBNAIL_MAX_BYTES } from '@/app/common/constant/thumbnailFile';
 import { formatPrice } from '@/app/common/utils/CommonUtils';
@@ -96,6 +97,18 @@ export const validateEmail = (value: string): string | undefined => {
 export const validateEmailCode = (value: string): string | undefined => {
   if (value.trim() === '') return '인증 코드를 입력해 주세요.';
   if (!/^\d{6}$/.test(value.trim())) return '인증 코드는 6자리 숫자예요.';
+  return undefined;
+};
+
+/**
+ * [비밀번호 변경 창]
+ *
+ * 새 비밀번호 확인: 폼의 새 비밀번호와 같은지 (화면에서만 쓰고 서버에는 보내지 않는다)
+ * react-hook-form 의 validate 규칙(값, 폼 전체 값)에 그대로 넘길 수 있다.
+ */
+export const validateNewPasswordConfirm = (confirm: string, formValues: ChangePasswordFormValues): string | undefined => {
+  if (confirm === '') return '새 비밀번호를 한 번 더 입력해 주세요.';
+  if (formValues.newPassword !== confirm) return '새 비밀번호가 일치하지 않아요.';
   return undefined;
 };
 
