@@ -11,7 +11,7 @@ import type { FigureStatusFormValues } from '@/app/figure/interface/FigureStatus
 * */
 
 /**
- * [로그인 페이지]
+ * [로그인 페이지, 비밀번호 재설정 페이지]
  *
  * 로그인 아이디 입력 확인: 비었는지만 본다 (서버가 로그인 때는 형식을 검사하지 않는다)
  */

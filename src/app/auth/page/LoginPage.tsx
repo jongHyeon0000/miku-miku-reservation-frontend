@@ -37,6 +37,10 @@ const LoginPage = () => {
             <Link component={RouterLink} to="/find-id">
               아이디 찾기
             </Link>
+            {' · '}
+            <Link component={RouterLink} to="/reset-password">
+              비밀번호 재설정
+            </Link>
             <br />
             아직 계정이 없으신가요?{' '}
             <Link component={RouterLink} to="/signup">
