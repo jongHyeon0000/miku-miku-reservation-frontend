@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
+import FindIdPage from '@/app/auth/page/FindIdPage';
 import LoginPage from '@/app/auth/page/LoginPage';
 import SignupPage from '@/app/auth/page/SignupPage';
 import CategoryPage from '@/app/category/page/CategoryPage';
@@ -10,7 +11,7 @@ import MyPagePage from '@/app/my-page/page/MyPagePage';
 import NotFoundPage from '@/app/common/page/NotFoundPage';
 
 /** 라우트 종류. gnb 는 상단 메뉴에 나오는 라우트 */
-type RouteKind = 'root' | 'gnb' | 'login' | 'signup' | 'figure' | 'my-page' | 'not-found';
+type RouteKind = 'root' | 'gnb' | 'login' | 'signup' | 'find-id' | 'figure' | 'my-page' | 'not-found';
 
 type RouteType = {
   path: string;
@@ -30,6 +31,7 @@ export const APP_ROUTES: readonly RouteType[] = [
 
   { path: '/login', nameKr: '로그인', element: <LoginPage />, type: 'login', requireAuth: false },
   { path: '/signup', nameKr: '회원가입', element: <SignupPage />, type: 'signup', requireAuth: false },
+  { path: '/find-id', nameKr: '아이디 찾기', element: <FindIdPage />, type: 'find-id', requireAuth: false },
 
   { path: '/figures', nameKr: '상품', element: <FigureListPage />, type: 'gnb', requireAuth: true },
   { path: '/figures/new', nameKr: '상품 등록', element: <FigureFormPage mode="insert" />, type: 'figure', requireAuth: true },
