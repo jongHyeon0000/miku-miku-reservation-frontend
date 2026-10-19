@@ -7,3 +7,6 @@ export const EMAIL_CODE_PATHS = {
 
 /* 인증 목적. 서버의 purpose 값과 같다 */
 export type EmailPurpose = keyof typeof EMAIL_CODE_PATHS;
+
+/* 같은 이메일로 인증 코드를 다시 받을 수 있기까지의 대기 시간(초). 서버 규칙과 같다 */
+export const EMAIL_RESEND_SECONDS = 60;
