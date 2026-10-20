@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import FigureFilterBar from '@/app/figure/component/FigureFilterBar';
 import FigureFilterChips from '@/app/figure/component/FigureFilterChips';
 import FigureListComponent from '@/app/figure/component/FigureListComponent';
@@ -23,7 +22,7 @@ const OPTIONS = buildFilterOptions(INTRO_FIGURES);
  */
 const IntroSearchScene = () => {
   const { sceneRef, active } = useSceneActive();
-  const { filters, month, sort, caption } = useSearchDemo(active);
+  const { filters, month, sort } = useSearchDemo(active);
   const matched = sortFigures(applyFilters(INTRO_FIGURES, filters, month), sort);
 
   return (
@@ -60,9 +59,6 @@ const IntroSearchScene = () => {
               onReset={noop}
             />
             <FigureFilterChips filters={filters} options={OPTIONS} onClear={noop} />
-            <Typography color="text.secondary">
-              {caption} ({matched.length}개)
-            </Typography>
             <FigureListComponent key={JSON.stringify([filters, month, sort])} figures={matched.slice(0, SHOWN_COUNT)} blinkUrgent={false} />
           </FieldStack>
         </SceneDemo>
