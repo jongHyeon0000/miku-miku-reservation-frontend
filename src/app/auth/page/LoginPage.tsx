@@ -1,11 +1,11 @@
 import { Link as RouterLink, Navigate, useLocation, type Location } from 'react-router-dom';
-import { Link } from '@mui/material';
+import { Button, Divider, Link, Typography } from '@mui/material';
 import AuthCardLayout from '@/app/auth/component/AuthCardLayout';
 import LoginForm from '@/app/auth/component/LoginForm';
 import type { LoginRequestBody } from '@/app/auth/interface/LoginRequestBody';
 import useAuth from '@/app/auth/service/useAuth';
+import { FieldStack } from '@/app/common/style/CommonForm.style';
 import LoadingOverlay from '@/app/common/component/loading/LoadingOverlay';
-import { APP_NAME } from '@/app/common/constant/appName';
 import { useUiStore } from '@/store/uiStore';
 
 /**
@@ -31,22 +31,22 @@ const LoginPage = () => {
     <>
       <AuthCardLayout
         title="로그인"
-        description={`${APP_NAME}에 오신 것을 환영해요.`}
         footer={
-          <>
-            <Link component={RouterLink} to="/find-id">
-              아이디 찾기
-            </Link>
-            {' · '}
-            <Link component={RouterLink} to="/reset-password">
-              비밀번호 재설정
-            </Link>
-            <br />
-            아직 계정이 없으신가요?{' '}
-            <Link component={RouterLink} to="/signup">
+          <FieldStack>
+            <Divider>또는</Divider>
+            <Button variant="outlined" color="inherit" fullWidth component={RouterLink} to="/signup">
               회원가입
-            </Link>
-          </>
+            </Button>
+            <Typography variant="body2">
+              <Link component={RouterLink} to="/find-id">
+                아이디 찾기
+              </Link>
+              {' · '}
+              <Link component={RouterLink} to="/reset-password">
+                비밀번호 재설정
+              </Link>
+            </Typography>
+          </FieldStack>
         }
       >
         <LoginForm onSubmit={handleLoginSubmit} loading={loginLoading} />

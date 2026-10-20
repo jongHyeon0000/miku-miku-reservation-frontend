@@ -22,10 +22,17 @@ import { styled } from '@mui/material/styles';
 * */
 const GNB_ROUTES = APP_ROUTES.filter((route) => route.type === 'gnb');
 
+/*
+* 로그인 안내 문구를 숨기는 경로 (로그인, 회원가입, 아이디 찾기, 비밀번호 재설정: 이미 인증 화면이다)
+* */
+const AUTH_PATHS = APP_ROUTES.filter((route) => ['login', 'signup', 'find-id', 'reset-password'].includes(route.type)).map(
+  (route) => route.path,
+);
+
 /**
  * 상단 고정 메뉴바
  * 로그인하면 메뉴 탭과 프로필 메뉴가, 하지 않았으면 로그인 버튼과 그 왼쪽의 안내 문구(화살표가 흔들린다)가 보인다.
- * 로그인 화면에서는 안내 문구를 숨긴다.
+ * 로그인, 회원가입, 아이디 찾기, 비밀번호 재설정 화면에서는 안내 문구를 숨긴다.
  */
 const GNB = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -96,7 +103,7 @@ const GNB = () => {
           <>
             <Spacer />
             <Row>
-              {pathname !== '/login' && (
+              {!AUTH_PATHS.includes(pathname) && (
                 <>
                   <HintText variant="body2">로그인 후 바로 시작하기</HintText>
                   <HintArrow animate={nudgeAnimate} transition={nudgeTransition}>

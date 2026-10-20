@@ -46,7 +46,6 @@ const SignupPage = () => {
     <>
       <AuthCardLayout
         title="회원가입"
-        description="아이디와 비밀번호로 계정을 만들어요."
         footer={
           <>
             이미 계정이 있으신가요?{' '}
