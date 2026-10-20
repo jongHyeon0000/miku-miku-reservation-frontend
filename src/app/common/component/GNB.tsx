@@ -1,13 +1,17 @@
 import { useState, type MouseEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { motion } from 'motion/react';
 import { AppBar, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tab, Tabs, Toolbar, Typography } from '@mui/material';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import useAuth from '@/app/auth/service/useAuth';
 import { APP_NAME } from '@/app/common/constant/appName';
 import mainIcon from '@/assets/common/main-icon.png';
+import { Row } from '@/app/common/style/CommonLayout.style';
 import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
+import { nudgeAnimate, nudgeTransition } from '@/app/common/style/CommonMotion.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 import { APP_ROUTES } from '@/config/route/RoutesConfig';
 import { useUiStore } from '@/store/uiStore';
@@ -20,7 +24,8 @@ const GNB_ROUTES = APP_ROUTES.filter((route) => route.type === 'gnb');
 
 /**
  * 상단 고정 메뉴바
- * 로그인하면 메뉴 탭과 프로필 메뉴가, 하지 않았으면 로그인 버튼이 보인다.
+ * 로그인하면 메뉴 탭과 프로필 메뉴가, 하지 않았으면 로그인 버튼과 그 왼쪽의 안내 문구(화살표가 흔들린다)가 보인다.
+ * 로그인 화면에서는 안내 문구를 숨긴다.
  */
 const GNB = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -90,9 +95,19 @@ const GNB = () => {
         ) : (
           <>
             <Spacer />
-            <Button color="primary" component={Link} to="/login">
-              로그인
-            </Button>
+            <Row>
+              {pathname !== '/login' && (
+                <>
+                  <HintText variant="body2">로그인 후 바로 시작하기</HintText>
+                  <HintArrow animate={nudgeAnimate} transition={nudgeTransition}>
+                    <ArrowForwardIcon fontSize="small" />
+                  </HintArrow>
+                </>
+              )}
+              <Button color="primary" component={Link} to="/login">
+                로그인
+              </Button>
+            </Row>
           </>
         )}
       </Toolbar>
@@ -132,4 +147,17 @@ const Spacer = styled('div')({ flexGrow: 1 });
 const NavTabs = styled(Tabs)(({ theme }) => ({
   flexGrow: 1,
   marginLeft: theme.spacing(3),
+}));
+
+/* 로그인 버튼 왼쪽의 안내 문구. 좁은 화면에서는 버튼만 남기고 숨긴다 */
+const HintText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  [theme.breakpoints.down('sm')]: { display: 'none' },
+})) as typeof Typography;
+
+/* 문구 뒤의 화살표. 로그인 버튼 쪽을 가리키며 흔들린다 */
+const HintArrow = styled(motion.span)(({ theme }) => ({
+  display: 'inline-flex',
+  color: theme.palette.primary.main,
+  [theme.breakpoints.down('sm')]: { display: 'none' },
 }));
