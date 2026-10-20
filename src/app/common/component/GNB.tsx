@@ -43,7 +43,7 @@ const GNB = () => {
   const handleLogout = () => {
     handleCloseMenu();
     logout();
-    navigate('/login', { replace: true });
+    navigate('/intro', { replace: true });
     showSnackbar('로그아웃되었습니다.', 'success');
   };
 

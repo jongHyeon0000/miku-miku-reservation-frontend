@@ -1,3 +1,4 @@
+import { EMBEDDED_DIALOG_PROPS } from '@/app/common/constant/embeddedDialog';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import {
   Alert,
@@ -38,6 +39,9 @@ interface FigureStatusModalProps {
 
   /** 닫기 */
   onClose: () => void;
+
+  /** true 면 화면 전체가 아니라 놓인 자리 안에 그린다 (소개 화면의 데모) */
+  embedded?: boolean;
 }
 
 /**
@@ -45,7 +49,7 @@ interface FigureStatusModalProps {
  * 예약완료는 예약금, 예약금 결제일, 잔금 기한(선택), 나머지는 날짜 하나, 날짜가 없는 전이는 안내 글만 보인다.
  * 열릴 때마다 새로 그려지므로 defaultValues 가 그때의 값으로 들어간다.
  */
-const FigureStatusModal = ({ title, transitions, totalPrice, loading, onSubmit, onClose }: FigureStatusModalProps) => {
+const FigureStatusModal = ({ title, transitions, totalPrice, loading, onSubmit, onClose, embedded = false }: FigureStatusModalProps) => {
   const {
     register,
     control,
@@ -62,7 +66,7 @@ const FigureStatusModal = ({ title, transitions, totalPrice, loading, onSubmit, 
   const handleValid = (values: FigureStatusFormValues) => onSubmit(transition, values);
 
   return (
-    <Dialog open onClose={onClose} fullWidth maxWidth="xs">
+    <Dialog open onClose={onClose} fullWidth maxWidth="xs" {...(embedded && EMBEDDED_DIALOG_PROPS)}>
       <DialogFormBody noValidate onSubmit={handleSubmit(handleValid)}>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>

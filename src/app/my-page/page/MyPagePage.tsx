@@ -79,7 +79,7 @@ const MyPagePage = () => {
     if (res.code !== API_CODE.OK) return;
 
     logout();
-    navigate('/login', { replace: true });
+    navigate('/intro', { replace: true });
   };
 
   return (

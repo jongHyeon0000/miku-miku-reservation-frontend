@@ -1,3 +1,4 @@
+import { EMBEDDED_DIALOG_PROPS } from '@/app/common/constant/embeddedDialog';
 import { useState } from 'react';
 import { Box, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel } from '@mui/material';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
@@ -20,16 +21,19 @@ interface FigureUrgentModalProps {
 
   /** 닫을 때. dismiss 가 true 면 "새로고침 전까지 다시 보지 않기"를 체크하고 닫은 것이다 */
   onClose: (dismiss: boolean) => void;
+
+  /** true 면 화면 전체가 아니라 놓인 자리 안에 그린다 (소개 화면의 데모) */
+  embedded?: boolean;
 }
 
 /**
  * 마감 임박 알림 모달. 목록과 같은 카드를 누를 수 없는 표시 전용으로 보여 준다.
  */
-const FigureUrgentModal = ({ title, subtitle, figures, onClose }: FigureUrgentModalProps) => {
+const FigureUrgentModal = ({ title, subtitle, figures, onClose, embedded = false }: FigureUrgentModalProps) => {
   const [dismiss, setDismiss] = useState<boolean>(false);
 
   return (
-    <Dialog open onClose={() => onClose(dismiss)} fullWidth maxWidth="md">
+    <Dialog open onClose={() => onClose(dismiss)} fullWidth maxWidth="md" {...(embedded && EMBEDDED_DIALOG_PROPS)}>
       <Header>
         <Row>
           <NotificationsActiveIcon color="error" />

@@ -21,3 +21,15 @@ export const cardEnterVariants: Variants = {
 export const blinkAnimate = { opacity: [1, 0.25, 1] };
 
 export const blinkTransition: Transition = { duration: 1.1, ease: 'easeInOut', repeat: Infinity };
+
+/* 이미지 롤링. 같은 목록을 두 번 이어 붙인 줄이 오른쪽에서 왼쪽으로 절반만큼(한 목록 길이) 끊김 없이 계속 흐른다 */
+export const rollAnimate = { x: ['0%', '-50%'] };
+
+/* 이미지 한 장이 지나가는 시간(초). 장수가 달라도 흐르는 속도가 같다 */
+const ROLL_SECONDS_PER_IMAGE = 7;
+
+export const getRollTransition = (imageCount: number): Transition => ({
+  duration: imageCount * ROLL_SECONDS_PER_IMAGE,
+  ease: 'linear',
+  repeat: Infinity,
+});

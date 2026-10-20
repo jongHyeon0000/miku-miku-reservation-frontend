@@ -9,6 +9,7 @@ import FigureDetailPage from '@/app/figure/page/FigureDetailPage';
 import FigureFormPage from '@/app/figure/page/FigureFormPage';
 import FigureListPage from '@/app/figure/page/FigureListPage';
 import MyPagePage from '@/app/my-page/page/MyPagePage';
+import IntroPage from '@/app/intro/page/IntroPage';
 import NotFoundPage from '@/app/common/page/NotFoundPage';
 
 /** 라우트 종류. gnb 는 상단 메뉴에 나오는 라우트 */
@@ -41,6 +42,7 @@ export const APP_ROUTES: readonly RouteType[] = [
   { path: '/figures/:figureId/edit', nameKr: '상품 수정', element: <FigureFormPage mode="edit" />, type: 'figure', requireAuth: true },
 
   { path: '/categories', nameKr: '카테고리', element: <CategoryPage />, type: 'gnb', requireAuth: true },
+  { path: '/intro', nameKr: '소개', element: <IntroPage />, type: 'gnb', requireAuth: false },
 
   { path: '/my-page', nameKr: '마이페이지', element: <MyPagePage />, type: 'my-page', requireAuth: true },
 
