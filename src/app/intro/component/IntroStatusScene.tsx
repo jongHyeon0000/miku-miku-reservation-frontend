@@ -39,16 +39,14 @@ const IntroStatusScene = () => {
           title={
             <>
               등록한 상품을 <Highlight>자유롭게</Highlight> 관리해요
-              {/*상품은 <Highlight>앞으로만</Highlight> 흘러가요*/}
             </>
           }
         >
           <SceneDesc>
-            장바구니 → 미구매 → (예약완료) → 구매완료 → 배송완료. 넘길 때 입력한 값은 이후 고칠 수 없어요.
+            <Highlight>장바구니 → 미구매 → 예약완료(선택) → 구매완료 → 배송완료</Highlight>
           </SceneDesc>
-
           <SceneDesc>
-            여러 개는 <Highlight>선택 모드</Highlight>로 한 번에 넘겨요.
+            여러 개의 상품을 <Highlight>선택 모드</Highlight>로 한 번에 넘길 수 있어요.
           </SceneDesc>
         </IntroSceneText>
 

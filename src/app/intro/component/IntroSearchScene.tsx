@@ -38,11 +38,10 @@ const IntroSearchScene = () => {
           }
         >
           <SceneDesc>
-            <Highlight>그룹 단위</Highlight>로도, <Highlight>개별 분류</Highlight>로도, <Highlight>내가 만든 분류</Highlight>로도 찾고, 배송월과
-            정렬로 <Highlight>이번 달에 올 것</Highlight>만 모아 봐요.
+            <Highlight>그룹 단위</Highlight>로도, <Highlight>개별 분류</Highlight>로도, <Highlight>내가 만든 분류</Highlight>로 마음대로 필터링할 수 있어요.
           </SceneDesc>
           <SceneDesc>
-            예약 상품이 쌓여도 배송 일정이 헷갈리지 않아요.
+            배송월과 정렬로 <Highlight>이번 달에 올 것</Highlight>만 깔끔하게 모아 봐요.
           </SceneDesc>
         </IntroSceneText>
 
