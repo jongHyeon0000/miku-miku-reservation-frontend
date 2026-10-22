@@ -3,16 +3,17 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import ErrorView from '@/app/common/component/ErrorView';
 import LoadingOverlay from '@/app/common/component/loading/LoadingOverlay';
+import ThumbnailUploader from '@/app/common/component/ThumbnailUploader';
 import type { ThumbnailChange } from '@/app/common/interface/ThumbnailChange';
 import useDeleteThumbnail from '@/app/common/service/useDeleteThumbnail';
 import useUploadThumbnail from '@/app/common/service/useUploadThumbnail';
+import { MediaCard } from '@/app/common/style/CommonCard.style';
 import { PageContainer, PageHeader, PageTitle } from '@/app/common/style/CommonPage.style';
 import { FormBody } from '@/app/common/style/CommonForm.style';
 import FigureFormActions, { FIGURE_FORM_ID } from '@/app/figure/component/form/FigureFormActions';
 import FigureFormDescription from '@/app/figure/component/form/FigureFormDescription';
 import FigureFormInfo from '@/app/figure/component/form/FigureFormInfo';
 import FigureFormSchedule from '@/app/figure/component/form/FigureFormSchedule';
-import FigureFormThumbnail from '@/app/figure/component/form/FigureFormThumbnail';
 import type { FigureDetail } from '@/app/figure/interface/common/FigureDetail';
 import type { FigureFormOptions } from '@/app/figure/interface/form/FigureFormOptions';
 import type { FigureFormValues } from '@/app/figure/interface/form/FigureFormValues';
@@ -154,12 +155,9 @@ const FigureFormContent = ({ mode, figure, options, saving, onSubmit, onCancel }
       <SplitLayout>
         <FigureFormInfo form={form} options={options} showStatus={mode === 'insert'} />
         <SideColumn>
-          <FigureFormThumbnail
-            currentUrl={figure?.thumbnailUrl}
-            value={thumbnail}
-            onChange={setThumbnail}
-            disabled={saving}
-          />
+          <MediaCard>
+            <ThumbnailUploader currentUrl={figure?.thumbnailUrl} value={thumbnail} onChange={setThumbnail} disabled={saving} />
+          </MediaCard>
           <FigureFormSchedule form={form} />
         </SideColumn>
       </SplitLayout>
