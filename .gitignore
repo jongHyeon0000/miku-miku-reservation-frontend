@@ -28,3 +28,6 @@ dist-ssr
 # 설계 문서와 시안 (README 도식은 추적)
 doc/*
 !doc/readme/
+
+# Claude Code 지침 파일
+CLAUDE.md
