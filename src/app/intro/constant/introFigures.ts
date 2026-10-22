@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import type { CategoryGroup } from '@/app/category/interface/CategoryGroup';
 import type { FigureStatus } from '@/app/figure/constant/figureStatus';
 import type { FigureCategoryRef } from '@/app/figure/interface/common/FigureCategoryRef';
 import type { FigureMakerRef } from '@/app/figure/interface/common/FigureMakerRef';
@@ -27,14 +26,17 @@ const monthAfter = (months: number): string => dayjs().add(months, 'month').star
 /* 상태는 이 순서가 되풀이된다 (미구매를 가장 많이) */
 const STATUS_CYCLE: FigureStatus[] = ['CART', 'UNPURCHASED', 'UNPURCHASED', 'RESERVED', 'PURCHASED', 'DELIVERED'];
 
+/* 목데이터의 상위 한 건 (어느 축이든 같은 모양) */
+type DemoGroup = { id: number; name: string; children: { id: number; name: string }[] };
+
 /* 분류 목데이터에서 id 로 하위를 찾아 상품이 가진 분류 모양으로 바꾼다 */
-const refById = (groups: CategoryGroup[], itemId: number): FigureCategoryRef => {
+const refById = (groups: DemoGroup[], itemId: number): FigureCategoryRef => {
   const found = groups.find((candidate) => candidate.children.some((child) => child.id === itemId))!;
   const child = found.children.find((candidate) => candidate.id === itemId)!;
   return { id: child.id, name: child.name, groupId: found.id, groupName: found.name };
 };
 
-const refByName = (groups: CategoryGroup[], name: string): FigureCategoryRef => {
+const refByName = (groups: DemoGroup[], name: string): FigureCategoryRef => {
   const child = groups.flatMap((candidate) => candidate.children).find((candidate) => candidate.name === name)!;
   return refById(groups, child.id);
 };

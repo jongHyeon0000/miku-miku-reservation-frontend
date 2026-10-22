@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
-import type { CategoryGroup } from '@/app/category/interface/CategoryGroup';
-import type { CategoryItem } from '@/app/category/interface/CategoryItem';
+import type { FigureTypeGroup } from '@/app/category/figure-type/interface/FigureTypeGroup';
+import type { GenreCharacterGroup } from '@/app/category/genre-character/interface/GenreCharacterGroup';
+import type { SeriesGroup } from '@/app/category/series/interface/SeriesGroup';
+import type { ShopGroup } from '@/app/category/shop/interface/ShopGroup';
 import type { FigureSortKey } from '@/app/figure/constant/figureSortOptions';
 import type { FigureTabKey } from '@/app/figure/constant/figureStatus';
 import { FIGURE_TABS } from '@/app/figure/constant/figureStatus';
@@ -197,13 +199,16 @@ export const getFilterValueText = (key: FigureFilterKey, value: FigureFilterValu
   return `${group.groupName} > ${group.items.find((item) => item.id === value.itemId)!.name}`;
 };
 
+/* 하위가 있는 4개 축(판매처, 형태, 시리즈, 장르·캐릭터)의 상위. 선택 창은 어느 축이든 같은 모양으로 다룬다 */
+type PickGroup = ShopGroup | FigureTypeGroup | SeriesGroup | GenreCharacterGroup;
+
 /** 하위 분류 한 건의 썸네일 주소. 상품이 쓰는 분류는 선택지에 반드시 있고, 이미지가 없으면 undefined */
-export const findItemThumbnail = (groups: CategoryGroup[], itemId: number): string | undefined => {
+export const findItemThumbnail = (groups: PickGroup[], itemId: number): string | undefined => {
   return groups.flatMap((group) => group.children).find((item) => item.id === itemId)!.thumbnailUrl;
 };
 
 /** 상위 아래의 하위들을 선택 창 항목으로 (상위 이름을 붙인다) */
-export const toPickItems = (groups: CategoryGroup[]): FigurePickItem[] => {
+export const toPickItems = (groups: PickGroup[]): FigurePickItem[] => {
   return groups.flatMap((group) =>
     group.children.map((item) => ({
       id: item.id,
@@ -216,7 +221,7 @@ export const toPickItems = (groups: CategoryGroup[]): FigurePickItem[] => {
 };
 
 /** 상위 자체를 선택 창 항목으로 (장르 고르기) */
-export const toGroupPickItems = (groups: CategoryItem[]): FigurePickItem[] => {
+export const toGroupPickItems = (groups: { id: number; name: string; thumbnailUrl?: string }[]): FigurePickItem[] => {
   return groups.map((group) => ({ id: group.id, name: group.name, thumbnailUrl: group.thumbnailUrl }));
 };
 

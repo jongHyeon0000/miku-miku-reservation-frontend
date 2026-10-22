@@ -1,19 +1,21 @@
 import { useState } from 'react';
-import type { CategoryAxisKey } from '@/app/category/constant/categoryAxes';
-import type { CategoryGroup } from '@/app/category/interface/CategoryGroup';
+import type { CategoryAxisKey } from '@/app/category/common/constant/categoryAxes';
 import { INTRO_FIGURE_TYPE_GROUPS, INTRO_SERIES_GROUPS } from '@/app/intro/constant/introCategories';
 import useDemoLoop from '@/app/intro/hook/useDemoLoop';
 import { wait } from '@/app/intro/utils/IntroUtils';
 
 /** 분류 화면의 한 모습 (보고 있는 축, 그때까지 만들어진 상위와 하위, 오른쪽에 펼친 상위) */
+/** 소개 화면 데모의 상위 한 건 (어느 축이든 같은 모양) */
+type DemoGroup = { id: number; name: string; children: { id: number; name: string; groupId?: number }[] };
+
 interface CategoryDemoStep {
   axis: CategoryAxisKey;
-  groups: CategoryGroup[];
+  groups: DemoGroup[];
   selectedGroupId: number;
 }
 
 /* 상위를 하나 만들고, 그 아래 하위를 하나씩 채우는 모습을 순서대로 만든다 */
-const buildSteps = (axis: CategoryAxisKey, groups: CategoryGroup[]): CategoryDemoStep[] => {
+const buildSteps = (axis: CategoryAxisKey, groups: DemoGroup[]): CategoryDemoStep[] => {
   return groups.flatMap((group, groupIndex) =>
     Array.from({ length: group.children.length + 1 }, (_, childCount) => ({
       axis,

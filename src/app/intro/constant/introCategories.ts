@@ -1,5 +1,8 @@
-import type { CategoryGroup } from '@/app/category/interface/CategoryGroup';
-import type { CategoryItem } from '@/app/category/interface/CategoryItem';
+import type { FigureTypeGroup } from '@/app/category/figure-type/interface/FigureTypeGroup';
+import type { GenreCharacterGroup } from '@/app/category/genre-character/interface/GenreCharacterGroup';
+import type { MakerItem } from '@/app/category/maker/interface/MakerItem';
+import type { SeriesGroup } from '@/app/category/series/interface/SeriesGroup';
+import type { ShopGroup } from '@/app/category/shop/interface/ShopGroup';
 import type { FigurePickItem } from '@/app/figure/interface/form/FigurePickItem';
 import { toGroupPickItems, toPickItems } from '@/app/figure/utils/FigureUtils';
 import { INTRO_FIGURE_SOURCES } from '@/app/intro/constant/introFigureSource';
@@ -10,29 +13,29 @@ import { INTRO_FIGURE_SOURCES } from '@/app/intro/constant/introFigureSource';
 * 상품 목데이터(introFigures)가 이 분류를 가리키므로 id 를 같이 쓴다.
 * */
 
-const item = (id: number, name: string, groupId: number): CategoryItem => ({ id, name, groupId });
+const item = (id: number, name: string, groupId: number) => ({ id, name, groupId });
 
-const group = (id: number, name: string, children: CategoryItem[]): CategoryGroup => ({ id, name, children });
+const group = (id: number, name: string, children: ReturnType<typeof item>[]) => ({ id, name, children });
 
 const unique = (values: string[]): string[] => [...new Set(values)];
 
 /** 형태 (원본의 형태가 스케일이면 이름에 1/7 이 있는지로 나눈다) */
-export const INTRO_FIGURE_TYPE_GROUPS: CategoryGroup[] = [
+export const INTRO_FIGURE_TYPE_GROUPS: FigureTypeGroup[] = [
   group(1, '스케일', [item(11, '1/7 스케일', 1), item(14, '기타 스케일', 1)]),
   group(2, '넨도로이드', [item(21, '기본형', 2)]),
 ];
 
 /** 판매처 */
-export const INTRO_SHOP_GROUPS: CategoryGroup[] = [group(4, '국내 스토어', [item(41, '네이버스토어', 4), item(42, '코믹스아트', 4)])];
+export const INTRO_SHOP_GROUPS: ShopGroup[] = [group(4, '국내 스토어', [item(41, '네이버스토어', 4), item(42, '코믹스아트', 4)])];
 
 /** 시리즈 (한정판 모음은 사용자가 직접 만든 분류의 예) */
-export const INTRO_SERIES_GROUPS: CategoryGroup[] = [
+export const INTRO_SERIES_GROUPS: SeriesGroup[] = [
   group(6, '한정판 모음', [item(61, '특전·한정', 6), item(62, '재판', 6)]),
   group(7, '정규 발매', [item(71, '일반 예약', 7)]),
 ];
 
 /** 장르·캐릭터 (상품 카드의 장르 글자가 상위 이름을 쓴다). id 는 장르 8부터, 캐릭터는 장르마다 10 단위로 시작해 나온 순서대로 */
-export const INTRO_CHARACTER_GROUPS: CategoryGroup[] = unique(INTRO_FIGURE_SOURCES.map((source) => source.genre)).map(
+export const INTRO_CHARACTER_GROUPS: GenreCharacterGroup[] = unique(INTRO_FIGURE_SOURCES.map((source) => source.genre)).map(
   (genre, genreIndex) => {
     const groupId = 8 + genreIndex;
     const names = unique(INTRO_FIGURE_SOURCES.filter((source) => source.genre === genre).flatMap((source) => source.character.split(', ')));
@@ -45,7 +48,7 @@ export const INTRO_CHARACTER_GROUPS: CategoryGroup[] = unique(INTRO_FIGURE_SOURC
 );
 
 /** 제조사 (상위가 없다) */
-export const INTRO_MAKERS: CategoryItem[] = unique(INTRO_FIGURE_SOURCES.map((source) => source.maker)).map((name, index) => ({
+export const INTRO_MAKERS: MakerItem[] = unique(INTRO_FIGURE_SOURCES.map((source) => source.maker)).map((name, index) => ({
   id: index + 1,
   name,
 }));

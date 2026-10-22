@@ -4,7 +4,7 @@ import FindIdPage from '@/app/auth/page/FindIdPage';
 import LoginPage from '@/app/auth/page/LoginPage';
 import ResetPasswordPage from '@/app/auth/page/ResetPasswordPage';
 import SignupPage from '@/app/auth/page/SignupPage';
-import CategoryPage from '@/app/category/page/CategoryPage';
+import CategoryPage from '@/app/category/common/page/CategoryPage';
 import FigureDetailPage from '@/app/figure/page/FigureDetailPage';
 import FigureFormPage from '@/app/figure/page/FigureFormPage';
 import FigureListPage from '@/app/figure/page/FigureListPage';

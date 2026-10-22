@@ -1,0 +1,14 @@
+/** 제조사 한 건 (서버가 주는 모양 그대로) */
+export interface MakerItem {
+  /** 분류 id */
+  id: number;
+
+  /** 이름 (100자 이하) */
+  name: string;
+
+  /** 설명. 없으면 필드가 빠져 있다 */
+  description?: string;
+
+  /** 썸네일 주소 ('/uploads/...' 상대 경로). 없으면 필드가 빠져 있다 */
+  thumbnailUrl?: string;
+}

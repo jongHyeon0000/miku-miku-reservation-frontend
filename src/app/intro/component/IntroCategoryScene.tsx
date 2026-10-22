@@ -1,5 +1,6 @@
-import CategoryAxisTabs from '@/app/category/component/CategoryAxisTabs';
-import CategoryTree from '@/app/category/component/CategoryTree';
+import CategoryAxisTabs from '@/app/category/common/component/CategoryAxisTabs';
+import FigureTypeCategoryTree from '@/app/category/figure-type/component/FigureTypeCategoryTree';
+import SeriesCategoryTree from '@/app/category/series/component/SeriesCategoryTree';
 import { FieldStack } from '@/app/common/style/CommonForm.style';
 import { Scene, SceneDemo, SceneDesc, SceneInner } from '@/app/common/style/CommonScene.style';
 import { Highlight } from '@/app/common/style/CommonText.style';
@@ -36,15 +37,25 @@ const IntroCategoryScene = () => {
         <SceneDemo>
           <FieldStack>
             <CategoryAxisTabs axis={axis} onChange={noop} />
-            <CategoryTree
-              axis={axis}
-              groups={groups}
-              selectedGroupId={selectedGroupId}
-              onSelectGroup={noop}
-              onInsert={noop}
-              onEdit={noop}
-              onDelete={noop}
-            />
+            {axis === 'figure-type' ? (
+              <FigureTypeCategoryTree
+                groups={groups}
+                selectedGroupId={selectedGroupId}
+                onSelectGroup={noop}
+                onInsert={noop}
+                onEdit={noop}
+                onDelete={noop}
+              />
+            ) : (
+              <SeriesCategoryTree
+                groups={groups}
+                selectedGroupId={selectedGroupId}
+                onSelectGroup={noop}
+                onInsert={noop}
+                onEdit={noop}
+                onDelete={noop}
+              />
+            )}
           </FieldStack>
         </SceneDemo>
       </SceneInner>
