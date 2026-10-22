@@ -4,10 +4,14 @@ import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
 import { removeAccessToken, setAccessToken } from '@/utils/cookieUtils';
 import type { LoginRequestBody } from '@/app/auth/interface/LoginRequestBody';
-import type { LoginResponseData } from '@/app/auth/interface/LoginResponseData';
 import type { UserInfo } from '@/app/auth/interface/UserInfo';
 import useReadMe from '@/app/auth/service/useReadMe';
 import { API_CODE } from '@/config/axios/constant/apiCode';
+
+interface LoginResponseData {
+  /** 이후 요청의 Authorization: Bearer 헤더에 쓸 JWT (24시간 유효) */
+  accessToken: string;
+}
 
 /**
  * 로그인 훅

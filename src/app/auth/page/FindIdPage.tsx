@@ -41,7 +41,7 @@ const FindIdPage = () => {
     const verified = await emailVerification.verifyCode(email, code);
     if (!verified) return;
 
-    const res = await fetchFindId({ email });
+    const res = await fetchFindId(email);
 
     showResult(res);
     if (res.code === API_CODE.OK && res.data) {

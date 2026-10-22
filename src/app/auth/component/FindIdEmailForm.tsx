@@ -2,7 +2,10 @@ import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import { FormBody } from '@/app/common/style/CommonForm.style';
 import { validateEmail } from '@/app/common/utils/ValidationUtils';
-import type { FindIdRequestBody } from '@/app/auth/interface/FindIdRequestBody';
+interface FindIdEmailFormValues {
+  /** 인증을 받을 가입 이메일 */
+  email: string;
+}
 
 interface FindIdEmailFormProps {
   /** 요청 중이면 버튼을 막는다 */
@@ -20,12 +23,12 @@ const FindIdEmailForm = ({ loading, onSubmit }: FindIdEmailFormProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FindIdRequestBody>({
+  } = useForm<FindIdEmailFormValues>({
     mode: 'onTouched',
     defaultValues: { email: '' },
   });
 
-  const handleValid = ({ email }: FindIdRequestBody) => onSubmit(email.trim());
+  const handleValid = ({ email }: FindIdEmailFormValues) => onSubmit(email.trim());
 
   return (
     <FormBody noValidate onSubmit={handleSubmit(handleValid)}>

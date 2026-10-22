@@ -9,7 +9,6 @@ import useDeleteThumbnail from '@/app/common/service/useDeleteThumbnail';
 import useUploadThumbnail from '@/app/common/service/useUploadThumbnail';
 import { showConfirmAlert } from '@/app/common/utils/AlertUtils';
 import type { ChangePasswordRequestBody } from '@/app/auth/interface/ChangePasswordRequestBody';
-import type { WithdrawRequestBody } from '@/app/auth/interface/WithdrawRequestBody';
 import useAuth from '@/app/auth/service/useAuth';
 import useChangePassword from '@/app/auth/service/useChangePassword';
 import useReadMe from '@/app/auth/service/useReadMe';
@@ -70,11 +69,11 @@ const MyPagePage = () => {
     if (res.code === API_CODE.OK) setPasswordDialogOpen(false);
   };
 
-  const handleWithdraw = async (body: WithdrawRequestBody) => {
+  const handleWithdraw = async (password: string) => {
     const confirmed = await showConfirmAlert({ ...WITHDRAW_ALERT, danger: true, focusCancel: true });
     if (!confirmed) return;
 
-    const res = await fetchWithdraw(body);
+    const res = await fetchWithdraw(password);
     showResult(res);
     if (res.code !== API_CODE.OK) return;
 

@@ -3,7 +3,15 @@ import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
 import type { ThumbnailTarget } from '@/app/common/constant/thumbnailTarget';
-import type { ThumbnailUrlResponse } from '@/app/common/interface/ThumbnailUrlResponse';
+
+/** 썸네일 업로드 결과 (PUT /api/upload/thumbnail-image/{targetType}/{targetId}) */
+interface ThumbnailUrlResponse {
+  /**
+   * 이미지를 내려주는 주소 ('/uploads/...' 상대 경로)
+   * @example "/uploads/1/thumbnail-image/shop-group/2026/10/uuid.png"
+   */
+  thumbnailUrl: string;
+}
 
 /**
  * 썸네일 올리기 훅 (상품, 분류 공용)

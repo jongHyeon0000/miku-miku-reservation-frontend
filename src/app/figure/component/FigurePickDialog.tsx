@@ -3,13 +3,15 @@ import { Box, Button, ButtonBase, Chip, Dialog, DialogContent, DialogTitle, Pagi
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { TonalButton } from '@/app/common/style/CommonButton.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
-import { PICK_PAGE_SIZE } from '@/app/figure/constant/figurePick';
 import type { FigurePickItem } from '@/app/figure/interface/FigurePickItem';
 import { collectPickGroups, getPickPage, searchPickItems } from '@/app/figure/utils/FigureUtils';
 import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
 import { DialogFieldStack, FormActions } from '@/app/common/style/CommonForm.style';
 import { alpha, styled } from '@mui/material/styles';
 import CheckIcon from '@mui/icons-material/Check';
+
+/* 분류 선택 창에서 한 쪽에 보여 주는 개수 (한 줄 5개, 두 줄) */
+const PICK_PAGE_SIZE = 10;
 
 interface FigurePickDialogProps {
   /** 창 제목 (예: "캐릭터 추가") */

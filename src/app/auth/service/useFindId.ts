@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
-import type { FindIdRequestBody } from '@/app/auth/interface/FindIdRequestBody';
-import type { FindIdResponseData } from '@/app/auth/interface/FindIdResponseData';
+
+interface FindIdResponseData {
+  /** 이메일로 찾은 로그인 아이디 (전체) */
+  loginId: string;
+}
 
 /**
  * 아이디 찾기 훅 (POST /api/auth/find-id, 로그인하지 않은 상태)
@@ -12,10 +15,10 @@ import type { FindIdResponseData } from '@/app/auth/interface/FindIdResponseData
 const useFindId = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchFindId = async (body: FindIdRequestBody): Promise<ApiResponse<FindIdResponseData | null>> => {
+  const fetchFindId = async (email: string): Promise<ApiResponse<FindIdResponseData | null>> => {
     setLoading(true);
     try {
-      const res = await api.post<ApiResponse<FindIdResponseData>>('/api/auth/find-id', body);
+      const res = await api.post<ApiResponse<FindIdResponseData>>('/api/auth/find-id', { email });
       return res.data;
     } catch (err) {
       return toApiResponse<FindIdResponseData>(err);

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
-import type { WithdrawRequestBody } from '@/app/auth/interface/WithdrawRequestBody';
 
 /**
  * 회원 탈퇴 훅 (DELETE /api/auth/me)
@@ -12,10 +11,10 @@ import type { WithdrawRequestBody } from '@/app/auth/interface/WithdrawRequestBo
 const useWithdraw = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchWithdraw = async (body: WithdrawRequestBody): Promise<ApiResponse<null>> => {
+  const fetchWithdraw = async (password: string): Promise<ApiResponse<null>> => {
     setLoading(true);
     try {
-      const res = await api.delete<ApiResponse<null>>('/api/auth/me', { data: body });
+      const res = await api.delete<ApiResponse<null>>('/api/auth/me', { data: { password } });
       return res.data;
     } catch (err) {
       return toApiResponse<null>(err);

@@ -4,7 +4,11 @@ import { FormBody } from '@/app/common/style/CommonForm.style';
 import { SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { LabelText } from '@/app/common/style/CommonText.style';
 import { validateEmailCode } from '@/app/common/utils/ValidationUtils';
-import type { EmailCodeFormValues } from '@/app/auth/interface/EmailCodeFormValues';
+
+interface EmailCodeFormValues {
+  /** 이메일로 받은 6자리 인증 코드 */
+  emailCode: string;
+}
 
 interface EmailCodeStepProps {
   /** 요청 중이면 버튼을 막는다 */

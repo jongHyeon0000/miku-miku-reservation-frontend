@@ -7,7 +7,6 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import useAuth from '@/app/auth/service/useAuth';
-import { APP_NAME } from '@/app/common/constant/appName';
 import mainIcon from '@/assets/common/main-icon.png';
 import { Row } from '@/app/common/style/CommonLayout.style';
 import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
@@ -16,6 +15,9 @@ import { imageUrl } from '@/app/common/utils/CommonUtils';
 import { APP_ROUTES } from '@/config/route/RoutesConfig';
 import { useUiStore } from '@/store/uiStore';
 import { styled } from '@mui/material/styles';
+
+/* 화면에 보이는 앱 이름. index.html 의 <title> 은 코드가 아니라서 같은 글자를 따로 적는다 */
+const APP_NAME = '미쿠미쿠예약시스템';
 
 /*
 * 상단 메뉴에 나올 라우트 (APP_ROUTES 에서 type 이 gnb 인 것)

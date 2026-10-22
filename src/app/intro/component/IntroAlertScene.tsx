@@ -32,9 +32,9 @@ const IntroAlertScene = () => {
           eyebrow="05 · 알림"
           title={
             <>
-              깜빡하고 놓쳐서 <Highlight>지각비 내지않게,</Highlight>
+              장바구니 담고 잊어버리지 않게
               <br />
-              결제 마감일 알려 드려요
+              <Highlight>결제 마감일</Highlight> 알려 드려요
             </>
           }
         >

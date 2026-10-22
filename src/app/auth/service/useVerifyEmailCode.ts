@@ -2,7 +2,18 @@ import { useState } from 'react';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
-import type { EmailVerifyRequestBody } from '@/app/auth/interface/EmailVerifyRequestBody';
+import type { EmailPurpose } from '@/app/auth/constant/emailPurpose';
+
+interface EmailVerifyRequestBody {
+  /** 코드를 받은 이메일 */
+  email: string;
+
+  /** 코드를 발송한 기능과 같은 목적 */
+  purpose: EmailPurpose;
+
+  /** 메일로 받은 6자리 숫자 */
+  code: string;
+}
 
 /**
  * 이메일 인증 코드 확인 훅 (POST /api/auth/email-verification/verify, 목적과 상관없이 공통)

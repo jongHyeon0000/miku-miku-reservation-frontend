@@ -23,7 +23,7 @@ const IntroCategoryScene = () => {
           eyebrow="01 · 분류"
           title={
             <>
-              어떤 종류의 굿즈도 자유롭게,
+              어떤 종류의 상품도 자유롭게,
               <br />
               <Highlight>카테고리는 직접</Highlight> 만들어요
             </>

@@ -5,14 +5,17 @@ import { ColumnCard } from '@/app/common/style/CommonCard.style';
 import { EndRow } from '@/app/common/style/CommonLayout.style';
 import { FormBody } from '@/app/common/style/CommonForm.style';
 import { validatePasswordRequired } from '@/app/common/utils/ValidationUtils';
-import type { WithdrawRequestBody } from '@/app/auth/interface/WithdrawRequestBody';
+interface WithdrawFormValues {
+  /** 현재 비밀번호 (본인 확인) */
+  password: string;
+}
 
 interface WithdrawFormProps {
   /** 탈퇴 요청 중이면 버튼을 막는다 */
   loading: boolean;
 
   /** 비밀번호 입력이 통과했을 때. 확인창과 서버 요청은 페이지가 한다 */
-  onSubmit: (body: WithdrawRequestBody) => void;
+  onSubmit: (password: string) => void;
 }
 
 /**
@@ -23,14 +26,16 @@ const WithdrawForm = ({ loading, onSubmit }: WithdrawFormProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<WithdrawRequestBody>({
+  } = useForm<WithdrawFormValues>({
     mode: 'onTouched',
     defaultValues: { password: '' },
   });
 
+  const handleValid = ({ password }: WithdrawFormValues) => onSubmit(password);
+
   return (
     <ColumnCard>
-      <FormBody noValidate onSubmit={handleSubmit(onSubmit)}>
+      <FormBody noValidate onSubmit={handleSubmit(handleValid)}>
         <Alert severity="warning">탈퇴하면 등록한 상품, 분류, 이미지가 모두 삭제되고 되돌릴 수 없어요.</Alert>
         <TextField
           label="비밀번호 확인"

@@ -3,8 +3,12 @@ import { Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/mate
 import { TonalButton } from '@/app/common/style/CommonButton.style';
 import { DialogFieldStack, DialogFormBody, FormActions } from '@/app/common/style/CommonForm.style';
 import { validateNewPasswordConfirm, validatePassword, validatePasswordRequired } from '@/app/common/utils/ValidationUtils';
-import type { ChangePasswordFormValues } from '@/app/auth/interface/ChangePasswordFormValues';
 import type { ChangePasswordRequestBody } from '@/app/auth/interface/ChangePasswordRequestBody';
+
+interface ChangePasswordFormValues extends ChangePasswordRequestBody {
+  /** 새 비밀번호 확인 (화면에서만 쓰고 서버에는 보내지 않는다) */
+  newPasswordConfirm: string;
+}
 
 interface ChangePasswordDialogProps {
   /** 변경 요청 중이면 버튼을 막는다 */

@@ -2,7 +2,14 @@ import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import { FormBody } from '@/app/common/style/CommonForm.style';
 import { validateNewPasswordConfirm, validatePassword } from '@/app/common/utils/ValidationUtils';
-import type { ResetPasswordFormValues } from '@/app/auth/interface/ResetPasswordFormValues';
+
+interface ResetPasswordFormValues {
+  /** 새 비밀번호 (8~20자) */
+  newPassword: string;
+
+  /** 새 비밀번호 확인 (화면에서만 쓰고 서버에는 보내지 않는다) */
+  newPasswordConfirm: string;
+}
 
 interface ResetPasswordFormProps {
   /** 요청 중이면 버튼을 막는다 */
