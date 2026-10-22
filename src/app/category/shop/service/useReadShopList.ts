@@ -1,30 +1,37 @@
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
 import type { ShopGroup } from '@/app/category/shop/interface/ShopGroup';
 
+/** 판매처 목록 조회의 보관 키. 판매처를 바꾸는 훅이 이 키로 "낡았다"고 알린다 */
+export const SHOP_LIST_QUERY_KEY = ['shop-list'];
+
 /**
  * 판매처 목록 조회 훅 (GET /api/shop-group)
- * 서버 응답을 그대로 담는다.
+ * 결과는 키 하나로 한 곳에 보관되어 이 훅을 쓰는 모든 화면이 같은 값을 본다.
+ * 판매처가 바뀌면 값이 새로 채워지면서 쓰는 화면이 자동으로 다시 그려진다.
+ * enabled 가 false 면 읽지 않는다(로그인 전의 상단 메뉴).
  */
-const useReadShopList = () => {
-  const [shopList, setShopList] = useState<ApiResponse<ShopGroup[] | null> | undefined>(undefined);
-  const [loading, setLoading] = useState<boolean>(false);
+const useReadShopList = (enabled: boolean = true) => {
+  const { data, isLoading, isFetching, refetch } = useQuery({
+    queryKey: SHOP_LIST_QUERY_KEY,
+    enabled: enabled,
+    queryFn: async (): Promise<ApiResponse<ShopGroup[] | null>> => {
+      try {
+        const res = await api.get<ApiResponse<ShopGroup[] | null>>('/api/shop-group');
+        return res.data;
+      } catch (err) {
+        return toApiResponse<ShopGroup[]>(err);
+      }
+    },
+  });
 
   const fetchReadShopList = async (): Promise<void> => {
-    setLoading(true);
-    try {
-      const res = await api.get<ApiResponse<ShopGroup[] | null>>('/api/shop-group');
-      setShopList(res.data);
-    } catch (err) {
-      setShopList(toApiResponse<ShopGroup[]>(err));
-    } finally {
-      setLoading(false);
-    }
+    await refetch();
   };
 
-  return { shopList, shopListLoading: loading, fetchReadShopList };
+  return { shopList: data, shopListLoading: isLoading, shopListFetching: isFetching, fetchReadShopList };
 };
 
 export default useReadShopList;

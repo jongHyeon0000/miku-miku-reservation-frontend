@@ -60,7 +60,7 @@ const FigureFormPage = ({ mode }: FigureFormPageProps) => {
   const showSnackbar = useUiStore((state) => state.showSnackbar);
   const showResult = useUiStore((state) => state.showResult);
 
-  const { figure, figureLoading, fetchReadFigure } = useReadFigure();
+  const { figure, figureLoading, fetchReadFigure } = useReadFigure(figureId, mode === 'edit');
   const { formOptions, formOptionsLoading, fetchReadFigureFormOptions } = useReadFigureFormOptions();
   const { createFigureLoading, fetchCreateFigure } = useCreateFigure();
   const { updateFigureLoading, fetchUpdateFigure } = useUpdateFigure();
@@ -68,7 +68,7 @@ const FigureFormPage = ({ mode }: FigureFormPageProps) => {
   const { deleteThumbnailLoading, fetchDeleteThumbnail } = useDeleteThumbnail();
 
   const fetchAll = () => {
-    if (mode === 'edit') fetchReadFigure(figureId);
+    if (mode === 'edit') fetchReadFigure();
     fetchReadFigureFormOptions();
   };
 

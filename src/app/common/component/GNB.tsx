@@ -52,15 +52,9 @@ const GNB = () => {
   const navigate = useNavigate();
   const showSnackbar = useUiStore((state) => state.showSnackbar);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const { shopList, fetchReadShopList } = useReadShopList();
+  const { shopList } = useReadShopList(isAuthenticated);
   const [shopOpen, setShopOpen] = useState<boolean>(false);
   const shopCloseTimer = useRef<number | undefined>(undefined);
-
-  /* 로그인하면 판매처 목록을 한 번 읽는다 */
-  useEffect(() => {
-    if (isAuthenticated) fetchReadShopList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
 
   useEffect(() => () => window.clearTimeout(shopCloseTimer.current), []);
 

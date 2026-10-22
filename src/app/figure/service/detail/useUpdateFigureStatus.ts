@@ -1,14 +1,18 @@
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
+import { figureQueryKey } from '@/app/figure/service/common/useReadFigure';
+import { API_CODE } from '@/config/axios/constant/apiCode';
 import type { FigureStatusRequestBody } from '@/app/figure/interface/status/FigureStatusRequestBody';
 import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
 
 /**
- * 상품 상태 전이 훅(개별). 성공하면 바뀐 상품(설명 제외)이 data 로 온다.
+ * 상품 상태 전이 훅(개별). 성공하면 바뀐 상품(설명 제외)이 data 로 오고, 그 상품의 상세 종을 울려서 상세를 쓰는 화면이 새 값으로 다시 그려진다.
  */
 const useUpdateFigureStatus = () => {
+  const queryClient = useQueryClient();
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchUpdateFigureStatus = async (
@@ -18,6 +22,7 @@ const useUpdateFigureStatus = () => {
     setLoading(true);
     try {
       const res = await api.patch<ApiResponse<FigureSummary | null>>(`/api/figure/${figureId}/status`, body);
+      if (res.data.code === API_CODE.OK) await queryClient.invalidateQueries({ queryKey: figureQueryKey(figureId) });
       return res.data;
     } catch (err) {
       return toApiResponse<FigureSummary>(err);

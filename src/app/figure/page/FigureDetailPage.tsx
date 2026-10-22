@@ -33,14 +33,14 @@ const FigureDetailPage = () => {
   const figureId = Number(useParams().figureId);
   const showResult = useUiStore((state) => state.showResult);
 
-  const { figure, figureLoading, fetchReadFigure } = useReadFigure();
+  const { figure, figureLoading, fetchReadFigure } = useReadFigure(figureId);
   const { formOptions, formOptionsLoading, fetchReadFigureFormOptions } = useReadFigureFormOptions();
   const { deleteFigureLoading, fetchDeleteFigure } = useDeleteFigure();
   const { updateFigureStatusLoading, fetchUpdateFigureStatus } = useUpdateFigureStatus();
   const [statusModalOpen, setStatusModalOpen] = useState<boolean>(false);
 
   const fetchAll = () => {
-    fetchReadFigure(figureId);
+    fetchReadFigure();
     fetchReadFigureFormOptions();
   };
 
