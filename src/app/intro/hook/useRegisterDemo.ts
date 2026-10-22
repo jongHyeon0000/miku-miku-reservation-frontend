@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { FigurePickItem } from '@/app/figure/interface/FigurePickItem';
+import type { FigurePickItem } from '@/app/figure/interface/form/FigurePickItem';
 import { INTRO_PICK_POOLS } from '@/app/intro/constant/introCategories';
 import { INTRO_REGISTER_FIGURE } from '@/app/intro/constant/introFigures';
 import useDemoLoop from '@/app/intro/hook/useDemoLoop';

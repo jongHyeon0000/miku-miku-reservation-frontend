@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import type { CategoryGroup } from '@/app/category/interface/CategoryGroup';
 import type { FigureStatus } from '@/app/figure/constant/figureStatus';
-import type { FigureCategoryRef } from '@/app/figure/interface/FigureCategoryRef';
-import type { FigureMakerRef } from '@/app/figure/interface/FigureMakerRef';
-import type { FigureSummary } from '@/app/figure/interface/FigureSummary';
+import type { FigureCategoryRef } from '@/app/figure/interface/common/FigureCategoryRef';
+import type { FigureMakerRef } from '@/app/figure/interface/common/FigureMakerRef';
+import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
 import {
   INTRO_CHARACTER_GROUPS,
   INTRO_FIGURE_TYPE_GROUPS,

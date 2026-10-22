@@ -3,7 +3,7 @@ import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { formatPrice } from '@/app/common/utils/CommonUtils';
 import { validateFigurePrice, validateFigureQuantity } from '@/app/common/utils/ValidationUtils';
-import type { FigureFormValues } from '@/app/figure/interface/FigureFormValues';
+import type { FigureFormValues } from '@/app/figure/interface/form/FigureFormValues';
 import { SpreadCard } from '@/app/common/style/CommonCard.style';
 import { PriceColumn, PriceText } from '@/app/common/style/CommonText.style';
 import { styled } from '@mui/material/styles';

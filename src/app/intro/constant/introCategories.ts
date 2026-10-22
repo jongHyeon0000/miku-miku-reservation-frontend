@@ -1,6 +1,6 @@
 import type { CategoryGroup } from '@/app/category/interface/CategoryGroup';
 import type { CategoryItem } from '@/app/category/interface/CategoryItem';
-import type { FigurePickItem } from '@/app/figure/interface/FigurePickItem';
+import type { FigurePickItem } from '@/app/figure/interface/form/FigurePickItem';
 import { toGroupPickItems, toPickItems } from '@/app/figure/utils/FigureUtils';
 import { INTRO_FIGURE_SOURCES } from '@/app/intro/constant/introFigureSource';
 

@@ -1,5 +1,5 @@
-import FigureCategoryFilter from '@/app/figure/component/FigureCategoryFilter';
-import FigureFlatFilter from '@/app/figure/component/FigureFlatFilter';
+import FigureCategoryFilter from '@/app/figure/component/filter/FigureCategoryFilter';
+import FigureFlatFilter from '@/app/figure/component/filter/FigureFlatFilter';
 import { FIGURE_SORT_OPTIONS, type FigureSortKey } from '@/app/figure/constant/figureSortOptions';
 import type { FigureFilterOptions, FigureFilterValue, FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilter';
 import { formatDeliveryMonth } from '@/app/figure/utils/FigureUtils';

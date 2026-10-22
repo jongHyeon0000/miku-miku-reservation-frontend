@@ -1,6 +1,6 @@
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 import { FIGURE_STATUS_LABELS } from '@/app/figure/constant/figureStatus';
-import type { FigureDetail } from '@/app/figure/interface/FigureDetail';
+import type { FigureDetail } from '@/app/figure/interface/common/FigureDetail';
 import { FillImage, StateIcon, ThumbFrame } from '@/app/common/style/CommonMedia.style';
 import { MediaCard, Pill } from '@/app/common/style/CommonCard.style';
 import { Box } from '@mui/material';

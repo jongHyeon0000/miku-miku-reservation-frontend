@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
-import type { FigureStatusRequestBody } from '@/app/figure/interface/FigureStatusRequestBody';
-import type { FigureSummary } from '@/app/figure/interface/FigureSummary';
+import type { FigureStatusRequestBody } from '@/app/figure/interface/status/FigureStatusRequestBody';
+import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
 
 /**
  * 상품 상태 전이 훅(개별). 성공하면 바뀐 상품(설명 제외)이 data 로 온다.

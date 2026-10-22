@@ -4,14 +4,14 @@ import type { CategoryItem } from '@/app/category/interface/CategoryItem';
 import type { FigureSortKey } from '@/app/figure/constant/figureSortOptions';
 import type { FigureTabKey } from '@/app/figure/constant/figureStatus';
 import { FIGURE_TABS } from '@/app/figure/constant/figureStatus';
-import type { FigureDetail } from '@/app/figure/interface/FigureDetail';
-import type { FigureCategoryRef } from '@/app/figure/interface/FigureCategoryRef';
+import type { FigureDetail } from '@/app/figure/interface/common/FigureDetail';
+import type { FigureCategoryRef } from '@/app/figure/interface/common/FigureCategoryRef';
 import type { FigureFilterOptionGroup, FigureFilterOptionItem, FigureFilterOptions, FigureFilterValue, FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilter';
-import type { FigureFormValues } from '@/app/figure/interface/FigureFormValues';
-import type { FigurePickItem } from '@/app/figure/interface/FigurePickItem';
-import type { FigureSaveRequestBody } from '@/app/figure/interface/FigureSaveRequestBody';
-import type { FigureMakerRef } from '@/app/figure/interface/FigureMakerRef';
-import type { FigureSummary } from '@/app/figure/interface/FigureSummary';
+import type { FigureFormValues } from '@/app/figure/interface/form/FigureFormValues';
+import type { FigurePickItem } from '@/app/figure/interface/form/FigurePickItem';
+import type { FigureSaveRequestBody } from '@/app/figure/interface/form/FigureSaveRequestBody';
+import type { FigureMakerRef } from '@/app/figure/interface/common/FigureMakerRef';
+import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
 
 /**
  * 상품 목록 계산 모음 (탭, 필터, 정렬, 합계). 서버는 전체를 한 번에 주므로 모두 화면에서 한다.

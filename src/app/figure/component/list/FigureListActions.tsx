@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import FigureSelectBar from '@/app/figure/component/FigureSelectBar';
+import FigureSelectBar from '@/app/figure/component/list/FigureSelectBar';
 import type { SelectMode } from '@/app/figure/constant/figureSelect';
 import { Row } from '@/app/common/style/CommonLayout.style';
 

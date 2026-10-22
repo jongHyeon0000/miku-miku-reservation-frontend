@@ -1,6 +1,6 @@
 import { DEADLINE_ALERT_MONTHS, URGENT_ALERT } from '@/app/figure/constant/figureStatus';
-import FigureListComponent from '@/app/figure/component/FigureListComponent';
-import FigureUrgentModal from '@/app/figure/component/FigureUrgentModal';
+import FigureListComponent from '@/app/figure/component/list/FigureListComponent';
+import FigureUrgentModal from '@/app/figure/component/list/FigureUrgentModal';
 import { isDeadlineUnder } from '@/app/figure/utils/FigureUtils';
 import { todayString } from '@/app/common/utils/CommonUtils';
 import { Scene, SceneDemo, SceneDesc, SceneInner } from '@/app/common/style/CommonScene.style';

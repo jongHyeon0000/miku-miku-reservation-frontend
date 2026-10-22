@@ -1,9 +1,9 @@
 import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
-import FigureCategoryChip from '@/app/figure/component/FigureCategoryChip';
+import FigureCategoryChip from '@/app/figure/component/common/FigureCategoryChip';
 import { InfoChips, InfoGroup, InfoRow } from '@/app/figure/style/FigureInfo.style';
-import type { FigureDetail } from '@/app/figure/interface/FigureDetail';
-import type { FigureFormOptions } from '@/app/figure/interface/FigureFormOptions';
+import type { FigureDetail } from '@/app/figure/interface/common/FigureDetail';
+import type { FigureFormOptions } from '@/app/figure/interface/form/FigureFormOptions';
 import { findItemThumbnail } from '@/app/figure/utils/FigureUtils';
 import { ColumnCard } from '@/app/common/style/CommonCard.style';
 import { LabelText } from '@/app/common/style/CommonText.style';

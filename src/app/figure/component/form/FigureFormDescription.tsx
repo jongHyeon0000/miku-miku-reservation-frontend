@@ -1,7 +1,7 @@
 import { Controller, type UseFormReturn } from 'react-hook-form';
 import { ColumnCard, SectionTitle } from '@/app/common/style/CommonCard.style';
-import FigureDescriptionEditor from '@/app/figure/component/FigureDescriptionEditor';
-import type { FigureFormValues } from '@/app/figure/interface/FigureFormValues';
+import FigureDescriptionEditor from '@/app/figure/component/form/FigureDescriptionEditor';
+import type { FigureFormValues } from '@/app/figure/interface/form/FigureFormValues';
 
 interface FigureFormDescriptionProps {
   /** 상품 폼 */

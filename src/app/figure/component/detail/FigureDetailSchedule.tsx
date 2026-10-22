@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { formatPrice, todayString } from '@/app/common/utils/CommonUtils';
-import FigureDeadlineText from '@/app/figure/component/FigureDeadlineText';
-import type { FigureDetail } from '@/app/figure/interface/FigureDetail';
+import FigureDeadlineText from '@/app/figure/component/common/FigureDeadlineText';
+import type { FigureDetail } from '@/app/figure/interface/common/FigureDetail';
 import { formatDeadline, formatDeliveryMonth, getTotalPrice, isDeadlinePassed } from '@/app/figure/utils/FigureUtils';
 import { SpreadCard } from '@/app/common/style/CommonCard.style';
 import { LabelText, LabelValueGrid, LabelValueRow, PriceColumn, PriceText } from '@/app/common/style/CommonText.style';

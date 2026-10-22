@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { SelectMode } from '@/app/figure/constant/figureSelect';
-import type { FigureSummary } from '@/app/figure/interface/FigureSummary';
+import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
 
 /**
  * 상품 목록의 선택 모드 상태 훅. 켜진 모드(없으면 null)와 체크만 맡고 화면은 그리지 않는다.

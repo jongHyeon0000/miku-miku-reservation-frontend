@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
-import type { FigureDetail } from '@/app/figure/interface/FigureDetail';
+import type { FigureDetail } from '@/app/figure/interface/common/FigureDetail';
 
 /**
  * 상품 상세 조회 훅

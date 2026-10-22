@@ -3,11 +3,11 @@ import { Box, FormHelperText, InputBase, TextField, ToggleButton } from '@mui/ma
 import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import { validateFigureMultiSelection, validateFigureName, validateFigureSelection } from '@/app/common/utils/ValidationUtils';
 import { InfoGroup } from '@/app/figure/style/FigureInfo.style';
-import FigurePickField from '@/app/figure/component/FigurePickField';
+import FigurePickField from '@/app/figure/component/form/FigurePickField';
 import { FIGURE_REGISTER_STATUSES, FIGURE_STATUS_LABELS } from '@/app/figure/constant/figureStatus';
-import type { FigureFormOptions } from '@/app/figure/interface/FigureFormOptions';
-import type { FigureFormValues } from '@/app/figure/interface/FigureFormValues';
-import type { FigurePickItem } from '@/app/figure/interface/FigurePickItem';
+import type { FigureFormOptions } from '@/app/figure/interface/form/FigureFormOptions';
+import type { FigureFormValues } from '@/app/figure/interface/form/FigureFormValues';
+import type { FigurePickItem } from '@/app/figure/interface/form/FigurePickItem';
 import { toGroupPickItems, toPickItems } from '@/app/figure/utils/FigureUtils';
 import { ColumnCard } from '@/app/common/style/CommonCard.style';
 import { EqualToggleGroup } from '@/app/common/style/CommonForm.style';

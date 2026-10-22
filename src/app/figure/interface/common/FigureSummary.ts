@@ -1,6 +1,6 @@
 import type { FigureStatus, PaymentType } from '@/app/figure/constant/figureStatus';
-import type { FigureCategoryRef } from '@/app/figure/interface/FigureCategoryRef';
-import type { FigureMakerRef } from '@/app/figure/interface/FigureMakerRef';
+import type { FigureCategoryRef } from '@/app/figure/interface/common/FigureCategoryRef';
+import type { FigureMakerRef } from '@/app/figure/interface/common/FigureMakerRef';
 
 /** 상품 목록의 한 건 (설명 HTML은 상세에서만 받는다) */
 export interface FigureSummary {

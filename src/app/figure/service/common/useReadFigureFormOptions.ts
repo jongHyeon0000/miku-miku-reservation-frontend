@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
-import type { FigureFormOptions } from '@/app/figure/interface/FigureFormOptions';
+import type { FigureFormOptions } from '@/app/figure/interface/form/FigureFormOptions';
 
 /**
  * 분류 선택지 조회 훅. 5개 축의 상위/하위 트리를 한 번에 받는다.

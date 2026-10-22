@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import HtmlView from '@/app/common/component/HtmlView';
 import { ColumnCard, SectionTitle } from '@/app/common/style/CommonCard.style';
-import type { FigureDetail } from '@/app/figure/interface/FigureDetail';
+import type { FigureDetail } from '@/app/figure/interface/common/FigureDetail';
 import { formatDeadline } from '@/app/figure/utils/FigureUtils';
 import { styled } from '@mui/material/styles';
 

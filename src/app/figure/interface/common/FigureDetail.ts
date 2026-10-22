@@ -1,4 +1,4 @@
-import type { FigureSummary } from '@/app/figure/interface/FigureSummary';
+import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
 
 /** 상품 상세. 목록 항목에 설명과 결제, 기록 일자를 더한 것 */
 export interface FigureDetail extends FigureSummary {

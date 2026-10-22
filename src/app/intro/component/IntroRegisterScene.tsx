@@ -1,5 +1,5 @@
-import FigureListComponent from '@/app/figure/component/FigureListComponent';
-import FigurePickField from '@/app/figure/component/FigurePickField';
+import FigureListComponent from '@/app/figure/component/list/FigureListComponent';
+import FigurePickField from '@/app/figure/component/form/FigurePickField';
 import { InfoGroup } from '@/app/figure/style/FigureInfo.style';
 import { FieldStack } from '@/app/common/style/CommonForm.style';
 import { Scene, SceneDemo, SceneDesc, SceneInner } from '@/app/common/style/CommonScene.style';

@@ -1,6 +1,6 @@
-import FigureFilterBar from '@/app/figure/component/FigureFilterBar';
-import FigureFilterChips from '@/app/figure/component/FigureFilterChips';
-import FigureListComponent from '@/app/figure/component/FigureListComponent';
+import FigureFilterBar from '@/app/figure/component/filter/FigureFilterBar';
+import FigureFilterChips from '@/app/figure/component/filter/FigureFilterChips';
+import FigureListComponent from '@/app/figure/component/list/FigureListComponent';
 import { applyFilters, buildFilterOptions, sortFigures } from '@/app/figure/utils/FigureUtils';
 import { FieldStack } from '@/app/common/style/CommonForm.style';
 import { Scene, SceneDemo, SceneDesc, SceneInner } from '@/app/common/style/CommonScene.style';

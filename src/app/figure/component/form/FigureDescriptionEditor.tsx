@@ -18,7 +18,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { THUMBNAIL_ACCEPT } from '@/app/common/constant/thumbnailFile';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 import { validateThumbnailFiles } from '@/app/common/utils/ValidationUtils';
-import useUploadEditorImage from '@/app/figure/service/useUploadEditorImage';
+import useUploadEditorImage from '@/app/figure/service/form/useUploadEditorImage';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import { useUiStore } from '@/store/uiStore';
 import { alpha, styled } from '@mui/material/styles';

@@ -2,7 +2,7 @@ import type { Dayjs } from 'dayjs';
 import type { SignupFormValues } from '@/app/auth/interface/SignupFormValues';
 import { THUMBNAIL_EXTENSIONS, THUMBNAIL_MAX_BYTES } from '@/app/common/constant/thumbnailFile';
 import { formatPrice } from '@/app/common/utils/CommonUtils';
-import type { FigureStatusFormValues } from '@/app/figure/interface/FigureStatusFormValues';
+import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
 
 /*
 * 입력 검증. 통과하면 undefined, 틀리면 사용자에게 보여 줄 문구를 돌려준다.

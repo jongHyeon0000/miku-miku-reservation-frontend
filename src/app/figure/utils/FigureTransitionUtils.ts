@@ -2,8 +2,8 @@ import dayjs, { type Dayjs } from 'dayjs';
 import { formatPrice } from '@/app/common/utils/CommonUtils';
 import { FIGURE_STATUS_LABELS, type FigureStatus, type FigureTabKey } from '@/app/figure/constant/figureStatus';
 import { FIGURE_TRANSITIONS, type FigureTransition } from '@/app/figure/constant/figureTransition';
-import type { FigureStatusFormValues } from '@/app/figure/interface/FigureStatusFormValues';
-import type { FigureStatusRequestBody } from '@/app/figure/interface/FigureStatusRequestBody';
+import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
+import type { FigureStatusRequestBody } from '@/app/figure/interface/status/FigureStatusRequestBody';
 
 /* 확인창 글자 (sweetalert2). 계산이 필요한 글자는 함수 값 */
 const STATUS_ALERT = {

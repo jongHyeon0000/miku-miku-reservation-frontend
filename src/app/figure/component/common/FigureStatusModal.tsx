@@ -18,7 +18,7 @@ import { formatPrice } from '@/app/common/utils/CommonUtils';
 import { validateDepositAmount, validateStatusDate } from '@/app/common/utils/ValidationUtils';
 import { FIGURE_STATUS_LABELS } from '@/app/figure/constant/figureStatus';
 import type { FigureTransition } from '@/app/figure/constant/figureTransition';
-import type { FigureStatusFormValues } from '@/app/figure/interface/FigureStatusFormValues';
+import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
 import { toStatusFormValues } from '@/app/figure/utils/FigureTransitionUtils';
 
 interface FigureStatusModalProps {

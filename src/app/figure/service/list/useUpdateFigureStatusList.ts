@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
-import type { FigureStatusRequestBody } from '@/app/figure/interface/FigureStatusRequestBody';
+import type { FigureStatusRequestBody } from '@/app/figure/interface/status/FigureStatusRequestBody';
 
 /**
  * 상품 상태 전이 훅(일괄). 하나라도 허용되지 않으면 서버가 전부 취소한다. 성공하면 바뀐 상품 id 목록이 data 로 온다.

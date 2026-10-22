@@ -3,7 +3,7 @@ import { Box, Button, ButtonBase, Chip, Dialog, DialogContent, DialogTitle, Pagi
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { TonalButton } from '@/app/common/style/CommonButton.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
-import type { FigurePickItem } from '@/app/figure/interface/FigurePickItem';
+import type { FigurePickItem } from '@/app/figure/interface/form/FigurePickItem';
 import { collectPickGroups, getPickPage, searchPickItems } from '@/app/figure/utils/FigureUtils';
 import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
 import { DialogFieldStack, FormActions } from '@/app/common/style/CommonForm.style';

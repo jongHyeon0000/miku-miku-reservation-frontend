@@ -1,7 +1,7 @@
-import FigureListActions from '@/app/figure/component/FigureListActions';
-import FigureListComponent from '@/app/figure/component/FigureListComponent';
-import FigureStatusModal from '@/app/figure/component/FigureStatusModal';
-import FigureStatusTabs from '@/app/figure/component/FigureStatusTabs';
+import FigureListActions from '@/app/figure/component/list/FigureListActions';
+import FigureListComponent from '@/app/figure/component/list/FigureListComponent';
+import FigureStatusModal from '@/app/figure/component/common/FigureStatusModal';
+import FigureStatusTabs from '@/app/figure/component/list/FigureStatusTabs';
 import { countByTab, filterByTab } from '@/app/figure/utils/FigureUtils';
 import { findBulkTransition, getTransitionLabel } from '@/app/figure/utils/FigureTransitionUtils';
 import { FieldStack } from '@/app/common/style/CommonForm.style';
