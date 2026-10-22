@@ -1,9 +1,7 @@
 import FigureCategoryFilter from '@/app/figure/component/FigureCategoryFilter';
 import FigureFlatFilter from '@/app/figure/component/FigureFlatFilter';
 import { FIGURE_SORT_OPTIONS, type FigureSortKey } from '@/app/figure/constant/figureSortOptions';
-import type { FigureFilterOptions } from '@/app/figure/interface/FigureFilterOptions';
-import type { FigureFilterValue } from '@/app/figure/interface/FigureFilterValue';
-import type { FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilters';
+import type { FigureFilterOptions, FigureFilterValue, FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilter';
 import { formatDeliveryMonth } from '@/app/figure/utils/FigureUtils';
 import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { Button } from '@mui/material';

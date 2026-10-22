@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { EMPTY_FIGURE_FILTERS } from '@/app/figure/constant/figureFilter';
 import { DEFAULT_FIGURE_SORT, type FigureSortKey } from '@/app/figure/constant/figureSortOptions';
-import type { FigureFilters } from '@/app/figure/interface/FigureFilters';
+import type { FigureFilters } from '@/app/figure/interface/FigureFilter';
 import { pickIntroFigures } from '@/app/intro/constant/introFigures';
 import useDemoLoop from '@/app/intro/hook/useDemoLoop';
 import { wait } from '@/app/intro/utils/IntroUtils';

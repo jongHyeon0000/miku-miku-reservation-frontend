@@ -2,8 +2,7 @@ import { create } from 'zustand';
 import { EMPTY_FIGURE_FILTERS } from '@/app/figure/constant/figureFilter';
 import { DEFAULT_FIGURE_SORT, type FigureSortKey } from '@/app/figure/constant/figureSortOptions';
 import { DEFAULT_FIGURE_TAB, type FigureTabKey } from '@/app/figure/constant/figureStatus';
-import type { FigureFilterValue } from '@/app/figure/interface/FigureFilterValue';
-import type { FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilters';
+import type { FigureFilterValue, FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilter';
 
 /**
  * 상품 목록 조건 Store (Zustand)

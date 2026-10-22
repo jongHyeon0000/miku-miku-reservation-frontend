@@ -6,15 +6,11 @@ import type { FigureTabKey } from '@/app/figure/constant/figureStatus';
 import { FIGURE_TABS } from '@/app/figure/constant/figureStatus';
 import type { FigureDetail } from '@/app/figure/interface/FigureDetail';
 import type { FigureCategoryRef } from '@/app/figure/interface/FigureCategoryRef';
-import type { FigureFilterOptionGroup } from '@/app/figure/interface/FigureFilterOptionGroup';
-import type { FigureFilterOptionItem } from '@/app/figure/interface/FigureFilterOptionItem';
+import type { FigureFilterOptionGroup, FigureFilterOptionItem, FigureFilterOptions, FigureFilterValue, FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilter';
 import type { FigureFormValues } from '@/app/figure/interface/FigureFormValues';
 import type { FigurePickItem } from '@/app/figure/interface/FigurePickItem';
 import type { FigureSaveRequestBody } from '@/app/figure/interface/FigureSaveRequestBody';
 import type { FigureMakerRef } from '@/app/figure/interface/FigureMakerRef';
-import type { FigureFilterOptions } from '@/app/figure/interface/FigureFilterOptions';
-import type { FigureFilterValue } from '@/app/figure/interface/FigureFilterValue';
-import type { FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilters';
 import type { FigureSummary } from '@/app/figure/interface/FigureSummary';
 
 /**

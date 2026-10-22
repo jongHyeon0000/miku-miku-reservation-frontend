@@ -1,4 +1,4 @@
-import type { FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilters';
+import type { FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilter';
 
 /** 아무것도 고르지 않은 분류 필터 */
 export const EMPTY_FIGURE_FILTERS: FigureFilters = {
