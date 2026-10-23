@@ -2,10 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
+import { shopKeys } from '@/app/category/shop/constant/shopQueryKeys';
 import type { ShopGroup } from '@/app/category/shop/interface/ShopGroup';
-
-/** 판매처 목록 조회의 보관 키. 판매처를 바꾸는 훅이 이 키로 "낡았다"고 알린다 */
-export const SHOP_LIST_QUERY_KEY = ['shop-list'];
 
 /**
  * 판매처 목록 조회 훅 (GET /api/shop-group)
@@ -15,7 +13,7 @@ export const SHOP_LIST_QUERY_KEY = ['shop-list'];
  */
 const useReadShopList = (enabled: boolean = true) => {
   const { data, isLoading, isFetching, refetch } = useQuery({
-    queryKey: SHOP_LIST_QUERY_KEY,
+    queryKey: shopKeys.list(),
     enabled: enabled,
     queryFn: async (): Promise<ApiResponse<ShopGroup[] | null>> => {
       try {

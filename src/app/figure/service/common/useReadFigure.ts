@@ -2,13 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
+import { figureKeys } from '@/app/figure/constant/figureQueryKeys';
 import type { FigureDetail } from '@/app/figure/interface/common/FigureDetail';
-
-/** 상품 상세 조회의 보관 키. 번호가 붙기 전의 앞부분만 쓰면 상품 상세 전부를 가리킨다 */
-export const FIGURE_QUERY_KEY = ['figure'];
-
-/** 상품 한 건(번호)의 보관 키. 번호마다 칸이 따로 보관된다 */
-export const figureQueryKey = (figureId: number) => [...FIGURE_QUERY_KEY, figureId];
 
 /**
  * 상품 상세 조회 훅 (GET /api/figure/{figureId})
@@ -17,7 +12,7 @@ export const figureQueryKey = (figureId: number) => [...FIGURE_QUERY_KEY, figure
  */
 const useReadFigure = (figureId: number, enabled: boolean = true) => {
   const { data, isLoading, isFetching, refetch } = useQuery({
-    queryKey: figureQueryKey(figureId),
+    queryKey: figureKeys.detail(figureId),
     enabled: enabled,
     queryFn: async (): Promise<ApiResponse<FigureDetail | null>> => {
       try {

@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
-import { SHOP_LIST_QUERY_KEY } from '@/app/category/shop/service/useReadShopList';
+import { shopKeys } from '@/app/category/shop/constant/shopQueryKeys';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import type { ShopFormValues } from '@/app/category/shop/interface/ShopFormValues';
 import { toShopRequest } from '@/app/category/shop/utils/ShopUtils';
@@ -20,7 +20,7 @@ const useUpdateShop = () => {
     setLoading(true);
     try {
       const res = await api.put<ApiResponse<null>>(`/api/shop/${id}`, toShopRequest(values));
-      if (res.data.code === API_CODE.OK) await queryClient.invalidateQueries({ queryKey: SHOP_LIST_QUERY_KEY });
+      if (res.data.code === API_CODE.OK) await queryClient.invalidateQueries({ queryKey: shopKeys.list() });
       return res.data;
     } catch (err) {
       return toApiResponse<null>(err);

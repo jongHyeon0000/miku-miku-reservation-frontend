@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
-import { figureQueryKey } from '@/app/figure/service/common/useReadFigure';
+import { figureKeys } from '@/app/figure/constant/figureQueryKeys';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import type { FigureStatusRequestBody } from '@/app/figure/interface/status/FigureStatusRequestBody';
 import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
@@ -22,7 +22,7 @@ const useUpdateFigureStatus = () => {
     setLoading(true);
     try {
       const res = await api.patch<ApiResponse<FigureSummary | null>>(`/api/figure/${figureId}/status`, body);
-      if (res.data.code === API_CODE.OK) await queryClient.invalidateQueries({ queryKey: figureQueryKey(figureId) });
+      if (res.data.code === API_CODE.OK) await queryClient.invalidateQueries({ queryKey: figureKeys.detail(figureId) });
       return res.data;
     } catch (err) {
       return toApiResponse<FigureSummary>(err);
