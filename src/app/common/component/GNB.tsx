@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AppBar, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tab, Tabs, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tab, Toolbar, Typography } from '@mui/material';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
@@ -10,6 +10,7 @@ import useReadShopList from '@/app/category/shop/service/useReadShopList';
 import GnbShopPanel from '@/app/common/component/GnbShopPanel';
 import mainIcon from '@/assets/common/main-icon.png';
 import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
+import { HoverTabs } from '@/app/common/style/CommonTabs.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import { APP_ROUTES } from '@/config/route/RoutesConfig';
@@ -176,27 +177,8 @@ const MenuName = styled(Typography)(({ theme }) => ({
 
 const Spacer = styled('div')({ flexGrow: 1 });
 
-/*
-* 탭에 마우스를 올리면 글자가 밝아지고 밑줄이 가운데서 양옆으로 퍼진다(판매처는 패널이 열려 있는 동안 같은 모양).
-* 선택된 탭은 Tabs 의 금색 밑줄이 있으므로 퍼지는 밑줄을 그리지 않는다.
-* */
-const NavTabs = styled(Tabs)(({ theme }) => ({
+/* 상단 메뉴 탭 줄. 남는 폭을 차지하고 로고와 간격을 둔다 */
+const NavTabs = styled(HoverTabs)(({ theme }) => ({
   flexGrow: 1,
   marginLeft: theme.spacing(3),
-  '& .MuiTab-root': {
-    transition: theme.transitions.create('color'),
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      left: '50%',
-      right: '50%',
-      bottom: 0,
-      height: 2,
-      backgroundColor: theme.palette.text.secondary,
-      transition: theme.transitions.create(['left', 'right']),
-    },
-    '&:hover:not(.Mui-selected), &.shop-open': { color: theme.palette.text.primary },
-    '&:hover::before, &.shop-open::before': { left: 0, right: 0 },
-    '&.Mui-selected::before': { display: 'none' },
-  },
 }));

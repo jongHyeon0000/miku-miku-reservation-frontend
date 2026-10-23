@@ -1,5 +1,6 @@
 import type { SyntheticEvent } from 'react';
-import { Tab, Tabs } from '@mui/material';
+import { Tab } from '@mui/material';
+import { HoverTabs } from '@/app/common/style/CommonTabs.style';
 import { FIGURE_TABS, type FigureTabKey } from '@/app/figure/constant/figureStatus';
 import { styled } from '@mui/material/styles';
 
@@ -45,7 +46,7 @@ export default FigureStatusTabs;
 
 /* ───────── styles ───────── */
 
-const StatusTabs = styled(Tabs)(({ theme }) => ({
+const StatusTabs = styled(HoverTabs)(({ theme }) => ({
   /* 고른 탭의 건수 칸만 금색으로 채운다 */
   '& .Mui-selected .tab-count': {
     backgroundColor: theme.palette.primary.main,

@@ -1,7 +1,7 @@
 import type { SyntheticEvent } from 'react';
 import { Tab } from '@mui/material';
 import { CATEGORY_AXIS_NAMES, isCategoryAxisKey, type CategoryAxisKey } from '@/app/category/common/constant/categoryAxes';
-import { UnderlineTabs } from '@/app/common/style/CommonTabs.style';
+import { EndTab, UnderlineTabs } from '@/app/common/style/CommonTabs.style';
 
 interface CategoryAxisTabsProps {
   /** 지금 보고 있는 축 */
@@ -12,7 +12,7 @@ interface CategoryAxisTabsProps {
 }
 
 /**
- * 분류 축 탭 (판매처, 형태, 시리즈, 장르·캐릭터, 제조사)
+ * 분류 축 탭 (판매처, 형태, 시리즈, 장르·캐릭터, 제조사)와 오른쪽 끝의 템플릿 가져오기 탭
  */
 const CategoryAxisTabs = ({ axis, onChange }: CategoryAxisTabsProps) => {
   const handleAxisChange = (_event: SyntheticEvent, value: string) => {
@@ -24,6 +24,7 @@ const CategoryAxisTabs = ({ axis, onChange }: CategoryAxisTabsProps) => {
       {Object.entries(CATEGORY_AXIS_NAMES).map(([key, name]) => (
         <Tab key={key} value={key} label={name} />
       ))}
+      <EndTab value="template" label="템플릿 가져오기" />
     </UnderlineTabs>
   );
 };
