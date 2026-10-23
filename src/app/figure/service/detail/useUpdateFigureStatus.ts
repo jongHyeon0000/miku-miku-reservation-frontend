@@ -9,7 +9,7 @@ import type { FigureStatusRequestBody } from '@/app/figure/interface/status/Figu
 import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
 
 /**
- * 상품 상태 전이 훅(개별). 성공하면 바뀐 상품(설명 제외)이 data 로 오고, 그 상품의 상세 종을 울려서 상세를 쓰는 화면이 새 값으로 다시 그려진다.
+ * 상품 상태 전이 훅(개별). 성공하면 바뀐 상품(설명 제외)이 data 로 온다. 그 상품의 상세와 상품 목록을 낡았다고 알린다.
  */
 const useUpdateFigureStatus = () => {
   const queryClient = useQueryClient();
@@ -22,7 +22,10 @@ const useUpdateFigureStatus = () => {
     setLoading(true);
     try {
       const res = await api.patch<ApiResponse<FigureSummary | null>>(`/api/figure/${figureId}/status`, body);
-      if (res.data.code === API_CODE.OK) await queryClient.invalidateQueries({ queryKey: figureKeys.detail(figureId) });
+      if (res.data.code === API_CODE.OK) {
+        await queryClient.invalidateQueries({ queryKey: figureKeys.detail(figureId) });
+        await queryClient.invalidateQueries({ queryKey: figureKeys.list() });
+      }
       return res.data;
     } catch (err) {
       return toApiResponse<FigureSummary>(err);
