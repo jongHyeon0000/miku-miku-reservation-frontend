@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@mui/material';
 import MakerCategoryTree from '@/app/category/maker/component/MakerCategoryTree';
 import MakerFormDialog from '@/app/category/maker/component/MakerFormDialog';
@@ -25,7 +25,7 @@ type DialogState = { mode: 'insert' } | { mode: 'edit'; target: MakerItem };
 
 /**
  * 제조사 목록과 추가, 수정, 삭제. 상위만 있는 축이라 목록 한 줄이 곧 분류다.
- * 추가, 수정, 삭제가 성공하면 목록을 다시 불러온다(수정, 삭제 응답에는 data 가 없다).
+ * 추가, 수정, 삭제 훅이 성공하면 키를 울려서 목록이 새 값으로 다시 그려진다.
  */
 const MakerCategoryContent = () => {
   const showSnackbar = useUiStore((state) => state.showSnackbar);
@@ -51,11 +51,6 @@ const MakerCategoryContent = () => {
     uploadThumbnailLoading ||
     deleteThumbnailLoading;
 
-  useEffect(() => {
-    fetchReadMakerList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleSave = async (dialog: DialogState, values: MakerFormValues, thumbnail: ThumbnailChange) => {
     const res: ApiResponse<MakerItem | null> =
       dialog.mode === 'insert' ? await fetchCreateMaker(values) : await fetchUpdateMaker(dialog.target.id, values);
@@ -75,7 +70,6 @@ const MakerCategoryContent = () => {
       showResult(res);
     }
     setDialog(null);
-    await fetchReadMakerList();
   };
 
   /* 고른 썸네일 변경 사항을 서버에 보낸다. 보낼 것이 없으면 null */
@@ -112,7 +106,6 @@ const MakerCategoryContent = () => {
     showResult(res);
     if (res.code !== API_CODE.OK) return;
 
-    await fetchReadMakerList();
   };
 
   return (

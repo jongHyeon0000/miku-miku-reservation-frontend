@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import ErrorView from '@/app/common/component/ErrorView';
@@ -71,11 +71,6 @@ const FigureFormPage = ({ mode }: FigureFormPageProps) => {
     if (mode === 'edit') fetchReadFigure();
     fetchReadFigureFormOptions();
   };
-
-  useEffect(() => {
-    fetchAll();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, figureId]);
 
   const failed = [mode === 'edit' ? figure : undefined, formOptions].find(
     (res) => res !== undefined && res.code !== API_CODE.OK,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import ErrorView from '@/app/common/component/ErrorView';
@@ -44,11 +44,6 @@ const FigureDetailPage = () => {
     fetchReadFigureFormOptions();
   };
 
-  useEffect(() => {
-    fetchAll();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [figureId]);
-
   const failed = [figure, formOptions].find((res) => res !== undefined && res.code !== API_CODE.OK);
   const loaded = figure?.code === API_CODE.OK && formOptions?.code === API_CODE.OK;
 
@@ -76,7 +71,6 @@ const FigureDetailPage = () => {
     if (res.code !== API_CODE.OK) return;
 
     setStatusModalOpen(false);
-    fetchAll();
   };
 
   /* 이 상태에서 갈 수 있는 전이. 없으면(배송완료) 상태 변경 버튼을 숨긴다 */

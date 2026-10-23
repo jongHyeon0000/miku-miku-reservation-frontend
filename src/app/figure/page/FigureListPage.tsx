@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Dayjs } from 'dayjs';
 import { Box, Button } from '@mui/material';
@@ -45,11 +45,6 @@ const FigureListPage = () => {
   const [urgentTab, setUrgentTab] = useState<UrgentTabKey | null>(null);
   const [statusModalOpen, setStatusModalOpen] = useState<boolean>(false);
   const { tab, filters, month, sort, setTab, setFilter, setMonth, setSort, resetFilters } = useFigureViewStore();
-
-  useEffect(() => {
-    fetchReadFigureList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const figures = figureList?.data ?? [];
   const tabFigures = filterByTab(figures, tab);
@@ -99,7 +94,6 @@ const FigureListPage = () => {
     if (res.code !== API_CODE.OK) return;
 
     selection.exitMode();
-    fetchReadFigureList();
   };
 
   /* 일괄 상태 변경. 날짜 입력이 있는 전이는 창에서 날짜를 받고, 없는 전이는 바로 확인창으로 간다 */
@@ -126,7 +120,6 @@ const FigureListPage = () => {
 
     setStatusModalOpen(false);
     selection.exitMode();
-    fetchReadFigureList();
   };
 
   return (

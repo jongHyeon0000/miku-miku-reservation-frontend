@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@mui/material';
 import type { CategoryLevel } from '@/app/category/common/constant/categoryAxes';
 import FigureTypeCategoryTree from '@/app/category/figure-type/component/FigureTypeCategoryTree';
@@ -32,7 +32,7 @@ type DialogState =
 
 /**
  * 형태 분류 목록과 추가, 수정, 삭제. 상태(조회 결과, 고른 상위, 열린 창)는 이 컴포넌트가 들고 있다.
- * 추가, 수정, 삭제가 성공하면 목록을 다시 불러온다(수정, 삭제 응답에는 data 가 없다).
+ * 추가, 수정, 삭제 훅이 성공하면 키를 울려서 목록이 새 값으로 다시 그려진다.
  */
 const FigureTypeCategoryContent = () => {
   const showSnackbar = useUiStore((state) => state.showSnackbar);
@@ -67,11 +67,6 @@ const FigureTypeCategoryContent = () => {
     uploadThumbnailLoading ||
     deleteThumbnailLoading;
 
-  useEffect(() => {
-    fetchReadFigureTypeList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleSave = async (dialog: DialogState, values: FigureTypeFormValues, thumbnail: ThumbnailChange) => {
     const res: ApiResponse<FigureTypeItem | null> =
       dialog.mode === 'insert'
@@ -102,7 +97,6 @@ const FigureTypeCategoryContent = () => {
     if (dialog.mode === 'insert' && dialog.level === 'group') {
       setSelectedGroupId(targetId);
     }
-    await fetchReadFigureTypeList();
   };
 
   /* 고른 썸네일 변경 사항을 서버에 보낸다. 보낼 것이 없으면 null */
@@ -142,7 +136,6 @@ const FigureTypeCategoryContent = () => {
     if (res.code !== API_CODE.OK) return;
 
     if (level === 'group' && target.id === selectedGroupId) setSelectedGroupId(null);
-    await fetchReadFigureTypeList();
   };
 
   return (
