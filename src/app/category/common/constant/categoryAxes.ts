@@ -6,11 +6,11 @@ export type CategoryLevel = 'group' | 'child';
 
 /** 탭에 보여 줄 축 이름 (탭 순서는 이 순서) */
 export const CATEGORY_AXIS_NAMES: Record<CategoryAxisKey, string> = {
-  shop: '판매처',
+  'shop': '판매처',
   'figure-type': '형태',
-  series: '시리즈',
+  'series': '시리즈',
   'genre-character': '장르·캐릭터',
-  maker: '제조사',
+  'maker': '제조사',
 };
 
 /** 주소에 축이 없거나 알 수 없는 값이면 처음 보여 줄 축 */
