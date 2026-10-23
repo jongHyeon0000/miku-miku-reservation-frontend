@@ -15,7 +15,7 @@ interface IntroStartSceneProps {
 }
 
 /**
- * 마지막 장면. 로그인, 회원가입으로 가는 길과 아이디 찾기, 비밀번호 재설정 링크 (로그인하지 않았을 때만 보인다).
+ * 마지막 장면. 로그인, 회원가입으로 가는 길과 아이디 찾기, 비밀번호 재설정 링크.
  */
 const IntroStartScene = ({ from }: IntroStartSceneProps) => {
   const { sceneRef, active } = useSceneActive();

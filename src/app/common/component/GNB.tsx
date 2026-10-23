@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
 import { AppBar, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tab, Tabs, Toolbar, Typography } from '@mui/material';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import useAuth from '@/app/auth/service/useAuth';
@@ -11,9 +9,7 @@ import { PROTECTED_CATEGORY_NAME } from '@/app/category/common/constant/category
 import useReadShopList from '@/app/category/shop/service/useReadShopList';
 import GnbShopPanel from '@/app/common/component/GnbShopPanel';
 import mainIcon from '@/assets/common/main-icon.png';
-import { Row } from '@/app/common/style/CommonLayout.style';
 import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
-import { nudgeAnimate, nudgeTransition } from '@/app/common/style/CommonMotion.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import { APP_ROUTES } from '@/config/route/RoutesConfig';
@@ -28,23 +24,13 @@ const APP_NAME = '미쿠미쿠예약시스템';
 * */
 const GNB_ROUTES = APP_ROUTES.filter((route) => route.type === 'gnb');
 
-/* 판매처 탭은 이동하는 주소가 없어서 라우트 표에 없다. 이 경로의 탭 바로 앞(분류와 소개 사이)에 끼운다 */
-const SHOP_TAB_BEFORE = '/intro';
-
+/* 판매처 탭은 이동하는 주소가 없어서 라우트 표에 없다. 라우트 탭들 뒤에 붙인다 */
 /* 탭에서 패널로 마우스가 건너가는 사이에 닫히지 않도록 닫기를 미루는 시간(ms) */
 const SHOP_CLOSE_DELAY = 150;
 
-/*
-* 로그인 안내 문구를 숨기는 경로 (로그인, 회원가입, 아이디 찾기, 비밀번호 재설정: 이미 인증 화면이다)
-* */
-const AUTH_PATHS = APP_ROUTES.filter((route) => ['login', 'signup', 'find-id', 'reset-password'].includes(route.type)).map(
-  (route) => route.path,
-);
-
 /**
  * 상단 고정 메뉴바
- * 로그인하면 메뉴 탭과 프로필 메뉴가, 하지 않았으면 로그인 버튼과 그 왼쪽의 안내 문구(화살표가 흔들린다)가 보인다.
- * 로그인, 회원가입, 아이디 찾기, 비밀번호 재설정 화면에서는 안내 문구를 숨긴다.
+ * 로그인하면 메뉴 탭과 프로필 메뉴가, 하지 않았으면 로그인 버튼이 보인다.
  */
 const GNB = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -106,19 +92,19 @@ const GNB = () => {
         {isAuthenticated ? (
           <>
             <NavTabs value={activeRoute?.path ?? false}>
-              {GNB_ROUTES.map((route) => [
-                route.path === SHOP_TAB_BEFORE && shopGroups.length > 0 && (
-                  <Tab
-                    key="shop"
-                    value="shop"
-                    label="판매처"
-                    className={shopOpen ? 'shop-open' : undefined}
-                    onMouseEnter={handleShopEnter}
-                    onMouseLeave={handleShopLeave}
-                  />
-                ),
-                <Tab key={route.path} value={route.path} label={route.nameKr} component={Link} to={route.path} />,
-              ])}
+              {GNB_ROUTES.map((route) => (
+                <Tab key={route.path} value={route.path} label={route.nameKr} component={Link} to={route.path} />
+              ))}
+              {shopGroups.length > 0 && (
+                <Tab
+                  key="shop"
+                  value="shop"
+                  label="판매처"
+                  className={shopOpen ? 'shop-open' : undefined}
+                  onMouseEnter={handleShopEnter}
+                  onMouseLeave={handleShopLeave}
+                />
+              )}
             </NavTabs>
 
             <IconButton aria-label="프로필 메뉴" onClick={handleOpenMenu}>
@@ -148,19 +134,9 @@ const GNB = () => {
         ) : (
           <>
             <Spacer />
-            <Row>
-              {!AUTH_PATHS.includes(pathname) && (
-                <>
-                  <HintText variant="body2">로그인 후 바로 시작하기</HintText>
-                  <HintArrow animate={nudgeAnimate} transition={nudgeTransition}>
-                    <ArrowForwardIcon fontSize="small" />
-                  </HintArrow>
-                </>
-              )}
-              <Button color="primary" component={Link} to="/login">
-                로그인
-              </Button>
-            </Row>
+            <Button color="primary" component={Link} to="/login">
+              로그인
+            </Button>
           </>
         )}
       </Toolbar>
@@ -223,17 +199,4 @@ const NavTabs = styled(Tabs)(({ theme }) => ({
     '&:hover::before, &.shop-open::before': { left: 0, right: 0 },
     '&.Mui-selected::before': { display: 'none' },
   },
-}));
-
-/* 로그인 버튼 왼쪽의 안내 문구. 좁은 화면에서는 버튼만 남기고 숨긴다 */
-const HintText = styled(Typography)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  [theme.breakpoints.down('sm')]: { display: 'none' },
-})) as typeof Typography;
-
-/* 문구 뒤의 화살표. 로그인 버튼 쪽을 가리키며 흔들린다 */
-const HintArrow = styled(motion.span)(({ theme }) => ({
-  display: 'inline-flex',
-  color: theme.palette.primary.main,
-  [theme.breakpoints.down('sm')]: { display: 'none' },
 }));

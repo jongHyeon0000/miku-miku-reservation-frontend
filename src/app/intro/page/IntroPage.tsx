@@ -1,4 +1,4 @@
-import { useLocation, type Location } from 'react-router-dom';
+import { Navigate, useLocation, type Location } from 'react-router-dom';
 import useAuth from '@/app/auth/service/useAuth';
 import { SceneDot, SceneDots, SceneScroller } from '@/app/common/style/CommonScene.style';
 import IntroAlertScene from '@/app/intro/component/IntroAlertScene';
@@ -15,15 +15,16 @@ const SCENE_NAMES = ['첫 화면', '분류', '등록', '검색', '상태 전이'
 
 /**
  * 소개 화면 (/intro). 로그인하지 않은 채 로그인이 필요한 주소로 들어오면 이곳으로 온다.
- * 장면(한 화면)을 휠, 키보드, 오른쪽 점으로 넘기며 보고, 로그인한 사용자에게는 마지막 시작하기 장면을 보여 주지 않는다.
+ * 장면(한 화면)을 휠, 키보드, 오른쪽 점으로 넘기며 본다. 로그인한 사용자는 /figures 로 보낸다.
  */
 const IntroPage = () => {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
   const from = (location.state as { from?: Location } | null)?.from;
 
-  const sceneNames = isAuthenticated ? SCENE_NAMES.slice(0, -1) : SCENE_NAMES;
-  const { scrollerRef, viewHeight, index, goTo } = useSceneScroll(sceneNames.length);
+  const { scrollerRef, viewHeight, index, goTo } = useSceneScroll(SCENE_NAMES.length);
+
+  if (isAuthenticated) return <Navigate to="/figures" replace />;
 
   return (
     <>
@@ -34,11 +35,11 @@ const IntroPage = () => {
         <IntroSearchScene />
         <IntroStatusScene />
         <IntroAlertScene />
-        {!isAuthenticated && <IntroStartScene from={from} />}
+        <IntroStartScene from={from} />
       </SceneScroller>
 
       <SceneDots>
-        {sceneNames.map((name, sceneIndex) => (
+        {SCENE_NAMES.map((name, sceneIndex) => (
           <SceneDot key={name} type="button" active={sceneIndex === index} title={name} aria-label={name} onClick={() => goTo(sceneIndex)} />
         ))}
       </SceneDots>
