@@ -10,7 +10,7 @@ import type { MakerItem } from '@/app/category/maker/interface/MakerItem';
  * 서버 응답을 그대로 담는다. 결과는 키 하나로 보관되어 다시 들어오면 보관된 값이 먼저 보인다.
  */
 const useReadMakerList = () => {
-  const { data, isLoading, isFetching, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: makerKeys.list(),
     queryFn: async (): Promise<ApiResponse<MakerItem[] | null>> => {
       try {
@@ -26,7 +26,7 @@ const useReadMakerList = () => {
     await refetch();
   };
 
-  return { makerList: data, makerListLoading: isLoading, makerListFetching: isFetching, fetchReadMakerList };
+  return { makerList: data, makerListLoading: isLoading, fetchReadMakerList };
 };
 
 export default useReadMakerList;

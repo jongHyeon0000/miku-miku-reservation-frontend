@@ -12,7 +12,7 @@ import type { ShopGroup } from '@/app/category/shop/interface/ShopGroup';
  * enabled 가 false 면 읽지 않는다(로그인 전의 상단 메뉴).
  */
 const useReadShopList = (enabled: boolean = true) => {
-  const { data, isLoading, isFetching, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: shopKeys.list(),
     enabled: enabled,
     queryFn: async (): Promise<ApiResponse<ShopGroup[] | null>> => {
@@ -29,7 +29,7 @@ const useReadShopList = (enabled: boolean = true) => {
     await refetch();
   };
 
-  return { shopList: data, shopListLoading: isLoading, shopListFetching: isFetching, fetchReadShopList };
+  return { shopList: data, shopListLoading: isLoading, fetchReadShopList };
 };
 
 export default useReadShopList;

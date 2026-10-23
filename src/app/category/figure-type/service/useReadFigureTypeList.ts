@@ -10,7 +10,7 @@ import type { FigureTypeGroup } from '@/app/category/figure-type/interface/Figur
  * 서버 응답을 그대로 담는다. 결과는 키 하나로 보관되어 다시 들어오면 보관된 값이 먼저 보인다.
  */
 const useReadFigureTypeList = () => {
-  const { data, isLoading, isFetching, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: figureTypeKeys.list(),
     queryFn: async (): Promise<ApiResponse<FigureTypeGroup[] | null>> => {
       try {
@@ -26,7 +26,7 @@ const useReadFigureTypeList = () => {
     await refetch();
   };
 
-  return { figureTypeList: data, figureTypeListLoading: isLoading, figureTypeListFetching: isFetching, fetchReadFigureTypeList };
+  return { figureTypeList: data, figureTypeListLoading: isLoading, fetchReadFigureTypeList };
 };
 
 export default useReadFigureTypeList;

@@ -11,7 +11,7 @@ import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary'
  * 결과는 키 하나로 보관되어 다시 들어오면 보관된 값이 먼저 보인다.
  */
 const useReadFigureList = () => {
-  const { data, isLoading, isFetching, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: figureKeys.list(),
     queryFn: async (): Promise<ApiResponse<FigureSummary[] | null>> => {
       try {
@@ -27,7 +27,7 @@ const useReadFigureList = () => {
     await refetch();
   };
 
-  return { figureList: data, figureListLoading: isLoading, figureListFetching: isFetching, fetchReadFigureList };
+  return { figureList: data, figureListLoading: isLoading, fetchReadFigureList };
 };
 
 export default useReadFigureList;

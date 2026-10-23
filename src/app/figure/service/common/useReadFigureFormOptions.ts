@@ -10,7 +10,7 @@ import type { FigureFormOptions } from '@/app/figure/interface/form/FigureFormOp
  * 결과는 키 하나로 보관되어 상세와 폼이 같은 값을 나눠 쓴다.
  */
 const useReadFigureFormOptions = () => {
-  const { data, isLoading, isFetching, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: figureKeys.formOptions(),
     queryFn: async (): Promise<ApiResponse<FigureFormOptions | null>> => {
       try {
@@ -26,7 +26,7 @@ const useReadFigureFormOptions = () => {
     await refetch();
   };
 
-  return { formOptions: data, formOptionsLoading: isLoading, formOptionsFetching: isFetching, fetchReadFigureFormOptions };
+  return { formOptions: data, formOptionsLoading: isLoading, fetchReadFigureFormOptions };
 };
 
 export default useReadFigureFormOptions;

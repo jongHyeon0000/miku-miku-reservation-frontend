@@ -7,11 +7,11 @@ import type { FigureDetail } from '@/app/figure/interface/common/FigureDetail';
 
 /**
  * 상품 상세 조회 훅 (GET /api/figure/{figureId})
- * 번호마다 결과가 따로 보관되고, 그 상품의 종이 울리면 새 값으로 다시 채워진다.
+ * 번호마다 결과가 따로 보관되고, 그 상품의 키가 울리면 새 값으로 다시 채워진다.
  * enabled 가 false 면 읽지 않는다(등록 화면처럼 번호가 없을 때).
  */
 const useReadFigure = (figureId: number, enabled: boolean = true) => {
-  const { data, isLoading, isFetching, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: figureKeys.detail(figureId),
     enabled: enabled,
     queryFn: async (): Promise<ApiResponse<FigureDetail | null>> => {
@@ -28,7 +28,7 @@ const useReadFigure = (figureId: number, enabled: boolean = true) => {
     await refetch();
   };
 
-  return { figure: data, figureLoading: isLoading, figureFetching: isFetching, fetchReadFigure };
+  return { figure: data, figureLoading: isLoading, fetchReadFigure };
 };
 
 export default useReadFigure;

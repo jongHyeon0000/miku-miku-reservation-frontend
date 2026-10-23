@@ -10,7 +10,7 @@ import type { GenreCharacterGroup } from '@/app/category/genre-character/interfa
  * 서버 응답을 그대로 담는다. 결과는 키 하나로 보관되어 다시 들어오면 보관된 값이 먼저 보인다.
  */
 const useReadGenreCharacterList = () => {
-  const { data, isLoading, isFetching, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: genreCharacterKeys.list(),
     queryFn: async (): Promise<ApiResponse<GenreCharacterGroup[] | null>> => {
       try {
@@ -26,7 +26,7 @@ const useReadGenreCharacterList = () => {
     await refetch();
   };
 
-  return { genreCharacterList: data, genreCharacterListLoading: isLoading, genreCharacterListFetching: isFetching, fetchReadGenreCharacterList };
+  return { genreCharacterList: data, genreCharacterListLoading: isLoading, fetchReadGenreCharacterList };
 };
 
 export default useReadGenreCharacterList;
