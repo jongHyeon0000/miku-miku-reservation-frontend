@@ -1,6 +1,6 @@
 import { Controller, type UseFormReturn } from 'react-hook-form';
+import RichTextEditor from '@/app/common/component/RichTextEditor';
 import { ColumnCard, SectionTitle } from '@/app/common/style/CommonCard.style';
-import FigureDescriptionEditor from '@/app/figure/component/form/FigureDescriptionEditor';
 import type { FigureFormValues } from '@/app/figure/interface/form/FigureFormValues';
 
 interface FigureFormDescriptionProps {
@@ -24,7 +24,9 @@ const FigureFormDescription = ({ form, disabled }: FigureFormDescriptionProps) =
       <Controller
         name="description"
         control={form.control}
-        render={({ field }) => <FigureDescriptionEditor value={field.value} onChange={field.onChange} disabled={disabled} />}
+        render={({ field }) => (
+          <RichTextEditor value={field.value} onChange={field.onChange} placeholder="상품 설명을 입력해 주세요" disabled={disabled} />
+        )}
       />
     </ColumnCard>
   );

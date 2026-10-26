@@ -18,14 +18,14 @@ import StarterKit from '@tiptap/starter-kit';
 import { THUMBNAIL_ACCEPT } from '@/app/common/constant/thumbnailFile';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 import { validateThumbnailFiles } from '@/app/common/utils/ValidationUtils';
-import useUploadEditorImage from '@/app/figure/service/form/useUploadEditorImage';
+import useUploadEditorImage from '@/app/common/service/useUploadEditorImage';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import { useUiStore } from '@/store/uiStore';
 import { alpha, styled } from '@mui/material/styles';
 
 /*
 * 이미지 노드. 저장되는 주소(src)는 서버가 준 '/uploads/...' 상대 경로 그대로 두고, 에디터 화면에 그릴 때만 서버 주소를 붙인다.
-* (상대 경로로 저장해야 서버가 상품에 이미지를 연결한다. 운영에서 다른 도메인을 써도 저장 값은 바뀌지 않는다)
+* (상대 경로로 저장해야 서버가 글에 이미지를 연결한다. 운영에서 다른 도메인을 써도 저장 값은 바뀌지 않는다)
 * */
 const EditorImage = Image.extend({
   addNodeView() {
@@ -45,22 +45,25 @@ const EditorImage = Image.extend({
   },
 });
 
-interface FigureDescriptionEditorProps {
+interface RichTextEditorProps {
   /** 처음 채울 설명 HTML (에디터는 이 값을 처음 한 번만 받는다) */
   value: string;
 
   /** 내용이 바뀔 때마다 HTML (비어 있으면 빈 글자) */
   onChange: (html: string) => void;
 
+  /** 비어 있을 때 보이는 안내 글 */
+  placeholder: string;
+
   /** 저장 요청 중이면 고칠 수 없다 */
   disabled: boolean;
 }
 
 /**
- * 상품 설명 에디터(Tiptap). 위에 도구줄이 붙어 있고, 이미지는 버튼, 끌어다 놓기, 붙여넣기로 넣는다.
+ * 글 에디터(Tiptap). 위에 도구줄이 붙어 있고, 이미지는 버튼, 끌어다 놓기, 붙여넣기로 넣는다.
  * 이미지는 서버에 올려서 받은 주소로 들어가며 한 장씩 차례로 올린다.
  */
-const FigureDescriptionEditor = ({ value, onChange, disabled }: FigureDescriptionEditorProps) => {
+const RichTextEditor = ({ value, onChange, placeholder, disabled }: RichTextEditorProps) => {
   const showSnackbar = useUiStore((state) => state.showSnackbar);
   const showResult = useUiStore((state) => state.showResult);
   const { uploadEditorImageLoading, fetchUploadEditorImage } = useUploadEditorImage();
@@ -70,7 +73,7 @@ const FigureDescriptionEditor = ({ value, onChange, disabled }: FigureDescriptio
     extensions: [
       StarterKit.configure({ link: false, underline: false }),
       EditorImage,
-      Placeholder.configure({ placeholder: '상품 설명을 입력해 주세요' }),
+      Placeholder.configure({ placeholder: placeholder }),
     ],
     content: value,
     onUpdate: ({ editor: updated }) => onChange(updated.isEmpty ? '' : updated.getHTML()),
@@ -213,7 +216,7 @@ const FigureDescriptionEditor = ({ value, onChange, disabled }: FigureDescriptio
   );
 };
 
-export default FigureDescriptionEditor;
+export default RichTextEditor;
 
 interface ToolButtonProps {
   /** 마우스를 올렸을 때 보이는 이름 */
