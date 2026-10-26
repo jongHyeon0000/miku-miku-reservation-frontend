@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Tooltip } from '@mui/material';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import { ButtonGroup, Description, RowBox, TextBox } from '@/app/category/common/style/CategoryRow.style';
+import { Description, RowBox, TextBox } from '@/app/category/common/style/CategoryRow.style';
 import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
 import { BoldText } from '@/app/common/style/CommonText.style';
 import { InfoIcon, TooltipText } from '@/app/common/style/CommonTooltip.style';
@@ -17,7 +17,7 @@ interface TemplateRowProps {
   /** 썸네일 주소. 없으면 이미지 아이콘 */
   thumbnailUrl?: string;
 
-  /** 오른쪽 칸에 둘 것 (종류 칩, 개수, 버튼). 없으면 칸이 없다 */
+  /** 줄 오른쪽에 둘 것 (개수, 버튼). 줄이 세로 가운데 정렬과 간격을 맡는다. 없으면 오른쪽이 비어 있다 */
   actions?: ReactNode;
 }
 
@@ -45,7 +45,7 @@ const TemplateRow = ({ name, description, thumbnailUrl, actions }: TemplateRowPr
           </Description>
         )}
       </TextBox>
-      {actions && <ButtonGroup>{actions}</ButtonGroup>}
+      {actions}
     </RowBox>
   );
 };

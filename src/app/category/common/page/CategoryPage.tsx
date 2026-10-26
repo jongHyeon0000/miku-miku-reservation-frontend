@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import CategoryAxisTabs from '@/app/category/common/component/CategoryAxisTabs';
 import { DEFAULT_CATEGORY_AXIS, isCategoryAxisKey, type CategoryAxisKey } from '@/app/category/common/constant/categoryAxes';
@@ -6,6 +7,7 @@ import GenreCharacterCategoryContent from '@/app/category/genre-character/page/G
 import MakerCategoryContent from '@/app/category/maker/page/MakerCategoryContent';
 import SeriesCategoryContent from '@/app/category/series/page/SeriesCategoryContent';
 import ShopCategoryContent from '@/app/category/shop/page/ShopCategoryContent';
+import TemplateImportDialog from '@/app/category/template/component/TemplateImportDialog';
 import { PageContainer, PageHeader, PageTitle } from '@/app/common/style/CommonPage.style';
 
 /**
@@ -14,6 +16,7 @@ import { PageContainer, PageHeader, PageTitle } from '@/app/common/style/CommonP
  */
 const CategoryPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [templateOpen, setTemplateOpen] = useState<boolean>(false);
 
   const axisParam = searchParams.get('axis');
   const axis: CategoryAxisKey = isCategoryAxisKey(axisParam) ? axisParam : DEFAULT_CATEGORY_AXIS;
@@ -26,13 +29,19 @@ const CategoryPage = () => {
         </PageTitle>
       </PageHeader>
 
-      <CategoryAxisTabs axis={axis} onChange={(nextAxis) => setSearchParams({ axis: nextAxis })} />
+      <CategoryAxisTabs
+        axis={axis}
+        onChange={(nextAxis) => setSearchParams({ axis: nextAxis })}
+        onTemplate={() => setTemplateOpen(true)}
+      />
 
       {axis === 'shop' && <ShopCategoryContent />}
       {axis === 'figure-type' && <FigureTypeCategoryContent />}
       {axis === 'series' && <SeriesCategoryContent />}
       {axis === 'genre-character' && <GenreCharacterCategoryContent />}
       {axis === 'maker' && <MakerCategoryContent />}
+
+      {templateOpen && <TemplateImportDialog onClose={() => setTemplateOpen(false)} />}
     </PageContainer>
   );
 };

@@ -13,12 +13,3 @@ export const TEMPLATE_TYPE_AXES: Record<TemplateType, CategoryAxisKey> = {
   SHOP: 'shop',
   FIGURE_TYPE: 'figure-type',
 };
-
-/** 개수 뒤에 붙이는 단위 이름 (예: 캐릭터 297개) */
-export const TEMPLATE_ITEM_UNITS: Record<TemplateType, string> = {
-  GENRE_CHARACTER: '캐릭터',
-  SERIES: '시리즈',
-  MAKER: '제조사',
-  SHOP: '스토어',
-  FIGURE_TYPE: '형태',
-};
