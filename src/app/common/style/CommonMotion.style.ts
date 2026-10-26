@@ -33,8 +33,3 @@ export const getRollTransition = (imageCount: number): Transition => ({
   ease: 'linear',
   repeat: Infinity,
 });
-
-/* 옆으로 살짝 밀렸다 돌아오는 흔들림. 가리키는 방향의 화살표에 쓴다. 밀리는 거리는 화살표 자기 크기의 비율이다 */
-export const nudgeAnimate = { x: ['0%', '30%', '0%'] };
-
-export const nudgeTransition: Transition = { duration: 1.2, ease: 'easeInOut', repeat: Infinity };
