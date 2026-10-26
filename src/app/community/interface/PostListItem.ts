@@ -26,6 +26,9 @@ interface PostListItemNormal {
   /** 작성자 이름 */
   authorName: string;
 
+  /** 작성자 프로필 이미지 주소('/uploads/...'). 프로필 이미지가 없으면 없다 */
+  authorThumbnailUrl?: string;
+
   /** 조회수 */
   viewCount: number;
 

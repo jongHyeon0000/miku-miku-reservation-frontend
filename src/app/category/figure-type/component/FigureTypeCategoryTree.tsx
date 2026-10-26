@@ -6,7 +6,8 @@ import FigureTypeGroupItem from '@/app/category/figure-type/component/FigureType
 import type { FigureTypeGroup } from '@/app/category/figure-type/interface/FigureTypeGroup';
 import type { FigureTypeItem } from '@/app/category/figure-type/interface/FigureTypeItem';
 import PageNumbers from '@/app/common/component/PageNumbers';
-import { AddButton, AddRow, PagerRow, Panel, PanelHeader, PanelTop, TreeLayout } from '@/app/category/common/style/CategoryPanel.style';
+import { AddButton, PanelHeader, PanelTop, TreeLayout } from '@/app/category/common/style/CategoryPanel.style';
+import { AddRow, PagerRow, Panel } from '@/app/common/style/CommonList.style';
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style';
 import { Row } from '@/app/common/style/CommonLayout.style';
 import { InfoIcon, TooltipText } from '@/app/common/style/CommonTooltip.style';

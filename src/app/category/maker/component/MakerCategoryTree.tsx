@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import MakerChildRow from '@/app/category/maker/component/MakerChildRow';
 import type { MakerItem } from '@/app/category/maker/interface/MakerItem';
-import { PagerRow, Panel, PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style';
+import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style';
+import { PagerRow, Panel } from '@/app/common/style/CommonList.style';
 import PageNumbers from '@/app/common/component/PageNumbers';
 import { TonalButton } from '@/app/common/style/CommonButton.style';
 

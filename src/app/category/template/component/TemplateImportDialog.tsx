@@ -2,7 +2,7 @@ import { useState, type SyntheticEvent } from 'react';
 import { Dialog, DialogContent, DialogTitle, Tab, Typography } from '@mui/material';
 import CategoryRow from '@/app/category/common/component/CategoryRow';
 import { CATEGORY_AXIS_NAMES } from '@/app/category/common/constant/categoryAxes';
-import { Panel } from '@/app/category/common/style/CategoryPanel.style';
+import { Panel } from '@/app/common/style/CommonList.style';
 import TemplateImportConfirmDialog from '@/app/category/template/component/TemplateImportConfirmDialog';
 import { TEMPLATE_TYPE_AXES, TEMPLATE_TYPES, type TemplateType } from '@/app/category/template/constant/templateType';
 import type { Template } from '@/app/category/template/interface/Template';

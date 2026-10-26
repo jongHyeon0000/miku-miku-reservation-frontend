@@ -10,13 +10,6 @@ export const TreeLayout = styled(Box)(({ theme }) => ({
   alignItems: 'start',
 }));
 
-export const Panel = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  border: `1px solid ${theme.palette.divider}`,
-  borderRadius: theme.shape.cardRadius,
-  overflow: 'hidden',
-}));
-
 export const PanelHeader = styled(SpreadRow)(({ theme }) => ({
   padding: theme.spacing(1.5, 1, 1.5, 2),
 }));
@@ -25,16 +18,6 @@ export const PanelHeader = styled(SpreadRow)(({ theme }) => ({
 export const PanelTop = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.surfaceSunken,
   borderBottom: `1px solid ${theme.palette.primary.main}`,
-}));
-
-export const AddRow = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(1, 2),
-  borderTop: `1px solid ${theme.palette.divider}`,
-}));
-
-/* 목록과 하위 추가 칸 사이의 쪽 번호 칸. 패널 맨 위 칸과 같은 어두운 면에 하위 추가 칸과 같은 여백과 선 */
-export const PagerRow = styled(AddRow)(({ theme }) => ({
-  backgroundColor: theme.palette.surfaceSunken,
 }));
 
 /* 하위를 더 넣는 자리처럼 보이는 점선 칸 */

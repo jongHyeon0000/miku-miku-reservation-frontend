@@ -12,6 +12,9 @@ export interface PostDetail {
   /** 작성자 이름 */
   authorName: string;
 
+  /** 작성자 프로필 이미지 주소('/uploads/...'). 프로필 이미지가 없으면 없다 */
+  authorThumbnailUrl?: string;
+
   /** 조회수 (상세를 읽으면 서버가 올린 뒤의 값) */
   viewCount: number;
 

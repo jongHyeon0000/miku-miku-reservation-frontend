@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { Tooltip } from '@mui/material';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import { Description, RowBox, TextBox } from '@/app/category/common/style/CategoryRow.style';
+import { Description, TextBox } from '@/app/category/common/style/CategoryRow.style';
+import { RowBox } from '@/app/common/style/CommonList.style';
 import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
 import { BoldText } from '@/app/common/style/CommonText.style';
 import { InfoIcon, TooltipText } from '@/app/common/style/CommonTooltip.style';

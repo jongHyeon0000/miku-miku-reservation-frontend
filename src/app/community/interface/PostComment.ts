@@ -33,6 +33,9 @@ export interface PostCommentNormal {
   /** 작성자 이름 */
   authorName: string;
 
+  /** 작성자 프로필 이미지 주소('/uploads/...'). 프로필 이미지가 없으면 없다 */
+  authorThumbnailUrl?: string;
+
   /** 답글 대상 사용자 id. 멘션이 없거나 그 사용자가 탈퇴했으면 mentionUserName 과 함께 없다 */
   mentionUserId?: number;
 
