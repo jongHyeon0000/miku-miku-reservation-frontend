@@ -32,6 +32,11 @@ export const AddRow = styled(Box)(({ theme }) => ({
   borderTop: `1px solid ${theme.palette.divider}`,
 }));
 
+/* 목록과 하위 추가 칸 사이의 쪽 번호 칸. 패널 맨 위 칸과 같은 어두운 면에 하위 추가 칸과 같은 여백과 선 */
+export const PagerRow = styled(AddRow)(({ theme }) => ({
+  backgroundColor: theme.palette.surfaceSunken,
+}));
+
 /* 하위를 더 넣는 자리처럼 보이는 점선 칸 */
 export const AddButton = styled(Button)(({ theme }) => ({
   width: '100%',
