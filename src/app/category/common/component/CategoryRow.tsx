@@ -7,7 +7,7 @@ import { BoldText } from '@/app/common/style/CommonText.style';
 import { InfoIcon, TooltipText } from '@/app/common/style/CommonTooltip.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 
-interface TemplateRowProps {
+interface CategoryRowProps {
   /** 이름 */
   name: string;
 
@@ -17,14 +17,15 @@ interface TemplateRowProps {
   /** 썸네일 주소. 없으면 이미지 아이콘 */
   thumbnailUrl?: string;
 
-  /** 줄 오른쪽에 둘 것 (개수, 버튼). 줄이 세로 가운데 정렬과 간격을 맡는다. 없으면 오른쪽이 비어 있다 */
+  /** 줄 오른쪽에 둘 것 (수정, 삭제 버튼, 기본 항목 칩, 개수와 가져오기 버튼 등). 줄이 세로 가운데 정렬과 간격을 맡는다. 없으면 오른쪽이 비어 있다 */
   actions?: ReactNode;
 }
 
 /**
- * 템플릿 한 줄. 분류 목록 줄에 썸네일을 앞에 둔 모양이다. 템플릿 목록과 가져오기 때 제외되는 항목 목록이 같이 쓴다.
+ * 분류 한 줄. 썸네일, 이름, 설명(이름 옆 (i) 툴팁과 아래 한 줄)을 보여 주고 오른쪽 칸은 부르는 쪽이 정한다.
+ * 5개 분류 축의 목록 줄과 템플릿 목록, 가져오기 때 제외되는 항목 목록이 같이 쓴다.
  */
-const TemplateRow = ({ name, description, thumbnailUrl, actions }: TemplateRowProps) => {
+const CategoryRow = ({ name, description, thumbnailUrl, actions }: CategoryRowProps) => {
   return (
     <RowBox>
       <ThumbAvatar size="md" variant="rounded" src={imageUrl(thumbnailUrl)}>
@@ -50,4 +51,4 @@ const TemplateRow = ({ name, description, thumbnailUrl, actions }: TemplateRowPr
   );
 };
 
-export default TemplateRow;
+export default CategoryRow;

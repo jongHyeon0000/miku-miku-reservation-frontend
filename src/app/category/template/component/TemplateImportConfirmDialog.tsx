@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
+import CategoryRow from '@/app/category/common/component/CategoryRow';
 import { CATEGORY_AXIS_NAMES } from '@/app/category/common/constant/categoryAxes';
 import { Panel, PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style';
-import TemplateRow from '@/app/category/template/component/TemplateRow';
 import { TEMPLATE_TYPE_AXES } from '@/app/category/template/constant/templateType';
 import type { Template } from '@/app/category/template/interface/Template';
 import type { TemplateImportPreview } from '@/app/category/template/interface/TemplateImportPreview';
@@ -54,7 +54,7 @@ const TemplateImportConfirmDialog = ({ template, preview, loading, onConfirm, on
                 </PanelTop>
               )}
               {group.items.map((item) => (
-                <TemplateRow key={item.name} name={item.name} description={item.description} thumbnailUrl={item.thumbnailUrl} />
+                <CategoryRow key={item.name} name={item.name} description={item.description} thumbnailUrl={item.thumbnailUrl} />
               ))}
             </Panel>
           ))}

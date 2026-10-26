@@ -1,9 +1,9 @@
 import { useState, type SyntheticEvent } from 'react';
 import { Dialog, DialogContent, DialogTitle, Tab, Typography } from '@mui/material';
+import CategoryRow from '@/app/category/common/component/CategoryRow';
 import { CATEGORY_AXIS_NAMES } from '@/app/category/common/constant/categoryAxes';
 import { Panel } from '@/app/category/common/style/CategoryPanel.style';
 import TemplateImportConfirmDialog from '@/app/category/template/component/TemplateImportConfirmDialog';
-import TemplateRow from '@/app/category/template/component/TemplateRow';
 import { TEMPLATE_TYPE_AXES, TEMPLATE_TYPES, type TemplateType } from '@/app/category/template/constant/templateType';
 import type { Template } from '@/app/category/template/interface/Template';
 import type { TemplateImportPreview } from '@/app/category/template/interface/TemplateImportPreview';
@@ -91,7 +91,7 @@ const TemplateImportDialog = ({ onClose }: TemplateImportDialogProps) => {
         {templates.length > 0 && (
           <Panel>
             {templates.map((template) => (
-              <TemplateRow
+              <CategoryRow
                 key={template.templateId}
                 name={template.name}
                 description={template.description}
