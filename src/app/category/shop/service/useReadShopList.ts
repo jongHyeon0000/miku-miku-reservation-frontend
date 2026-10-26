@@ -13,7 +13,7 @@ import type { ShopGroup } from '@/app/category/shop/interface/ShopGroup';
  */
 const useReadShopList = (enabled: boolean = true) => {
   const { data, isLoading, refetch } = useQuery({
-    queryKey: shopKeys.list(),
+    queryKey: shopKeys.groupAll(),
     enabled: enabled,
     queryFn: async (): Promise<ApiResponse<ShopGroup[] | null>> => {
       try {

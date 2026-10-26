@@ -31,7 +31,8 @@ const MakerCategoryContent = () => {
   const showSnackbar = useUiStore((state) => state.showSnackbar);
   const showResult = useUiStore((state) => state.showResult);
 
-  const { makerList, makerListLoading, fetchReadMakerList } = useReadMakerList();
+  const [page, setPage] = useState<number>(1);
+  const { makerList, makerListLoading, fetchReadMakerList } = useReadMakerList(page);
   const { createMakerLoading, fetchCreateMaker } = useCreateMaker();
   const { updateMakerLoading, fetchUpdateMaker } = useUpdateMaker();
   const { deleteMakerLoading, fetchDeleteMaker } = useDeleteMaker();
@@ -41,7 +42,9 @@ const MakerCategoryContent = () => {
 
   const [dialog, setDialog] = useState<DialogState | null>(null);
 
-  const makers = makerList?.data ?? [];
+  const makerPageData = makerList?.data;
+  const makers = makerPageData ? makerPageData.items : [];
+  const totalPages = makerPageData ? makerPageData.totalPages : 0;
   const isBusy =
     makerListLoading ||
     createMakerLoading ||
@@ -106,12 +109,14 @@ const MakerCategoryContent = () => {
     showResult(res);
     if (res.code !== API_CODE.OK) return;
 
+    /* 마지막 쪽의 마지막 항목을 지웠으면 그 쪽이 비므로 앞 쪽으로 돌아간다 */
+    if (makers.length === 1 && page > 1) setPage(page - 1);
   };
 
   return (
     <>
       {makerList && makerList.code !== API_CODE.OK && <ErrorView message={makerList.message} onRetry={fetchReadMakerList} />}
-      {makerList?.code === API_CODE.OK && makers.length === 0 && (
+      {makerList?.code === API_CODE.OK && makers.length === 0 && page === 1 && (
         <EmptyView
           message="등록된 제조사가 없어요"
           action={
@@ -124,6 +129,9 @@ const MakerCategoryContent = () => {
       {makerList?.code === API_CODE.OK && makers.length > 0 && (
         <MakerCategoryTree
           groups={makers}
+          page={page}
+          totalPages={totalPages}
+          onChangePage={setPage}
           onInsert={() => setDialog({ mode: 'insert' })}
           onEdit={(target) => setDialog({ mode: 'edit', target })}
           onDelete={handleDelete}

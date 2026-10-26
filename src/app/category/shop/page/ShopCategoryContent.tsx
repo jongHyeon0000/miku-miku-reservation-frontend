@@ -12,6 +12,7 @@ import useUpdateShop from '@/app/category/shop/service/useUpdateShop';
 import useDeleteShopGroup from '@/app/category/shop/service/useDeleteShopGroup';
 import useDeleteShop from '@/app/category/shop/service/useDeleteShop';
 import useReadShopList from '@/app/category/shop/service/useReadShopList';
+import useReadShopChildList from '@/app/category/shop/service/useReadShopChildList';
 import useReadShopGroupUsage from '@/app/category/shop/service/useReadShopGroupUsage';
 import useReadShopUsage from '@/app/category/shop/service/useReadShopUsage';
 import EmptyView from '@/app/common/component/EmptyView';
@@ -51,11 +52,22 @@ const ShopCategoryContent = () => {
   const { deleteThumbnailLoading, fetchDeleteThumbnail } = useDeleteThumbnail();
 
   const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
+  const [page, setPage] = useState<number>(1);
   const [dialog, setDialog] = useState<DialogState | null>(null);
 
   const groups = shopList?.data ?? [];
+
+  /* 오른쪽에 펼칠 상위. 고른 것이 없으면 첫 번째 상위 (Tree 와 같은 규칙) */
+  const hasGroup = groups.length > 0;
+  const selectedGroup = groups.find((group) => group.id === selectedGroupId) ?? groups[0];
+  const childGroupId = hasGroup ? selectedGroup.id : 0;
+  const { shopChildPage, shopChildLoading } = useReadShopChildList(childGroupId, page, hasGroup);
+  const childPageData = shopChildPage?.data;
+  const childItems = childPageData ? childPageData.items : [];
+  const totalPages = childPageData ? childPageData.totalPages : 0;
   const isBusy =
     shopListLoading ||
+    shopChildLoading ||
     createShopGroupLoading ||
     updateShopGroupLoading ||
     deleteShopGroupLoading ||
@@ -66,6 +78,12 @@ const ShopCategoryContent = () => {
     shopUsageLoading ||
     uploadThumbnailLoading ||
     deleteThumbnailLoading;
+
+  /* 상위를 바꾸면 하위 목록은 1쪽부터 다시 본다 */
+  const handleSelectGroup = (groupId: number) => {
+    setSelectedGroupId(groupId);
+    setPage(1);
+  };
 
   const handleSave = async (dialog: DialogState, values: ShopFormValues, thumbnail: ThumbnailChange) => {
     const res: ApiResponse<ShopItem | null> =
@@ -95,7 +113,7 @@ const ShopCategoryContent = () => {
 
     /* 새로 만든 상위는 바로 오른쪽에 펼쳐 보여 준다 */
     if (dialog.mode === 'insert' && dialog.level === 'group') {
-      setSelectedGroupId(targetId);
+      handleSelectGroup(targetId);
     }
   };
 
@@ -135,7 +153,13 @@ const ShopCategoryContent = () => {
     showResult(res);
     if (res.code !== API_CODE.OK) return;
 
-    if (level === 'group' && target.id === selectedGroupId) setSelectedGroupId(null);
+    /* 마지막 쪽의 마지막 항목을 지웠으면 그 쪽이 비므로 앞 쪽으로 돌아간다 */
+    if (level === 'child' && childItems.length === 1 && page > 1) setPage(page - 1);
+
+    if (level === 'group' && target.id === selectedGroupId) {
+      setSelectedGroupId(null);
+      setPage(1);
+    }
   };
 
   return (
@@ -155,7 +179,11 @@ const ShopCategoryContent = () => {
         <ShopCategoryTree
           groups={groups}
           selectedGroupId={selectedGroupId}
-          onSelectGroup={setSelectedGroupId}
+          childItems={childItems}
+          page={page}
+          totalPages={totalPages}
+          onSelectGroup={handleSelectGroup}
+          onChangePage={setPage}
           onInsert={(level, parentId) => setDialog({ mode: 'insert', level, parentId })}
           onEdit={(level, target) => setDialog({ mode: 'edit', level, target })}
           onDelete={handleDelete}

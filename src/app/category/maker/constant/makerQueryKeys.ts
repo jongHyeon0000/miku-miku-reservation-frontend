@@ -1,5 +1,6 @@
-/** 제조사 보관 키. all 은 제조사 관련 전부, list 는 목록 */
+/** 제조사 보관 키. all 은 전부, page 는 단 한 쪽(쪽 번호별), pageAll 은 모든 쪽 */
 export const makerKeys = {
   all: ['maker'] as const,
-  list: () => [...makerKeys.all, 'list'] as const,
+  page: (page: number) => [...makerKeys.pageAll(), page] as const,
+  pageAll: () => [...makerKeys.all, 'list'] as const,
 };

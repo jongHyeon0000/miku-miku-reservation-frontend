@@ -11,7 +11,7 @@ import type { GenreCharacterGroup } from '@/app/category/genre-character/interfa
  */
 const useReadGenreCharacterList = () => {
   const { data, isLoading, refetch } = useQuery({
-    queryKey: genreCharacterKeys.list(),
+    queryKey: genreCharacterKeys.groupAll(),
     queryFn: async (): Promise<ApiResponse<GenreCharacterGroup[] | null>> => {
       try {
         const res = await api.get<ApiResponse<GenreCharacterGroup[] | null>>('/api/genre-character-group');

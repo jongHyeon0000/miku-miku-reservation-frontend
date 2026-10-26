@@ -24,7 +24,7 @@ const useCreateGenreCharacterGroup = () => {
     try {
       const res = await api.post<ApiResponse<GenreCharacterItem | null>>('/api/genre-character-group', toGenreCharacterRequest(values));
       if (res.data.code === API_CODE.OK) {
-        await queryClient.invalidateQueries({ queryKey: genreCharacterKeys.list() });
+        await queryClient.invalidateQueries({ queryKey: genreCharacterKeys.groupAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.formOptions() });
       }
       return res.data;

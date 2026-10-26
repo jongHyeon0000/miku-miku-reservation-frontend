@@ -24,7 +24,7 @@ const useCreateFigureTypeGroup = () => {
     try {
       const res = await api.post<ApiResponse<FigureTypeItem | null>>('/api/figure-type-group', toFigureTypeRequest(values));
       if (res.data.code === API_CODE.OK) {
-        await queryClient.invalidateQueries({ queryKey: figureTypeKeys.list() });
+        await queryClient.invalidateQueries({ queryKey: figureTypeKeys.groupAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.formOptions() });
       }
       return res.data;

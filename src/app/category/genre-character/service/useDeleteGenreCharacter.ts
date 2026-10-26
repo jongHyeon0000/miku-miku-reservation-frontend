@@ -20,7 +20,8 @@ const useDeleteGenreCharacter = () => {
     try {
       const res = await api.delete<ApiResponse<null>>(`/api/genre-character/${id}`);
       if (res.data.code === API_CODE.OK) {
-        await queryClient.invalidateQueries({ queryKey: genreCharacterKeys.list() });
+        await queryClient.invalidateQueries({ queryKey: genreCharacterKeys.groupAll() });
+        await queryClient.invalidateQueries({ queryKey: genreCharacterKeys.pageAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.all });
       }
       return res.data;

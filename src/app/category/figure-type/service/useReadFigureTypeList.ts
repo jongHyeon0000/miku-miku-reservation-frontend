@@ -11,7 +11,7 @@ import type { FigureTypeGroup } from '@/app/category/figure-type/interface/Figur
  */
 const useReadFigureTypeList = () => {
   const { data, isLoading, refetch } = useQuery({
-    queryKey: figureTypeKeys.list(),
+    queryKey: figureTypeKeys.groupAll(),
     queryFn: async (): Promise<ApiResponse<FigureTypeGroup[] | null>> => {
       try {
         const res = await api.get<ApiResponse<FigureTypeGroup[] | null>>('/api/figure-type-group');

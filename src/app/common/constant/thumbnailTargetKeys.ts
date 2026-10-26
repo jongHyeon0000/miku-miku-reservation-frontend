@@ -10,14 +10,14 @@ import { figureKeys } from '@/app/figure/constant/figureQueryKeys';
 /* 썸네일이 바뀌면 낡아지는 키. 분류 썸네일은 상품 응답 안에도 들어 있어서 상품 전체를 함께 울린다 */
 export const THUMBNAIL_QUERY_KEYS: Record<ThumbnailTarget, (targetId: number) => QueryKey[]> = {
   'figure': (targetId) => [figureKeys.detail(targetId), figureKeys.list()],
-  'shop-group': () => [shopKeys.list(), figureKeys.all],
-  'shop': () => [shopKeys.list(), figureKeys.all],
-  'figure-type-group': () => [figureTypeKeys.list(), figureKeys.all],
-  'figure-type': () => [figureTypeKeys.list(), figureKeys.all],
-  'series-group': () => [seriesKeys.list(), figureKeys.all],
-  'series': () => [seriesKeys.list(), figureKeys.all],
-  'genre-character-group': () => [genreCharacterKeys.list(), figureKeys.all],
-  'genre-character': () => [genreCharacterKeys.list(), figureKeys.all],
-  'maker': () => [makerKeys.list(), figureKeys.all],
+  'shop-group': () => [shopKeys.groupAll(), figureKeys.all],
+  'shop': () => [shopKeys.pageAll(), figureKeys.all],
+  'figure-type-group': () => [figureTypeKeys.groupAll(), figureKeys.all],
+  'figure-type': () => [figureTypeKeys.pageAll(), figureKeys.all],
+  'series-group': () => [seriesKeys.groupAll(), figureKeys.all],
+  'series': () => [seriesKeys.pageAll(), figureKeys.all],
+  'genre-character-group': () => [genreCharacterKeys.groupAll(), figureKeys.all],
+  'genre-character': () => [genreCharacterKeys.pageAll(), figureKeys.all],
+  'maker': () => [makerKeys.pageAll(), figureKeys.all],
   'user': () => [],
 };

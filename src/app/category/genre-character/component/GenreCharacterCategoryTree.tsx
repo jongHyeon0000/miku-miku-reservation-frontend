@@ -5,7 +5,8 @@ import GenreCharacterChildRow from '@/app/category/genre-character/component/Gen
 import GenreCharacterGroupItem from '@/app/category/genre-character/component/GenreCharacterGroupItem';
 import type { GenreCharacterGroup } from '@/app/category/genre-character/interface/GenreCharacterGroup';
 import type { GenreCharacterItem } from '@/app/category/genre-character/interface/GenreCharacterItem';
-import { AddButton, AddRow, Panel, PanelHeader, PanelTop, TreeLayout } from '@/app/category/common/style/CategoryPanel.style';
+import PageNumbers from '@/app/common/component/PageNumbers';
+import { AddButton, AddRow, PagerRow, Panel, PanelHeader, PanelTop, TreeLayout } from '@/app/category/common/style/CategoryPanel.style';
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style';
 import { Row } from '@/app/common/style/CommonLayout.style';
 import { InfoIcon, TooltipText } from '@/app/common/style/CommonTooltip.style';
@@ -17,8 +18,20 @@ interface GenreCharacterCategoryTreeProps {
   /** 오른쪽에 하위를 펼칠 상위 id. 없으면 첫 번째 상위 */
   selectedGroupId: number | null;
 
+  /** 고른 상위의 이번 페이지 하위 항목 */
+  childItems: GenreCharacterItem[];
+
+  /** 지금 보는 하위 목록 페이지 (1부터) */
+  page: number;
+
+  /** 하위 목록의 전체 페이지 수 */
+  totalPages: number;
+
   /** 왼쪽 목록에서 상위를 골랐을 때 */
   onSelectGroup: (groupId: number) => void;
+
+  /** 페이지 번호를 눌렀을 때 */
+  onChangePage: (page: number) => void;
 
   /** 추가 버튼을 눌렀을 때. 하위를 추가할 때는 속할 상위 id 를 같이 넘긴다 */
   onInsert: (level: CategoryLevel, parentId?: number) => void;
@@ -33,7 +46,7 @@ interface GenreCharacterCategoryTreeProps {
 /**
  * 장르·캐릭터 분류 목록. 왼쪽에 상위 목록, 오른쪽에 고른 상위의 하위 목록을 둔다.
  */
-const GenreCharacterCategoryTree = ({ groups, selectedGroupId, onSelectGroup, onInsert, onEdit, onDelete }: GenreCharacterCategoryTreeProps) => {
+const GenreCharacterCategoryTree = ({ groups, selectedGroupId, childItems, page, totalPages, onSelectGroup, onChangePage, onInsert, onEdit, onDelete }: GenreCharacterCategoryTreeProps) => {
   const selectedGroup = groups.find((group) => group.id === selectedGroupId) ?? groups[0];
   const isGroupProtected = selectedGroup.name === PROTECTED_CATEGORY_NAME;
 
@@ -84,10 +97,15 @@ const GenreCharacterCategoryTree = ({ groups, selectedGroupId, onSelectGroup, on
           </PanelHeader>
         </PanelTop>
         <Box>
-          {selectedGroup.children.map((child) => (
+          {childItems.map((child) => (
             <GenreCharacterChildRow key={child.id} item={child} onEdit={() => onEdit('child', child)} onDelete={() => onDelete('child', child)} />
           ))}
         </Box>
+        {totalPages > 1 && (
+          <PagerRow>
+            <PageNumbers page={page} totalPages={totalPages} onChange={onChangePage} />
+          </PagerRow>
+        )}
         {!isGroupProtected && (
           <AddRow>
             <AddButton variant="outlined" size="small" startIcon={<AddOutlinedIcon />} onClick={() => onInsert('child', selectedGroup.id)}>

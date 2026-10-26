@@ -27,7 +27,8 @@ const useCreateSeries = () => {
     try {
       const res = await api.post<ApiResponse<SeriesItem | null>>('/api/series', toSeriesRequest(values, groupId));
       if (res.data.code === API_CODE.OK) {
-        await queryClient.invalidateQueries({ queryKey: seriesKeys.list() });
+        await queryClient.invalidateQueries({ queryKey: seriesKeys.groupAll() });
+        await queryClient.invalidateQueries({ queryKey: seriesKeys.pageAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.formOptions() });
       }
       return res.data;

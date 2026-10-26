@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent } from 'react';
-import { Box, Button, ButtonBase, Chip, Dialog, DialogContent, DialogTitle, Pagination, TextField, Typography } from '@mui/material';
+import { Box, Button, ButtonBase, Chip, Dialog, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import PageNumbers from '@/app/common/component/PageNumbers';
 import { TonalButton } from '@/app/common/style/CommonButton.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 import type { FigurePickItem } from '@/app/figure/interface/form/FigurePickItem';
@@ -108,13 +109,7 @@ const FigurePickDialog = ({ title, items, selectedIds, multiple, onSelect, onClo
           )}
 
           {matched.length > PICK_PAGE_SIZE && (
-            <Pager>
-              <Pagination
-                count={Math.ceil(matched.length / PICK_PAGE_SIZE)}
-                page={page}
-                onChange={(_, nextPage) => setPage(nextPage)}
-              />
-            </Pager>
+            <PageNumbers page={page} totalPages={Math.ceil(matched.length / PICK_PAGE_SIZE)} onChange={setPage} />
           )}
         </DialogFieldStack>
       </DialogContent>
@@ -166,11 +161,6 @@ const CheckMark = styled(CheckIcon)(({ theme }) => ({
   right: theme.spacing(0.75),
   color: theme.palette.primary.main,
 }));
-
-const Pager = styled(Box)({
-  display: 'flex',
-  justifyContent: 'center',
-});
 
 const EmptyText = styled(Typography)(({ theme }) => ({
   padding: theme.spacing(6, 0),

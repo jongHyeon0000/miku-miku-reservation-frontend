@@ -20,7 +20,8 @@ const useDeleteSeries = () => {
     try {
       const res = await api.delete<ApiResponse<null>>(`/api/series/${id}`);
       if (res.data.code === API_CODE.OK) {
-        await queryClient.invalidateQueries({ queryKey: seriesKeys.list() });
+        await queryClient.invalidateQueries({ queryKey: seriesKeys.groupAll() });
+        await queryClient.invalidateQueries({ queryKey: seriesKeys.pageAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.all });
       }
       return res.data;

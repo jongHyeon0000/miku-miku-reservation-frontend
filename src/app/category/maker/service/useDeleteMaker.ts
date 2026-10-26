@@ -20,7 +20,7 @@ const useDeleteMaker = () => {
     try {
       const res = await api.delete<ApiResponse<null>>(`/api/maker/${id}`);
       if (res.data.code === API_CODE.OK) {
-        await queryClient.invalidateQueries({ queryKey: makerKeys.list() });
+        await queryClient.invalidateQueries({ queryKey: makerKeys.pageAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.all });
       }
       return res.data;

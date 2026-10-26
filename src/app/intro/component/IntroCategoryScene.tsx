@@ -15,6 +15,8 @@ import { noop } from '@/app/intro/utils/IntroUtils';
 const IntroCategoryScene = () => {
   const { sceneRef, active } = useSceneActive();
   const { axis, groups, selectedGroupId } = useCategoryDemo(active);
+  const selectedGroup = groups.find((group) => group.id === selectedGroupId);
+  const childItems = selectedGroup ? selectedGroup.children : [];
 
   return (
     <Scene ref={sceneRef}>
@@ -41,7 +43,11 @@ const IntroCategoryScene = () => {
               <FigureTypeCategoryTree
                 groups={groups}
                 selectedGroupId={selectedGroupId}
+                childItems={childItems}
+                page={1}
+                totalPages={1}
                 onSelectGroup={noop}
+                onChangePage={noop}
                 onInsert={noop}
                 onEdit={noop}
                 onDelete={noop}
@@ -50,7 +56,11 @@ const IntroCategoryScene = () => {
               <SeriesCategoryTree
                 groups={groups}
                 selectedGroupId={selectedGroupId}
+                childItems={childItems}
+                page={1}
+                totalPages={1}
                 onSelectGroup={noop}
+                onChangePage={noop}
                 onInsert={noop}
                 onEdit={noop}
                 onDelete={noop}

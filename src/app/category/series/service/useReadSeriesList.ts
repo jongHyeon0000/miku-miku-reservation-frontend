@@ -11,7 +11,7 @@ import type { SeriesGroup } from '@/app/category/series/interface/SeriesGroup';
  */
 const useReadSeriesList = () => {
   const { data, isLoading, refetch } = useQuery({
-    queryKey: seriesKeys.list(),
+    queryKey: seriesKeys.groupAll(),
     queryFn: async (): Promise<ApiResponse<SeriesGroup[] | null>> => {
       try {
         const res = await api.get<ApiResponse<SeriesGroup[] | null>>('/api/series-group');

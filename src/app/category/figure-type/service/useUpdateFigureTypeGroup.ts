@@ -22,7 +22,7 @@ const useUpdateFigureTypeGroup = () => {
     try {
       const res = await api.put<ApiResponse<null>>(`/api/figure-type-group/${id}`, toFigureTypeRequest(values));
       if (res.data.code === API_CODE.OK) {
-        await queryClient.invalidateQueries({ queryKey: figureTypeKeys.list() });
+        await queryClient.invalidateQueries({ queryKey: figureTypeKeys.groupAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.all });
       }
       return res.data;
