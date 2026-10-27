@@ -27,7 +27,7 @@ const FigureResultSummary = ({ count, totalPrice, paidAmount }: FigureResultSumm
 
 export default FigureResultSummary;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const Summary = styled(Typography)(({ theme }) => ({
   flexShrink: 0,

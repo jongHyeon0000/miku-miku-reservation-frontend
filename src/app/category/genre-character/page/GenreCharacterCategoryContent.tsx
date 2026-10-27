@@ -109,6 +109,7 @@ const GenreCharacterCategoryContent = () => {
     } else {
       showResult(res);
     }
+
     setDialog(null);
 
     /* 새로 만든 상위는 바로 오른쪽에 펼쳐 보여 준다 */
@@ -119,7 +120,9 @@ const GenreCharacterCategoryContent = () => {
 
   /* 고른 썸네일 변경 사항을 서버에 보낸다. 보낼 것이 없으면 null */
   const saveThumbnail = async (level: CategoryLevel, targetId: number, thumbnail: ThumbnailChange) => {
-    if (thumbnail.type === 'none') return null;
+    if (thumbnail.type === 'none') {
+      return null;
+    }
 
     const target = level === 'group' ? 'genre-character-group' : 'genre-character';
     return thumbnail.type === 'upload'
@@ -129,6 +132,7 @@ const GenreCharacterCategoryContent = () => {
 
   const handleDelete = async (level: CategoryLevel, target: GenreCharacterItem) => {
     const usageRes = level === 'group' ? await fetchReadGenreCharacterGroupUsage(target.id) : await fetchReadGenreCharacterUsage(target.id);
+
     if (usageRes.code !== API_CODE.OK) {
       showResult(usageRes);
       return;
@@ -147,14 +151,22 @@ const GenreCharacterCategoryContent = () => {
       danger: true,
       focusCancel: true,
     });
-    if (!confirmed) return;
+
+    if (!confirmed) {
+      return;
+    }
 
     const res = level === 'group' ? await fetchDeleteGenreCharacterGroup(target.id) : await fetchDeleteGenreCharacter(target.id);
     showResult(res);
-    if (res.code !== API_CODE.OK) return;
+
+    if (res.code !== API_CODE.OK) {
+      return;
+    }
 
     /* 마지막 쪽의 마지막 항목을 지웠으면 그 쪽이 비므로 앞 쪽으로 돌아간다 */
-    if (level === 'child' && childItems.length === 1 && page > 1) setPage(page - 1);
+    if (level === 'child' && childItems.length === 1 && page > 1) {
+      setPage(page - 1);
+    }
 
     if (level === 'group' && target.id === selectedGroupId) {
       setSelectedGroupId(null);

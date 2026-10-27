@@ -61,16 +61,25 @@ export const showConfirmAlert = async ({
     didOpen: (popup) => {
       /* MUI 모달(z-index 1300) 위에서 확인창이 뜨도록 한다 */
       const container = Swal.getContainer();
-      if (container) container.style.zIndex = `${theme.zIndex.modal + 1}`;
+
+      if (container) {
+        container.style.zIndex = `${theme.zIndex.modal + 1}`;
+      }
 
       popup.style.borderRadius = `${theme.spacing(2)}`;
       popup.style.border = `1px solid ${palette.divider}`;
 
       const confirmButton = Swal.getConfirmButton();
-      if (confirmButton) confirmButton.style.color = confirmColor.contrastText;
+
+      if (confirmButton) {
+        confirmButton.style.color = confirmColor.contrastText;
+      }
 
       const cancelButton = Swal.getCancelButton();
-      if (cancelButton) cancelButton.style.color = palette.text.primary;
+
+      if (cancelButton) {
+        cancelButton.style.color = palette.text.primary;
+      }
     },
   });
 

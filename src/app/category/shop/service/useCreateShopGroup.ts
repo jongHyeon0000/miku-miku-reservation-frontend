@@ -23,10 +23,12 @@ const useCreateShopGroup = () => {
     setLoading(true);
     try {
       const res = await api.post<ApiResponse<ShopItem | null>>('/api/shop-group', toShopRequest(values));
+
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: shopKeys.groupAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.formOptions() });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<ShopItem>(err);

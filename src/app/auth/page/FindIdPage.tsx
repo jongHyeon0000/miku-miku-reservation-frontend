@@ -28,7 +28,9 @@ const FindIdPage = () => {
   const [email, setEmail] = useState<string>('');
   const [loginId, setLoginId] = useState<string>('');
 
-  if (isAuthenticated) return <Navigate to="/figures" replace />;
+  if (isAuthenticated) {
+    return <Navigate to="/figures" replace />;
+  }
 
   const handleSendCode = (value: string) => {
     setEmail(value);
@@ -39,11 +41,15 @@ const FindIdPage = () => {
 
   const handleVerifyCode = async (code: string) => {
     const verified = await emailVerification.verifyCode(email, code);
-    if (!verified) return;
+
+    if (!verified) {
+      return;
+    }
 
     const res = await fetchFindId(email);
 
     showResult(res);
+
     if (res.code === API_CODE.OK && res.data) {
       setLoginId(res.data.loginId);
       return;

@@ -49,7 +49,7 @@ const FigureSelectBar = ({ mode, checkedCount, shownCount, actionLabel, onToggle
 
 export default FigureSelectBar;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const Bar = styled(Row)({
   whiteSpace: 'nowrap',

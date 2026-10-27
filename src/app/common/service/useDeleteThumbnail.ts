@@ -19,11 +19,13 @@ const useDeleteThumbnail = () => {
     setLoading(true);
     try {
       const res = await api.delete<ApiResponse<null>>(`/api/upload/thumbnail-image/${targetType}/${targetId}`);
+
       if (res.data.code === API_CODE.OK) {
         await Promise.all(
           THUMBNAIL_QUERY_KEYS[targetType](targetId).map((queryKey) => queryClient.invalidateQueries({ queryKey })),
         );
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<null>(err);

@@ -24,7 +24,7 @@ interface FigureFormInfoProps {
   showStatus: boolean;
 }
 
-/* 고른 id 에 해당하는 항목을 고른 순서대로 */
+/** 고른 id 에 해당하는 항목을 고른 순서대로 */
 const pickChips = (all: FigurePickItem[], ids: (number | null)[]): FigurePickItem[] => {
   return ids.flatMap((id) => all.filter((item) => item.id === id));
 };
@@ -106,7 +106,11 @@ const FigureFormInfo = ({ form, options, showStatus }: FigureFormInfoProps) => {
               errorMessage={fieldState.error?.message}
               onChange={(ids) => {
                 const genreId = ids[0] ?? null;
-                if (genreId !== field.value) setValue('characterIds', []);
+
+                if (genreId !== field.value) {
+                  setValue('characterIds', []);
+                }
+
                 field.onChange(genreId);
               }}
             />
@@ -224,7 +228,7 @@ const FigureFormInfo = ({ form, options, showStatus }: FigureFormInfoProps) => {
 
 export default FigureFormInfo;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const NameLine = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -232,7 +236,7 @@ const NameLine = styled('div')(({ theme }) => ({
   gap: theme.spacing(2),
 }));
 
-/* 구매 링크 띠 (상세의 구매 링크 띠와 같은 모양, 입력칸이 들어 있다). 카드가 길어져도 맨 아래에 붙는다 */
+/** 구매 링크 띠 (상세의 구매 링크 띠와 같은 모양, 입력칸이 들어 있다). 카드가 길어져도 맨 아래에 붙는다 */
 const LinkBar = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',

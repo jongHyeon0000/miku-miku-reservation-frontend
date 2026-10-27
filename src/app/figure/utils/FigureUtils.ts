@@ -45,25 +45,49 @@ export const formatDeliveryMonth = (deliveryMonth: string): string => {
 /** 날짜 표시 (예: "2026-12-15" -> "2026.12.15"). 배송예정월(2026.12)과 연도 자릿수를 맞춘다 */
 export const formatDeadline = (date: string): string => date.slice(0, 10).replaceAll('-', '.');
 
-/* 같은 상위끼리 묶어서 상위 목록과 하위 목록을 만든다. 이름은 가나다순 */
+/** 이름 가나다순 비교 */
+const sortByName = (a: { name: string }, b: { name: string }): number => a.name.localeCompare(b.name, 'ko');
+
+/** 같은 상위끼리 묶어서 상위 목록과 하위 목록을 만든다. 이름은 가나다순 */
 const collectGroups = (refs: FigureCategoryRef[]): FigureFilterOptionGroup[] => {
   const groups = new Map<number, FigureFilterOptionGroup>();
 
   refs.forEach((ref) => {
     const group = groups.get(ref.groupId) ?? { groupId: ref.groupId, groupName: ref.groupName, items: [] };
-    if (!group.items.some((item) => item.id === ref.id)) group.items.push({ id: ref.id, name: ref.name });
+
+    if (!group.items.some((item) => item.id === ref.id)) {
+      group.items.push({ id: ref.id, name: ref.name });
+    }
+
     groups.set(ref.groupId, group);
   });
 
-  return [...groups.values()]
-    .map((group) => ({ ...group, items: [...group.items].sort((a, b) => a.name.localeCompare(b.name, 'ko')) }))
-    .sort((a, b) => a.groupName.localeCompare(b.groupName, 'ko'));
+  const groupList = [...groups.values()];
+
+  groupList.forEach((group) => {
+    group.items.sort(sortByName);
+  });
+
+  return groupList.sort((a, b) => a.groupName.localeCompare(b.groupName, 'ko'));
 };
 
+/** 제조사처럼 상위가 없는 분류를 중복 없이 모아 이름순으로 만든다 */
 const collectItems = (refs: FigureMakerRef[]): FigureFilterOptionItem[] => {
   const items = new Map<number, FigureFilterOptionItem>();
-  refs.forEach((ref) => items.set(ref.id, { id: ref.id, name: ref.name }));
-  return [...items.values()].sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+
+  refs.forEach((ref) => {
+    items.set(ref.id, { id: ref.id, name: ref.name });
+  });
+
+  return [...items.values()].sort(sortByName);
+};
+
+/** 상품들의 배송예정월을 "YYYY-MM"으로 바꿔 중복 없이, 오름차순으로 */
+const collectMonths = (figures: FigureSummary[]): string[] => {
+  const monthKeys = figures.map((figure) => toMonthKey(figure.deliveryMonth));
+  const filledKeys = monthKeys.filter((month) => month !== '');
+
+  return [...new Set(filledKeys)].sort();
 };
 
 /** 지금 탭의 상품에 쓰인 분류만 모아 필터 선택지를 만든다 */
@@ -74,44 +98,58 @@ export const buildFilterOptions = (figures: FigureSummary[]): FigureFilterOption
     series: collectGroups(figures.flatMap((figure) => figure.series)),
     character: collectGroups(figures.flatMap((figure) => figure.characters)),
     maker: collectItems(figures.map((figure) => figure.maker)),
-    months: [...new Set(figures.map((figure) => toMonthKey(figure.deliveryMonth)).filter((month) => month !== ''))].sort(),
+    months: collectMonths(figures),
   };
 };
 
-/* 고른 값이 지금 선택지에 있는지 */
+/** 고른 값이 지금 선택지에 있는지 */
 const isGroupValueValid = (value: FigureFilterValue, groups: FigureFilterOptionGroup[]): boolean => {
-  if (value.itemId !== null) return groups.some((group) => group.items.some((item) => item.id === value.itemId));
+  if (value.itemId !== null) {
+    return groups.some((group) => group.items.some((item) => item.id === value.itemId));
+  }
+
   return groups.some((group) => group.groupId === value.groupId);
 };
 
+/** 고른 제조사가 지금 선택지에 있는지 */
 const isItemValueValid = (value: FigureFilterValue, items: FigureFilterOptionItem[]): boolean => {
   return items.some((item) => item.id === value.itemId);
+};
+
+/** 선택지에 없어진 값을 걸러 낸 결과 */
+interface PrunedFilters {
+  filters: FigureFilters;
+  month: string | null;
+}
+
+/** 값이 없거나 선택지에 없으면 null, 있으면 그대로 */
+const keepIfValid = (value: FigureFilterValue | null, isValid: (value: FigureFilterValue) => boolean): FigureFilterValue | null => {
+  if (value === null) {
+    return null;
+  }
+
+  return isValid(value) ? value : null;
 };
 
 /**
  * 탭을 바꿔서 선택지에 없어진 값은 걸러 낸다(저장된 값은 그대로 두고 적용에서만 뺀다).
  */
-export const pruneFilters = (
-  filters: FigureFilters,
-  month: string | null,
-  options: FigureFilterOptions,
-): { filters: FigureFilters; month: string | null } => {
-  const keep = (value: FigureFilterValue | null, valid: (value: FigureFilterValue) => boolean) =>
-    value !== null && valid(value) ? value : null;
+export const pruneFilters = (filters: FigureFilters, month: string | null, options: FigureFilterOptions): PrunedFilters => {
+  const keptMonth = month !== null && options.months.includes(month) ? month : null;
 
   return {
     filters: {
-      figureType: keep(filters.figureType, (value) => isGroupValueValid(value, options.figureType)),
-      shop: keep(filters.shop, (value) => isGroupValueValid(value, options.shop)),
-      series: keep(filters.series, (value) => isGroupValueValid(value, options.series)),
-      character: keep(filters.character, (value) => isGroupValueValid(value, options.character)),
-      maker: keep(filters.maker, (value) => isItemValueValid(value, options.maker)),
+      figureType: keepIfValid(filters.figureType, (value) => isGroupValueValid(value, options.figureType)),
+      shop: keepIfValid(filters.shop, (value) => isGroupValueValid(value, options.shop)),
+      series: keepIfValid(filters.series, (value) => isGroupValueValid(value, options.series)),
+      character: keepIfValid(filters.character, (value) => isGroupValueValid(value, options.character)),
+      maker: keepIfValid(filters.maker, (value) => isItemValueValid(value, options.maker)),
     },
-    month: month !== null && options.months.includes(month) ? month : null,
+    month: keptMonth,
   };
 };
 
-/* 상위만 골랐으면 그 상위에 속하는지, 하위를 골랐으면 그 하위인지 */
+/** 상위만 골랐으면 그 상위에 속하는지, 하위를 골랐으면 그 하위인지 */
 const matchesRef = (ref: FigureCategoryRef, value: FigureFilterValue): boolean => {
   return value.itemId !== null ? ref.id === value.itemId : ref.groupId === value.groupId;
 };
@@ -119,13 +157,30 @@ const matchesRef = (ref: FigureCategoryRef, value: FigureFilterValue): boolean =
 /** 고른 필터와 배송월에 맞는 상품만 (시리즈와 캐릭터는 하나라도 맞으면 보인다) */
 export const applyFilters = (figures: FigureSummary[], filters: FigureFilters, month: string | null): FigureSummary[] => {
   return figures.filter((figure) => {
-    if (filters.figureType !== null && !matchesRef(figure.figureType, filters.figureType)) return false;
-    if (filters.shop !== null && !matchesRef(figure.shop, filters.shop)) return false;
-    if (filters.maker !== null && figure.maker.id !== filters.maker.itemId) return false;
-    if (filters.series !== null && !figure.series.some((ref) => matchesRef(ref, filters.series as FigureFilterValue))) return false;
-    if (filters.character !== null && !figure.characters.some((ref) => matchesRef(ref, filters.character as FigureFilterValue)))
+    if (filters.figureType !== null && !matchesRef(figure.figureType, filters.figureType)) {
       return false;
-    if (month !== null && toMonthKey(figure.deliveryMonth) !== month) return false;
+    }
+
+    if (filters.shop !== null && !matchesRef(figure.shop, filters.shop)) {
+      return false;
+    }
+
+    if (filters.maker !== null && figure.maker.id !== filters.maker.itemId) {
+      return false;
+    }
+
+    if (filters.series !== null && !figure.series.some((ref) => matchesRef(ref, filters.series as FigureFilterValue))) {
+      return false;
+    }
+
+    if (filters.character !== null && !figure.characters.some((ref) => matchesRef(ref, filters.character as FigureFilterValue))) {
+      return false;
+    }
+
+    if (month !== null && toMonthKey(figure.deliveryMonth) !== month) {
+      return false;
+    }
+
     return true;
   });
 };
@@ -138,19 +193,28 @@ export const getTotalPrice = (figure: FigureSummary): number => figure.price * f
  * 장바구니와 미구매는 아직 내지 않았으므로 0
  */
 const getPaidAmount = (figure: FigureSummary): number => {
-  if (figure.status === 'RESERVED') return figure.depositAmount ?? 0;
-  if (figure.status === 'PURCHASED' || figure.status === 'DELIVERED') return getTotalPrice(figure);
+  if (figure.status === 'RESERVED') {
+    return figure.depositAmount ?? 0;
+  }
+
+  if (figure.status === 'PURCHASED' || figure.status === 'DELIVERED') {
+    return getTotalPrice(figure);
+  }
+
   return 0;
 };
 
+/** 총액의 합 */
 export const sumTotalPrice = (figures: FigureSummary[]): number => {
   return figures.reduce((sum, figure) => sum + getTotalPrice(figure), 0);
 };
 
+/** 지금까지 낸 금액의 합 */
 export const sumPaidAmount = (figures: FigureSummary[]): number => {
   return figures.reduce((sum, figure) => sum + getPaidAmount(figure), 0);
 };
 
+/** 예약마감일이 없는 상품을 맨 뒤로 보내는 기준 날짜 */
 const NO_DATE = '9999-99-99';
 
 /** 정렬한 새 목록 */
@@ -180,9 +244,20 @@ export const isDeadlinePassed = (figure: FigureSummary, today: string): boolean 
  * 기한이 비어 있으면(잔금 기한은 선택 입력) 해당하지 않는다.
  */
 export const isDeadlineUnder = (figure: FigureSummary, today: string, months: number): boolean => {
-  const deadline =
-    figure.status === 'UNPURCHASED' ? figure.reservationDeadline : figure.status === 'RESERVED' ? figure.balanceDueDate : null;
-  if (!deadline) return false;
+  let deadline: string | null | undefined = null;
+
+  if (figure.status === 'UNPURCHASED') {
+    deadline = figure.reservationDeadline;
+  }
+
+  if (figure.status === 'RESERVED') {
+    deadline = figure.balanceDueDate;
+  }
+
+  if (!deadline) {
+    return false;
+  }
+
   return dayjs(deadline).diff(dayjs(today), 'day') / 30 < months;
 };
 
@@ -191,15 +266,20 @@ export const isDeadlineUnder = (figure: FigureSummary, today: string, months: nu
  * 하위를 골랐으면 "상위 > 하위", 상위만 골랐으면 "상위 전체", 제조사는 이름만.
  */
 export const getFilterValueText = (key: FigureFilterKey, value: FigureFilterValue, options: FigureFilterOptions): string => {
-  if (key === 'maker') return options.maker.find((item) => item.id === value.itemId)!.name;
+  if (key === 'maker') {
+    return options.maker.find((item) => item.id === value.itemId)!.name;
+  }
 
   const group = options[key].find((candidate) => candidate.groupId === value.groupId)!;
-  if (value.itemId === null) return `${group.groupName} 전체`;
+
+  if (value.itemId === null) {
+    return `${group.groupName} 전체`;
+  }
 
   return `${group.groupName} > ${group.items.find((item) => item.id === value.itemId)!.name}`;
 };
 
-/* 하위가 있는 4개 축(판매처, 형태, 시리즈, 장르·캐릭터)의 상위. 선택 창은 어느 축이든 같은 모양으로 다룬다 */
+/** 하위가 있는 4개 축(판매처, 형태, 시리즈, 장르·캐릭터)의 상위. 선택 창은 어느 축이든 같은 모양으로 다룬다 */
 type PickGroup = ShopGroup | FigureTypeGroup | SeriesGroup | GenreCharacterGroup;
 
 /** 하위 분류 한 건의 썸네일 주소. 상품이 쓰는 분류는 선택지에 반드시 있고, 이미지가 없으면 undefined */
@@ -229,7 +309,9 @@ export const toGroupPickItems = (groups: { id: number; name: string; thumbnailUr
 export const collectPickGroups = (items: FigurePickItem[]): { id: number; name: string }[] => {
   const groups = new Map<number, string>();
   items.forEach((item) => {
-    if (item.groupId !== undefined) groups.set(item.groupId, item.groupName!);
+    if (item.groupId !== undefined) {
+      groups.set(item.groupId, item.groupName!);
+    }
   });
   return [...groups].map(([id, name]) => ({ id, name }));
 };

@@ -15,7 +15,9 @@ const useDemoLoop = (active: boolean, script: (alive: () => boolean) => Promise<
   });
 
   useEffect(() => {
-    if (!active) return;
+    if (!active) {
+      return;
+    }
 
     let alive = true;
     const isAlive = () => alive;

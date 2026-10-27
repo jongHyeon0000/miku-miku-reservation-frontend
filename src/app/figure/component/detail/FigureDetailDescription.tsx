@@ -37,9 +37,9 @@ const FigureDetailDescription = ({ figure }: FigureDetailDescriptionProps) => {
 
 export default FigureDetailDescription;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
-/* 설명이 들어가는 어두운 상자 */
+/** 설명이 들어가는 어두운 상자 */
 const Content = styled(Box)(({ theme }) => ({
   minHeight: theme.spacing(15),
   padding: theme.spacing(3),

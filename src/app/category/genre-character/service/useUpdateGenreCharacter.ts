@@ -21,11 +21,13 @@ const useUpdateGenreCharacter = () => {
     setLoading(true);
     try {
       const res = await api.put<ApiResponse<null>>(`/api/genre-character/${id}`, toGenreCharacterRequest(values));
+
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: genreCharacterKeys.groupAll() });
         await queryClient.invalidateQueries({ queryKey: genreCharacterKeys.pageAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.all });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<null>(err);

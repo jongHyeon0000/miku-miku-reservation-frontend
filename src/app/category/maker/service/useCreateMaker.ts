@@ -23,10 +23,12 @@ const useCreateMaker = () => {
     setLoading(true);
     try {
       const res = await api.post<ApiResponse<MakerItem | null>>('/api/maker', toMakerRequest(values));
+
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: makerKeys.pageAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.formOptions() });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<MakerItem>(err);

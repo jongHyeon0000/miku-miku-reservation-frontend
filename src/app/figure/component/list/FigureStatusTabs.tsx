@@ -44,7 +44,7 @@ const FigureStatusTabs = ({ tab, counts, onChange }: FigureStatusTabsProps) => {
 
 export default FigureStatusTabs;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const StatusTabs = styled(HoverTabs)(({ theme }) => ({
   /* 고른 탭의 건수 칸만 금색으로 채운다 */
@@ -54,7 +54,7 @@ const StatusTabs = styled(HoverTabs)(({ theme }) => ({
   },
 }));
 
-/* 전체 탭: 오른쪽에 점선을 그어 뒤의 탭들과 구분한다 */
+/** 전체 탭: 오른쪽에 점선을 그어 뒤의 탭들과 구분한다 */
 const SeparatedTab = styled(Tab)(({ theme }) => ({
   marginRight: theme.spacing(0.75),
   borderRight: `1px dashed ${theme.palette.divider}`,

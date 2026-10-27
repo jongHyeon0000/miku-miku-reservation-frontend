@@ -2,17 +2,26 @@ import { HttpStatusCode, isAxiosError } from 'axios';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 
-/*
+/**
 * 서버가 응답 본문 없이 상태 코드만 준 경우(보안 필터의 401/403, 프록시 오류 등)에 채울 값
 * */
 const fallbackByStatus = (status: number | undefined): { code: string; message: string } => {
-  if (status === undefined) return { code: API_CODE.NETWORK_ERROR, message: '서버에 연결하지 못했습니다.' };
-  if (status === HttpStatusCode.Unauthorized) return { code: API_CODE.UNAUTHORIZED, message: '로그인이 필요합니다.' };
-  if (status === HttpStatusCode.Forbidden) return { code: API_CODE.FORBIDDEN, message: '접근 권한이 없습니다.' };
+  if (status === undefined) {
+    return { code: API_CODE.NETWORK_ERROR, message: '서버에 연결하지 못했습니다.' };
+  }
+
+  if (status === HttpStatusCode.Unauthorized) {
+    return { code: API_CODE.UNAUTHORIZED, message: '로그인이 필요합니다.' };
+  }
+
+  if (status === HttpStatusCode.Forbidden) {
+    return { code: API_CODE.FORBIDDEN, message: '접근 권한이 없습니다.' };
+  }
+
   return { code: API_CODE.INTERNAL_ERROR, message: '서버 오류가 발생했습니다.' };
 };
 
-/*
+/**
 * 서버가 준 본문이 { code, ... } 모양인지 확인한다 (JSON이 아닌 오류 페이지 등을 걸러 낸다)
 * */
 const isApiResponseBody = (body: unknown): body is { code: string; message?: unknown } => {

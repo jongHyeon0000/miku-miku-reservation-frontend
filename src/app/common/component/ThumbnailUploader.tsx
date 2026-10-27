@@ -11,7 +11,7 @@ import { validateThumbnailFiles } from '@/app/common/utils/ValidationUtils';
 import { FillImage } from '@/app/common/style/CommonMedia.style';
 import { alpha, styled } from '@mui/material/styles';
 
-/* 위치 조정 중인 원본 그림 */
+/** 위치 조정 중인 원본 그림 */
 interface CropSource {
   image: HTMLImageElement;
   /** 화면에 보여 주는 원본의 data 주소 */
@@ -20,7 +20,7 @@ interface CropSource {
   file: File;
 }
 
-/* 보이는 영역. zoom 1배는 틀을 꽉 채우는 크기이고, cx/cy 는 영역의 가운데를 그림 전체의 0~1 위치로 나타낸 값 */
+/** 보이는 영역. zoom 1배는 틀을 꽉 채우는 크기이고, cx/cy 는 영역의 가운데를 그림 전체의 0~1 위치로 나타낸 값 */
 interface CropView {
   zoom: number;
   cx: number;
@@ -30,11 +30,11 @@ interface CropView {
 const CENTER_VIEW: CropView = { zoom: 1, cx: 0.5, cy: 0.5 };
 const ZOOM_STEP = 0.5;
 
-/* 보이는 영역의 한 변 (그림 px). 1배일 때는 그림의 짧은 변과 같다 */
+/** 보이는 영역의 한 변 (그림 px). 1배일 때는 그림의 짧은 변과 같다 */
 const visibleSide = (image: HTMLImageElement, zoom: number): number =>
   Math.min(image.naturalWidth, image.naturalHeight) / zoom;
 
-/* 배율은 1~최대 안으로, 영역은 그림 밖으로 나가지 않게 맞춘다 */
+/** 배율은 1~최대 안으로, 영역은 그림 밖으로 나가지 않게 맞춘다 */
 const clampView = (image: HTMLImageElement, view: CropView): CropView => {
   const zoom = Math.min(THUMBNAIL_MAX_ZOOM, Math.max(1, view.zoom));
   const halfX = visibleSide(image, zoom) / 2 / image.naturalWidth;
@@ -104,15 +104,20 @@ const ThumbnailUploader = ({ currentUrl, value, onChange, disabled = false }: Th
     const seq = ++cropSeqRef.current;
     cropSquareFile(target.image, region, target.file)
       .then((file) => {
-        if (seq === cropSeqRef.current) onChange({ type: 'upload', file, previewUrl: target.src });
+        if (seq === cropSeqRef.current) {
+          onChange({ type: 'upload', file, previewUrl: target.src });
+        }
       })
       .catch((error: Error) => setErrorMessage(error.message));
   };
 
   const handleFiles = (files: ArrayLike<File>) => {
-    if (files.length === 0) return;
+    if (files.length === 0) {
+      return;
+    }
 
     const message = validateThumbnailFiles(files);
+
     if (message) {
       setErrorMessage(message);
       return;
@@ -144,13 +149,19 @@ const ThumbnailUploader = ({ currentUrl, value, onChange, disabled = false }: Th
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    if (!disabled) setDragging(true);
+
+    if (!disabled) {
+      setDragging(true);
+    }
   };
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setDragging(false);
-    if (!disabled) handleFiles(Array.from(e.dataTransfer.files));
+
+    if (!disabled) {
+      handleFiles(Array.from(e.dataTransfer.files));
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -162,7 +173,10 @@ const ThumbnailUploader = ({ currentUrl, value, onChange, disabled = false }: Th
 
   /* 틀 안에서 끌면 보이는 영역이 움직이고, 두 손가락으로 벌리면 늘어난다 */
   const handlePointerDown = (e: PointerEvent<HTMLDivElement>) => {
-    if (!cropping || disabled || (e.target as Element).closest('button')) return;
+    if (!cropping || disabled || (e.target as Element).closest('button')) {
+      return;
+    }
+
     pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     e.currentTarget.setPointerCapture(e.pointerId);
     movedRef.current = false;
@@ -171,7 +185,10 @@ const ThumbnailUploader = ({ currentUrl, value, onChange, disabled = false }: Th
 
   const handlePointerMove = (e: PointerEvent<HTMLDivElement>) => {
     const previous = pointersRef.current.get(e.pointerId);
-    if (!cropping || !previous || !zoneRef.current) return;
+
+    if (!cropping || !previous || !zoneRef.current) {
+      return;
+    }
 
     movedRef.current = true;
     pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -180,7 +197,11 @@ const ThumbnailUploader = ({ currentUrl, value, onChange, disabled = false }: Th
     if (pointersRef.current.size === 2) {
       const [a, b] = Array.from(pointersRef.current.values());
       const distance = Math.hypot(a.x - b.x, a.y - b.y);
-      if (pinchRef.current) applyView(cropping.image, { ...current, zoom: (current.zoom * distance) / pinchRef.current });
+
+      if (pinchRef.current) {
+        applyView(cropping.image, { ...current, zoom: (current.zoom * distance) / pinchRef.current });
+      }
+
       pinchRef.current = distance;
       return;
     }
@@ -195,17 +216,27 @@ const ThumbnailUploader = ({ currentUrl, value, onChange, disabled = false }: Th
   };
 
   const handlePointerUp = (e: PointerEvent<HTMLDivElement>) => {
-    if (!pointersRef.current.delete(e.pointerId)) return;
+    if (!pointersRef.current.delete(e.pointerId)) {
+      return;
+    }
+
     pinchRef.current = null;
-    if (cropping && movedRef.current && pointersRef.current.size === 0) emitCrop(cropping, viewRef.current);
+
+    if (cropping && movedRef.current && pointersRef.current.size === 0) {
+      emitCrop(cropping, viewRef.current);
+    }
   };
 
   const handleZoomChange = (zoom: number) => {
-    if (cropping) applyView(cropping.image, { ...viewRef.current, zoom });
+    if (cropping) {
+      applyView(cropping.image, { ...viewRef.current, zoom });
+    }
   };
 
   const handleZoomCommit = () => {
-    if (cropping) emitCrop(cropping, viewRef.current);
+    if (cropping) {
+      emitCrop(cropping, viewRef.current);
+    }
   };
 
   const handleZoomStep = (step: number) => {
@@ -314,7 +345,7 @@ const ThumbnailUploader = ({ currentUrl, value, onChange, disabled = false }: Th
 
 export default ThumbnailUploader;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const Wrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -323,7 +354,7 @@ const Wrapper = styled(Box)(({ theme }) => ({
   width: '100%',
 }));
 
-/* 끌어서 올려 놓는 동안(dragging)에는 테두리가 금색 점선으로 바뀐다. 위치를 조정하는 중(cropping)에는 끌 수 있는 손 모양이 된다 */
+/** 끌어서 올려 놓는 동안(dragging)에는 테두리가 금색 점선으로 바뀐다. 위치를 조정하는 중(cropping)에는 끌 수 있는 손 모양이 된다 */
 const DropZone = styled(Box, { shouldForwardProp: (prop) => prop !== 'dragging' && prop !== 'cropping' })<{
   dragging: boolean;
   cropping: boolean;
@@ -345,7 +376,7 @@ const DropZone = styled(Box, { shouldForwardProp: (prop) => prop !== 'dragging' 
   }),
 );
 
-/* 위치는 style 로 정한다 (끄는 동안 값이 계속 바뀐다) */
+/** 위치는 style 로 정한다 (끄는 동안 값이 계속 바뀐다) */
 const CropImage = styled('img')({
   position: 'absolute',
   maxWidth: 'none',

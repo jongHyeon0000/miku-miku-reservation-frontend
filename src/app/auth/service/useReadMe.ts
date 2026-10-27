@@ -18,7 +18,11 @@ const useReadMe = () => {
     setLoading(true);
     try {
       const res = await api.get<ApiResponse<UserInfo>>('/api/auth/me');
-      if (res.data.code === API_CODE.OK) setUser(res.data.data);
+
+      if (res.data.code === API_CODE.OK) {
+        setUser(res.data.data);
+      }
+
       return res.data;
     } catch (err) {
       return toApiResponse<UserInfo>(err);

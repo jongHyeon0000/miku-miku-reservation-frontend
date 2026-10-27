@@ -4,10 +4,10 @@ import type { FigureTabKey } from '@/app/figure/constant/figureStatus';
 import useDemoLoop from '@/app/intro/hook/useDemoLoop';
 import { wait } from '@/app/intro/utils/IntroUtils';
 
-/* 상태 탭을 장바구니부터 배송완료까지 차례로 본 뒤, 미구매 탭에서 선택 모드로 두 개를 한 번에 넘긴다 */
+/** 상태 탭을 장바구니부터 배송완료까지 차례로 본 뒤, 미구매 탭에서 선택 모드로 두 개를 한 번에 넘긴다 */
 const TAB_STEPS: FigureTabKey[] = ['CART', 'UNPURCHASED', 'RESERVED', 'PURCHASED', 'DELIVERED'];
 
-/* 선택 모드에서 체크하는 상품 (미구매 탭의 두 개) */
+/** 선택 모드에서 체크하는 상품 (미구매 탭의 두 개) */
 const CHECK_STEPS = [3, 4];
 
 const TAB_MILLISECONDS = 1700;
@@ -32,26 +32,41 @@ const useStatusDemo = (active: boolean) => {
     for (const next of TAB_STEPS) {
       setTab(next);
       await wait(TAB_MILLISECONDS);
-      if (!alive()) return;
+
+      if (!alive()) {
+        return;
+      }
     }
 
     setTab('UNPURCHASED');
     await wait(1200);
-    if (!alive()) return;
+
+    if (!alive()) {
+      return;
+    }
 
     setMode('STATUS');
     await wait(1300);
-    if (!alive()) return;
+
+    if (!alive()) {
+      return;
+    }
 
     for (const figureId of CHECK_STEPS) {
       setCheckedIds((prev) => [...prev, figureId]);
       await wait(CHECK_MILLISECONDS);
-      if (!alive()) return;
+
+      if (!alive()) {
+        return;
+      }
     }
 
     setModalOpen(true);
     await wait(MODAL_MILLISECONDS);
-    if (!alive()) return;
+
+    if (!alive()) {
+      return;
+    }
 
     setModalOpen(false);
     await wait(800);

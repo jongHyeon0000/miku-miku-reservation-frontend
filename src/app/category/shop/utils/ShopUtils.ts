@@ -7,7 +7,11 @@ import type { ShopFormValues } from '@/app/category/shop/interface/ShopFormValue
  */
 export const validateShopUrl = (value: string): string | undefined => {
   const trimmed = value.trim();
-  if (trimmed !== '' && !/^https?:\/\//i.test(trimmed)) return 'http:// 또는 https:// 로 시작하는 주소를 입력해 주세요.';
+
+  if (trimmed !== '' && !/^https?:\/\//i.test(trimmed)) {
+    return 'http:// 또는 https:// 로 시작하는 주소를 입력해 주세요.';
+  }
+
   return undefined;
 };
 

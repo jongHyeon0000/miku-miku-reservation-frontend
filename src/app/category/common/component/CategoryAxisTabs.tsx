@@ -19,7 +19,9 @@ interface CategoryAxisTabsProps {
  */
 const CategoryAxisTabs = ({ axis, onChange, onTemplate }: CategoryAxisTabsProps) => {
   const handleAxisChange = (_event: SyntheticEvent, value: string) => {
-    if (isCategoryAxisKey(value)) onChange(value);
+    if (isCategoryAxisKey(value)) {
+      onChange(value);
+    }
   };
 
   return (

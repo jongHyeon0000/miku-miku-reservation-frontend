@@ -142,7 +142,7 @@ const FigureListComponent = ({
 
 export default FigureListComponent;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const ListBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -171,7 +171,7 @@ const Ticket = styled(Box, { shouldForwardProp: (prop) => prop !== 'checked' && 
   }),
 }));
 
-/* 선택 모드의 체크칸. 카드 세로 가운데에 둔다 */
+/** 선택 모드의 체크칸. 카드 세로 가운데에 둔다 */
 const Check = styled(Checkbox)(({ theme }) => ({
   alignSelf: 'center',
   marginLeft: theme.spacing(1),
@@ -210,13 +210,13 @@ const FigureName = styled(Typography)({
   WebkitLineClamp: 2,
 }) as typeof Typography;
 
-/* 이름표(Label)와 값(Value)이 두 줄로 선 칸. 이름표 칸 폭은 가장 긴 이름표를 따른다 */
+/** 이름표(Label)와 값(Value)이 두 줄로 선 칸. 이름표 칸 폭은 가장 긴 이름표를 따른다 */
 const Rows = styled(LabelValueGrid)({
   fontSize: '0.8125rem',
   lineHeight: 1.5,
 });
 
-/* 티켓 오른쪽의 점선으로 끊긴 칸. 위는 날짜들, 아래는 가격이고 둘 사이를 띄운다 */
+/** 티켓 오른쪽의 점선으로 끊긴 칸. 위는 날짜들, 아래는 가격이고 둘 사이를 띄운다 */
 const Stub = styled(Box)(({ theme }) => ({
   position: 'relative',
   display: 'flex',

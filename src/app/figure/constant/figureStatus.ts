@@ -1,4 +1,4 @@
-/* 상품 상태 (앞으로만 전이한다: 장바구니 → 미구매 → (예약완료) → 구매완료 → 배송완료) */
+/** 상품 상태 (앞으로만 전이한다: 장바구니 → 미구매 → (예약완료) → 구매완료 → 배송완료) */
 export const FIGURE_STATUSES = ['CART', 'UNPURCHASED', 'RESERVED', 'PURCHASED', 'DELIVERED'] as const;
 
 export type FigureStatus = (typeof FIGURE_STATUSES)[number];

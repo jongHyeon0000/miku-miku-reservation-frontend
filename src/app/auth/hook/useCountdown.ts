@@ -8,7 +8,9 @@ const useCountdown = () => {
   const [seconds, setSeconds] = useState<number>(0);
 
   useEffect(() => {
-    if (seconds <= 0) return;
+    if (seconds <= 0) {
+      return;
+    }
 
     const timer = setTimeout(() => setSeconds((prev) => prev - 1), 1000);
     return () => clearTimeout(timer);

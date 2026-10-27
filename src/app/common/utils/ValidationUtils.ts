@@ -4,7 +4,7 @@ import { THUMBNAIL_EXTENSIONS, THUMBNAIL_MAX_BYTES } from '@/app/common/constant
 import { formatPrice } from '@/app/common/utils/CommonUtils';
 import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
 
-/*
+/**
 * 입력 검증. 통과하면 undefined, 틀리면 사용자에게 보여 줄 문구를 돌려준다.
 * 제약 값은 백엔드 swagger 기준이고, 서버가 같은 검사를 다시 하므로 여기서는 빠른 안내가 목적이다.
 * 함수마다 첫 줄에 [사용하는 페이지]를 적는다. 페이지별로 파일을 나눌 때 이 표시를 기준으로 옮긴다.
@@ -16,7 +16,10 @@ import type { FigureStatusFormValues } from '@/app/figure/interface/status/Figur
  * 로그인 아이디 입력 확인: 비었는지만 본다 (서버가 로그인 때는 형식을 검사하지 않는다)
  */
 export const validateLoginIdRequired = (value: string): string | undefined => {
-  if (value.trim() === '') return '아이디를 입력해 주세요.';
+  if (value.trim() === '') {
+    return '아이디를 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -26,7 +29,10 @@ export const validateLoginIdRequired = (value: string): string | undefined => {
  * 로그인 비밀번호 입력 확인: 비었는지만 본다
  */
 export const validatePasswordRequired = (value: string): string | undefined => {
-  if (value.trim() === '') return '비밀번호를 입력해 주세요.';
+  if (value.trim() === '') {
+    return '비밀번호를 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -36,8 +42,14 @@ export const validatePasswordRequired = (value: string): string | undefined => {
  * 로그인 아이디: 영문, 숫자 4~30자
  */
 export const validateLoginId = (value: string): string | undefined => {
-  if (value === '') return '아이디를 입력해 주세요.';
-  if (!/^[A-Za-z0-9]{4,30}$/.test(value)) return '아이디는 영문, 숫자 4~30자로 입력해 주세요.';
+  if (value === '') {
+    return '아이디를 입력해 주세요.';
+  }
+
+  if (!/^[A-Za-z0-9]{4,30}$/.test(value)) {
+    return '아이디는 영문, 숫자 4~30자로 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -47,8 +59,14 @@ export const validateLoginId = (value: string): string | undefined => {
  * 비밀번호: 8~20자
  */
 export const validatePassword = (value: string): string | undefined => {
-  if (value === '') return '비밀번호를 입력해 주세요.';
-  if (value.length < 8 || value.length > 20) return '비밀번호는 8~20자로 입력해 주세요.';
+  if (value === '') {
+    return '비밀번호를 입력해 주세요.';
+  }
+
+  if (value.length < 8 || value.length > 20) {
+    return '비밀번호는 8~20자로 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -59,8 +77,14 @@ export const validatePassword = (value: string): string | undefined => {
  * react-hook-form 의 validate 규칙(값, 폼 전체 값)에 그대로 넘길 수 있다.
  */
 export const validatePasswordConfirm = (confirm: string, formValues: SignupFormValues): string | undefined => {
-  if (confirm === '') return '비밀번호를 한 번 더 입력해 주세요.';
-  if (formValues.password !== confirm) return '비밀번호가 일치하지 않아요.';
+  if (confirm === '') {
+    return '비밀번호를 한 번 더 입력해 주세요.';
+  }
+
+  if (formValues.password !== confirm) {
+    return '비밀번호가 일치하지 않아요.';
+  }
+
   return undefined;
 };
 
@@ -71,8 +95,15 @@ export const validatePasswordConfirm = (confirm: string, formValues: SignupFormV
  */
 export const validateName = (value: string): string | undefined => {
   const trimmed = value.trim();
-  if (trimmed === '') return '닉네임을 입력해 주세요.';
-  if (trimmed.length > 20) return '닉네임은 20자 이하로 입력해 주세요.';
+
+  if (trimmed === '') {
+    return '닉네임을 입력해 주세요.';
+  }
+
+  if (trimmed.length > 20) {
+    return '닉네임은 20자 이하로 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -82,9 +113,18 @@ export const validateName = (value: string): string | undefined => {
  * 이메일: 이메일 형식, 100자 이하
  */
 export const validateEmail = (value: string): string | undefined => {
-  if (value.trim() === '') return '이메일을 입력해 주세요.';
-  if (value.length > 100) return '이메일은 100자 이하로 입력해 주세요.';
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return '이메일 형식이 올바르지 않아요.';
+  if (value.trim() === '') {
+    return '이메일을 입력해 주세요.';
+  }
+
+  if (value.length > 100) {
+    return '이메일은 100자 이하로 입력해 주세요.';
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+    return '이메일 형식이 올바르지 않아요.';
+  }
+
   return undefined;
 };
 
@@ -94,8 +134,14 @@ export const validateEmail = (value: string): string | undefined => {
  * 이메일 인증 코드: 6자리 숫자
  */
 export const validateEmailCode = (value: string): string | undefined => {
-  if (value.trim() === '') return '인증 코드를 입력해 주세요.';
-  if (!/^\d{6}$/.test(value.trim())) return '인증 코드는 6자리 숫자예요.';
+  if (value.trim() === '') {
+    return '인증 코드를 입력해 주세요.';
+  }
+
+  if (!/^\d{6}$/.test(value.trim())) {
+    return '인증 코드는 6자리 숫자예요.';
+  }
+
   return undefined;
 };
 
@@ -106,8 +152,14 @@ export const validateEmailCode = (value: string): string | undefined => {
  * react-hook-form 의 validate 규칙(값, 폼 전체 값)에 그대로 넘길 수 있다.
  */
 export const validateNewPasswordConfirm = (confirm: string, formValues: { newPassword: string }): string | undefined => {
-  if (confirm === '') return '새 비밀번호를 한 번 더 입력해 주세요.';
-  if (formValues.newPassword !== confirm) return '새 비밀번호가 일치하지 않아요.';
+  if (confirm === '') {
+    return '새 비밀번호를 한 번 더 입력해 주세요.';
+  }
+
+  if (formValues.newPassword !== confirm) {
+    return '새 비밀번호가 일치하지 않아요.';
+  }
+
   return undefined;
 };
 
@@ -118,8 +170,15 @@ export const validateNewPasswordConfirm = (confirm: string, formValues: { newPas
  */
 export const validateCategoryName = (value: string): string | undefined => {
   const trimmed = value.trim();
-  if (trimmed === '') return '이름을 입력해 주세요.';
-  if (trimmed.length > 100) return '이름은 100자 이하로 입력해 주세요.';
+
+  if (trimmed === '') {
+    return '이름을 입력해 주세요.';
+  }
+
+  if (trimmed.length > 100) {
+    return '이름은 100자 이하로 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -129,7 +188,10 @@ export const validateCategoryName = (value: string): string | undefined => {
  * 분류 설명: 선택 입력, 1000자 이하
  */
 export const validateCategoryDescription = (value: string): string | undefined => {
-  if (value.length > 1000) return '설명은 1000자 이하로 입력해 주세요.';
+  if (value.length > 1000) {
+    return '설명은 1000자 이하로 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -140,12 +202,21 @@ export const validateCategoryDescription = (value: string): string | undefined =
  * 고른 파일이나 끌어다 놓은 파일 목록을 그대로 받는다. 파일 내용(실제 이미지인지)은 서버만 검사한다.
  */
 export const validateThumbnailFiles = (files: ArrayLike<File>): string | undefined => {
-  if (files.length > 1) return '이미지는 한 장만 올릴 수 있어요.';
+  if (files.length > 1) {
+    return '이미지는 한 장만 올릴 수 있어요.';
+  }
 
   const file = files[0];
   const extension = file.name.includes('.') ? (file.name.split('.').pop() ?? '').toLowerCase() : '';
-  if (!(THUMBNAIL_EXTENSIONS as readonly string[]).includes(extension)) return 'jpg, png, gif, webp 파일만 올릴 수 있어요.';
-  if (file.size > THUMBNAIL_MAX_BYTES) return '5MB 이하의 이미지만 올릴 수 있어요.';
+
+  if (!(THUMBNAIL_EXTENSIONS as readonly string[]).includes(extension)) {
+    return 'jpg, png, gif, webp 파일만 올릴 수 있어요.';
+  }
+
+  if (file.size > THUMBNAIL_MAX_BYTES) {
+    return '5MB 이하의 이미지만 올릴 수 있어요.';
+  }
+
   return undefined;
 };
 
@@ -156,8 +227,15 @@ export const validateThumbnailFiles = (files: ArrayLike<File>): string | undefin
  */
 export const validateFigureName = (value: string): string | undefined => {
   const trimmed = value.trim();
-  if (trimmed === '') return '상품명을 입력해 주세요.';
-  if (trimmed.length > 255) return '상품명은 255자 이하로 입력해 주세요.';
+
+  if (trimmed === '') {
+    return '상품명을 입력해 주세요.';
+  }
+
+  if (trimmed.length > 255) {
+    return '상품명은 255자 이하로 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -167,8 +245,14 @@ export const validateFigureName = (value: string): string | undefined => {
  * 개당 가격: 0 이상의 정수
  */
 export const validateFigurePrice = (value: string): string | undefined => {
-  if (value.trim() === '') return '가격을 입력해 주세요.';
-  if (!/^\d+$/.test(value.trim()) || Number(value) > 2147483647) return '가격은 0 이상의 숫자로 입력해 주세요.';
+  if (value.trim() === '') {
+    return '가격을 입력해 주세요.';
+  }
+
+  if (!/^\d+$/.test(value.trim()) || Number(value) > 2147483647) {
+    return '가격은 0 이상의 숫자로 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -178,8 +262,14 @@ export const validateFigurePrice = (value: string): string | undefined => {
  * 수량: 1 이상의 정수
  */
 export const validateFigureQuantity = (value: string): string | undefined => {
-  if (value.trim() === '') return '수량을 입력해 주세요.';
-  if (!/^\d+$/.test(value.trim()) || Number(value) < 1 || Number(value) > 2147483647) return '수량은 1 이상의 숫자로 입력해 주세요.';
+  if (value.trim() === '') {
+    return '수량을 입력해 주세요.';
+  }
+
+  if (!/^\d+$/.test(value.trim()) || Number(value) < 1 || Number(value) > 2147483647) {
+    return '수량은 1 이상의 숫자로 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -189,7 +279,10 @@ export const validateFigureQuantity = (value: string): string | undefined => {
  * 한 개 고르는 분류(장르, 형태, 판매처, 제조사): 비어 있으면 안 된다
  */
 export const validateFigureSelection = (value: number | null): string | undefined => {
-  if (value === null) return '선택해 주세요.';
+  if (value === null) {
+    return '선택해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -199,7 +292,10 @@ export const validateFigureSelection = (value: number | null): string | undefine
  * 여러 개 고르는 분류(캐릭터, 시리즈): 1개 이상
  */
 export const validateFigureMultiSelection = (value: number[]): string | undefined => {
-  if (value.length === 0) return '1개 이상 선택해 주세요.';
+  if (value.length === 0) {
+    return '1개 이상 선택해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -209,8 +305,14 @@ export const validateFigureMultiSelection = (value: number[]): string | undefine
  * 날짜(예약금 결제일, 결제일, 도착일): 올바른 날짜 필수 (서버는 비우면 오늘로 채우지만 화면에서는 항상 보여 주고 확인받는다)
  */
 export const validateStatusDate = (value: Dayjs | null): string | undefined => {
-  if (value === null) return '날짜를 선택해 주세요.';
-  if (!value.isValid()) return '올바른 날짜를 입력해 주세요.';
+  if (value === null) {
+    return '날짜를 선택해 주세요.';
+  }
+
+  if (!value.isValid()) {
+    return '올바른 날짜를 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -221,9 +323,21 @@ export const validateStatusDate = (value: Dayjs | null): string | undefined => {
  * react-hook-form 의 validate 규칙(값, 폼 전체 값)에 그대로 넘길 수 있다.
  */
 export const validateDepositAmount = (value: string, formValues: FigureStatusFormValues): string | undefined => {
-  if (formValues.nextStatus !== 'RESERVED') return undefined;
-  if (value.trim() === '') return '예약금을 입력해 주세요.';
-  if (!/^\d+$/.test(value.trim()) || Number(value) > 2147483647) return '예약금은 0 이상의 숫자로 입력해 주세요.';
-  if (Number(value) > formValues.totalPrice) return `예약금은 총액(${formatPrice(formValues.totalPrice)}) 이하로 입력해 주세요.`;
+  if (formValues.nextStatus !== 'RESERVED') {
+    return undefined;
+  }
+
+  if (value.trim() === '') {
+    return '예약금을 입력해 주세요.';
+  }
+
+  if (!/^\d+$/.test(value.trim()) || Number(value) > 2147483647) {
+    return '예약금은 0 이상의 숫자로 입력해 주세요.';
+  }
+
+  if (Number(value) > formValues.totalPrice) {
+    return `예약금은 총액(${formatPrice(formValues.totalPrice)}) 이하로 입력해 주세요.`;
+  }
+
   return undefined;
 };

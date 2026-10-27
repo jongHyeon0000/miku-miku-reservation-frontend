@@ -59,12 +59,18 @@ const SignupForm = ({ onSubmit, onSendCode, onVerifyCode, loading, codeSent, ema
   };
 
   const handleSendCode = async () => {
-    if (!(await trigger('email'))) return;
+    if (!(await trigger('email'))) {
+      return;
+    }
+
     onSendCode(getValues('email').trim());
   };
 
   const handleVerifyCode = async () => {
-    if (!(await trigger('emailCode'))) return;
+    if (!(await trigger('emailCode'))) {
+      return;
+    }
+
     onVerifyCode(getValues('email').trim(), getValues('emailCode').trim());
   };
 

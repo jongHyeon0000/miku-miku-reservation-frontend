@@ -17,7 +17,11 @@ const useDeleteFigure = () => {
     setLoading(true);
     try {
       const res = await api.delete<ApiResponse<null>>(`/api/figure/${figureId}`);
-      if (res.data.code === API_CODE.OK) await queryClient.invalidateQueries({ queryKey: figureKeys.list() });
+
+      if (res.data.code === API_CODE.OK) {
+        await queryClient.invalidateQueries({ queryKey: figureKeys.list() });
+      }
+
       return res.data;
     } catch (err) {
       return toApiResponse<null>(err);

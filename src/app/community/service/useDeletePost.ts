@@ -18,9 +18,11 @@ const useDeletePost = () => {
     setLoading(true);
     try {
       const res = await api.delete<ApiResponse<null>>(`/api/post/${postId}`);
+
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: postKeys.pageAll() });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<null>(err);

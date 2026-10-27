@@ -20,13 +20,18 @@ interface FigureFilterChipsProps {
  * 고른 필터가 없으면 아무것도 그리지 않고, 칩이 많아 한 줄에 안 들어가면 칩끼리 다음 줄로 내려간다.
  */
 const FigureFilterChips = ({ filters, options, onClear }: FigureFilterChipsProps) => {
-  if (FIGURE_FILTER_KEYS.every((key) => filters[key] === null)) return null;
+  if (FIGURE_FILTER_KEYS.every((key) => filters[key] === null)) {
+    return null;
+  }
 
   return (
     <Chips>
       {FIGURE_FILTER_KEYS.map((key) => {
         const value = filters[key];
-        if (value === null) return null;
+
+        if (value === null) {
+          return null;
+        }
 
         return (
           <FilterChip
@@ -48,7 +53,7 @@ const FigureFilterChips = ({ filters, options, onClear }: FigureFilterChipsProps
 
 export default FigureFilterChips;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const Chips = styled(Box)(({ theme }) => ({
   display: 'flex',

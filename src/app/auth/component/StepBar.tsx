@@ -26,7 +26,7 @@ const StepBar = ({ steps, current }: StepBarProps) => {
 
 export default StepBar;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const Bar = styled(Box)(({ theme }) => ({
   display: 'flex',

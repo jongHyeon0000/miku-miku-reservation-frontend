@@ -20,7 +20,9 @@ const LoginPage = () => {
   const from = (location.state as { from?: Location } | null)?.from;
   const redirectTo = from ? `${from.pathname}${from.search}` : '/figures';
 
-  if (isAuthenticated) return <Navigate to={redirectTo} replace />;
+  if (isAuthenticated) {
+    return <Navigate to={redirectTo} replace />;
+  }
 
   const handleLoginSubmit = async (body: LoginRequestBody) => {
     const res = await login(body);

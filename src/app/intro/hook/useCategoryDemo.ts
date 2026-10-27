@@ -14,7 +14,7 @@ interface CategoryDemoStep {
   selectedGroupId: number;
 }
 
-/* 상위를 하나 만들고, 그 아래 하위를 하나씩 채우는 모습을 순서대로 만든다 */
+/** 상위를 하나 만들고, 그 아래 하위를 하나씩 채우는 모습을 순서대로 만든다 */
 const buildSteps = (axis: CategoryAxisKey, groups: DemoGroup[]): CategoryDemoStep[] => {
   return groups.flatMap((group, groupIndex) =>
     Array.from({ length: group.children.length + 1 }, (_, childCount) => ({
@@ -25,7 +25,7 @@ const buildSteps = (axis: CategoryAxisKey, groups: DemoGroup[]): CategoryDemoSte
   );
 };
 
-/* 형태 축을 채운 뒤 시리즈 축으로 넘어간다 */
+/** 형태 축을 채운 뒤 시리즈 축으로 넘어간다 */
 const STEPS: CategoryDemoStep[] = [
   ...buildSteps('figure-type', INTRO_FIGURE_TYPE_GROUPS),
   ...buildSteps('series', INTRO_SERIES_GROUPS),
@@ -45,7 +45,10 @@ const useCategoryDemo = (active: boolean): CategoryDemoStep => {
       setStep(STEPS[i]);
       const axisChanges = i + 1 < STEPS.length && STEPS[i + 1].axis !== STEPS[i].axis;
       await wait(axisChanges || i + 1 === STEPS.length ? AXIS_CHANGE_MILLISECONDS : STEP_MILLISECONDS);
-      if (!alive()) return;
+
+      if (!alive()) {
+        return;
+      }
     }
   });
 

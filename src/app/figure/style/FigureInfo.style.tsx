@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-/*
+/**
 * 상품 정보 카드와 분류 묶음 (상세와 폼이 같이 쓴다)
 * */
 
-/* 묶음 하나(한 단계 밝은 면). 안의 줄들이 같은 묶음이다 */
+/** 묶음 하나(한 단계 밝은 면). 안의 줄들이 같은 묶음이다 */
 export const InfoGroup = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',

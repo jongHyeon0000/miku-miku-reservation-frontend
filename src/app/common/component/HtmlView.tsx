@@ -20,7 +20,7 @@ const HtmlView = ({ html }: HtmlViewProps) => {
 
 export default HtmlView;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const Content = styled(Box)({
   wordBreak: 'break-word',

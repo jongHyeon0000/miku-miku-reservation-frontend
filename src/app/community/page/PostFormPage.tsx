@@ -56,7 +56,10 @@ const PostFormPage = ({ mode }: PostFormPageProps) => {
   const handleSave = async (values: PostSaveRequestBody) => {
     const res = isEdit ? await fetchUpdatePost(postId, values) : await fetchCreatePost(values);
     showResult(res);
-    if (res.code !== API_CODE.OK) return;
+
+    if (res.code !== API_CODE.OK) {
+      return;
+    }
 
     navigate(`/community/${res.data!.postId}`);
   };

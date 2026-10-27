@@ -21,10 +21,12 @@ const useUpdateShopGroup = () => {
     setLoading(true);
     try {
       const res = await api.put<ApiResponse<null>>(`/api/shop-group/${id}`, toShopRequest(values));
+
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: shopKeys.groupAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.all });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<null>(err);

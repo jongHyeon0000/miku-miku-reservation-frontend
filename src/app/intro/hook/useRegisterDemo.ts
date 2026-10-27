@@ -12,7 +12,7 @@ type RegisterChosen = Record<RegisterKey, FigurePickItem[]>;
 
 const EMPTY_CHOSEN: RegisterChosen = { figureType: [], shop: [], series: [], maker: [] };
 
-/* 고르는 순서와 고르는 분류 (완성되는 상품 INTRO_REGISTER_FIGURE 의 분류와 같다) */
+/** 고르는 순서와 고르는 분류 (완성되는 상품 INTRO_REGISTER_FIGURE 의 분류와 같다) */
 const PICK_STEPS: { key: RegisterKey; id: number }[] = [
   { key: 'figureType', id: INTRO_REGISTER_FIGURE.figureType.id },
   { key: 'shop', id: INTRO_REGISTER_FIGURE.shop.id },
@@ -33,13 +33,19 @@ const useRegisterDemo = (active: boolean) => {
     setChosen(EMPTY_CHOSEN);
     setDone(false);
     await wait(PICK_MILLISECONDS);
-    if (!alive()) return;
+
+    if (!alive()) {
+      return;
+    }
 
     for (const step of PICK_STEPS) {
       const picked = INTRO_PICK_POOLS[step.key].find((candidate) => candidate.id === step.id)!;
       setChosen((prev) => ({ ...prev, [step.key]: [picked] }));
       await wait(PICK_MILLISECONDS);
-      if (!alive()) return;
+
+      if (!alive()) {
+        return;
+      }
     }
 
     setDone(true);

@@ -23,10 +23,12 @@ const useImportTemplate = () => {
     setLoading(true);
     try {
       const res = await api.post<ApiResponse<TemplateImportResult | null>>(`/api/template/${templateId}/import`);
+
       if (res.data.code === API_CODE.OK) {
         const keys = TEMPLATE_IMPORT_QUERY_KEYS[templateType];
         await Promise.all(keys.map((queryKey) => queryClient.invalidateQueries({ queryKey: queryKey })));
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<TemplateImportResult>(err);

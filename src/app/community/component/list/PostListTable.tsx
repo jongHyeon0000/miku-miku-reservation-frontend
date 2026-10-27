@@ -26,7 +26,7 @@ interface PostListTableProps {
   onChangePage: (page: number) => void;
 }
 
-/* 삭제, 탈퇴한 글 자리에 보여 줄 문구 */
+/** 삭제, 탈퇴한 글 자리에 보여 줄 문구 */
 const HIDDEN_TEXT = {
   DELETED: '[삭제된 게시글입니다.]',
   WITHDRAWN: '[탈퇴 처리된 사용자의 게시물입니다.]',
@@ -38,7 +38,10 @@ const HIDDEN_TEXT = {
  */
 const PostListTable = ({ items, page, totalPages, onOpen, onChangePage }: PostListTableProps) => {
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>, postId: number) => {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
+    if (event.key !== 'Enter' && event.key !== ' ') {
+      return;
+    }
+
     event.preventDefault();
     onOpen(postId);
   };
@@ -93,13 +96,13 @@ const PostListTable = ({ items, page, totalPages, onOpen, onChangePage }: PostLi
   );
 };
 
-/* 칸 5개(사진, 제목, 닉네임, 조회, 날짜)를 정한다. 사진, 닉네임, 조회, 날짜 칸 폭은 그 쪽에서 가장 긴 내용에 맞춰진다 */
+/** 칸 5개(사진, 제목, 닉네임, 조회, 날짜)를 정한다. 사진, 닉네임, 조회, 날짜 칸 폭은 그 쪽에서 가장 긴 내용에 맞춰진다 */
 const PostGrid = styled(Box)({
   display: 'grid',
   gridTemplateColumns: 'auto 1fr auto auto auto',
 });
 
-/* 한 줄이 PostGrid 의 칸을 그대로 쓰게 한다 */
+/** 한 줄이 PostGrid 의 칸을 그대로 쓰게 한다 */
 const PostRow = styled(RowBox)(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: 'subgrid',
@@ -108,19 +111,19 @@ const PostRow = styled(RowBox)(({ theme }) => ({
   cursor: 'pointer',
 }));
 
-/* 눌리지 않는 줄. 마우스를 올려도 줄무늬 색이 그대로다 */
+/** 눌리지 않는 줄. 마우스를 올려도 줄무늬 색이 그대로다 */
 const HiddenRow = styled(PostRow)(({ theme }) => ({
   cursor: 'default',
   '&:nth-of-type(odd):hover': { backgroundColor: theme.palette.rowStripe },
   '&:nth-of-type(even):hover': { backgroundColor: theme.palette.rowStripeAlt },
 }));
 
-/* 작성자 사진. 줄 가장자리와 제목에 조금 더 붙인다(줄 안쪽 여백과 칸 간격을 같은 값만큼 줄임. -1 은 너무 붙고 0 은 너무 멀어서 중간) */
+/** 작성자 사진. 줄 가장자리와 제목에 조금 더 붙인다(줄 안쪽 여백과 칸 간격을 같은 값만큼 줄임. -1 은 너무 붙고 0 은 너무 멀어서 중간) */
 const AuthorAvatar = styled(ThumbAvatar)(({ theme }) => ({
   marginInline: theme.spacing(-0.5),
 }));
 
-/* 제목은 두 번째 칸이다(삭제, 탈퇴한 줄은 사진 칸이 비어 있다). 한 줄로 보여 주고, 길면 …로 줄인다 */
+/** 제목은 두 번째 칸이다(삭제, 탈퇴한 줄은 사진 칸이 비어 있다). 한 줄로 보여 주고, 길면 …로 줄인다 */
 const TitleCell = styled(Typography)({
   gridColumn: 2,
   minWidth: 0,
@@ -138,7 +141,7 @@ const ViewCell = styled(Typography)({
   textAlign: 'right',
 }) as typeof Typography;
 
-/* 날짜는 항상 다섯 번째 칸이다(삭제, 탈퇴한 줄은 닉네임과 조회 칸이 비어 있다) */
+/** 날짜는 항상 다섯 번째 칸이다(삭제, 탈퇴한 줄은 닉네임과 조회 칸이 비어 있다) */
 const DateCell = styled(Typography)({
   gridColumn: 5,
 }) as typeof Typography;

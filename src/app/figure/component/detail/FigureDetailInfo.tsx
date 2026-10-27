@@ -121,13 +121,13 @@ const FigureDetailInfo = ({ figure, options }: FigureDetailInfoProps) => {
 
 export default FigureDetailInfo;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const FigureName = styled(Typography)({
   fontSize: '1.625rem',
 }) as typeof Typography;
 
-/* 구매 링크 띠. 카드가 길어져도 맨 아래에 붙는다 */
+/** 구매 링크 띠. 카드가 길어져도 맨 아래에 붙는다 */
 const PurchaseLink = styled('a')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',

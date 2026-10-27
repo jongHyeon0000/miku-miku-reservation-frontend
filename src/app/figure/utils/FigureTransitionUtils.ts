@@ -5,7 +5,7 @@ import { FIGURE_TRANSITIONS, type FigureTransition } from '@/app/figure/constant
 import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
 import type { FigureStatusRequestBody } from '@/app/figure/interface/status/FigureStatusRequestBody';
 
-/* 확인창 글자 (sweetalert2). 계산이 필요한 글자는 함수 값 */
+/** 확인창 글자 (sweetalert2). 계산이 필요한 글자는 함수 값 */
 const STATUS_ALERT = {
   /* 미구매 상품을 일괄 구매완료로 바꿀 때만 덧붙인다 (전액 결제로 확정되므로) */
   fullPayment: '<br><br>예약금으로 구매한 상품이 섞여 있다면 취소하고 상세 화면에서 하나씩 예약완료로 바꿔 주세요.',
@@ -68,13 +68,25 @@ export const toStatusRequestBody = (
 ): FigureStatusRequestBody => {
   const body: FigureStatusRequestBody = { status: transition.next };
 
-  if (transition.paymentType !== null) body.paymentType = transition.paymentType;
-  if (transition.dateField !== null && values.date !== null) body[transition.dateField] = values.date.format('YYYY-MM-DD');
+  if (transition.paymentType !== null) {
+    body.paymentType = transition.paymentType;
+  }
+
+  if (transition.dateField !== null && values.date !== null) {
+    body[transition.dateField] = values.date.format('YYYY-MM-DD');
+  }
+
   if (transition.next === 'RESERVED') {
     body.depositAmount = Number(values.depositAmount);
-    if (values.balanceDueDate?.isValid()) body.balanceDueDate = values.balanceDueDate.format('YYYY-MM-DD');
+
+    if (values.balanceDueDate?.isValid()) {
+      body.balanceDueDate = values.balanceDueDate.format('YYYY-MM-DD');
+    }
   }
-  if (figureIds !== undefined) body.figureIds = figureIds;
+
+  if (figureIds !== undefined) {
+    body.figureIds = figureIds;
+  }
 
   return body;
 };
@@ -96,7 +108,11 @@ export const getSingleConfirm = (transition: FigureTransition, values: FigureSta
   if (transition.next === 'RESERVED') {
     const deposit = formatPrice(Number(values.depositAmount));
     const paidAt = formatMonthDay(date!);
-    if (!values.balanceDueDate?.isValid()) return STATUS_ALERT.reservedNoDue(deposit, paidAt);
+
+    if (!values.balanceDueDate?.isValid()) {
+      return STATUS_ALERT.reservedNoDue(deposit, paidAt);
+    }
+
     return STATUS_ALERT.reservedWithDue(deposit, paidAt, formatMonthDay(values.balanceDueDate));
   }
 

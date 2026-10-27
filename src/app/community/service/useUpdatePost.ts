@@ -20,10 +20,12 @@ const useUpdatePost = () => {
     setLoading(true);
     try {
       const res = await api.put<ApiResponse<PostDetail | null>>(`/api/post/${postId}`, body);
+
       if (res.data.code === API_CODE.OK) {
         queryClient.setQueryData(postKeys.detail(postId), res.data);
         await queryClient.invalidateQueries({ queryKey: postKeys.pageAll() });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<PostDetail>(err);

@@ -39,11 +39,13 @@ const useUploadThumbnail = () => {
         `/api/upload/thumbnail-image/${targetType}/${targetId}`,
         formData,
       );
+
       if (res.data.code === API_CODE.OK) {
         await Promise.all(
           THUMBNAIL_QUERY_KEYS[targetType](targetId).map((queryKey) => queryClient.invalidateQueries({ queryKey })),
         );
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<ThumbnailUrlResponse>(err);

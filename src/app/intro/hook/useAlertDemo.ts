@@ -18,16 +18,25 @@ const useAlertDemo = (active: boolean) => {
   useDemoLoop(active, async (alive) => {
     setUrgentTab(null);
     await wait(LIST_MILLISECONDS);
-    if (!alive()) return;
+
+    if (!alive()) {
+      return;
+    }
 
     for (const tab of ['UNPURCHASED', 'RESERVED'] as const) {
       setUrgentTab(tab);
       await wait(MODAL_MILLISECONDS);
-      if (!alive()) return;
+
+      if (!alive()) {
+        return;
+      }
 
       setUrgentTab(null);
       await wait(GAP_MILLISECONDS);
-      if (!alive()) return;
+
+      if (!alive()) {
+        return;
+      }
     }
   });
 

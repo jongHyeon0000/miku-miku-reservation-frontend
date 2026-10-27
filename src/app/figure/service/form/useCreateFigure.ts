@@ -19,7 +19,11 @@ const useCreateFigure = () => {
     setLoading(true);
     try {
       const res = await api.post<ApiResponse<FigureSummary | null>>('/api/figure', body);
-      if (res.data.code === API_CODE.OK) await queryClient.invalidateQueries({ queryKey: figureKeys.list() });
+
+      if (res.data.code === API_CODE.OK) {
+        await queryClient.invalidateQueries({ queryKey: figureKeys.list() });
+      }
+
       return res.data;
     } catch (err) {
       return toApiResponse<FigureSummary>(err);

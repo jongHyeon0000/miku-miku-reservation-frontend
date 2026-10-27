@@ -7,7 +7,7 @@ import type { FigurePickItem } from '@/app/figure/interface/form/FigurePickItem'
 import { toGroupPickItems, toPickItems } from '@/app/figure/utils/FigureUtils';
 import { INTRO_FIGURE_SOURCES } from '@/app/intro/constant/introFigureSource';
 
-/*
+/**
 * 소개 화면 데모에 쓰는 분류 목데이터 (서버가 주는 모양 그대로).
 * 형태, 판매처, 시리즈는 원본 상품(introFigureSource)에 맞춰 정해 둔 것이고, 장르·캐릭터와 제조사는 원본에서 뽑는다.
 * 상품 목데이터(introFigures)가 이 분류를 가리키므로 id 를 같이 쓴다.

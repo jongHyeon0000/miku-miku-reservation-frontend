@@ -18,12 +18,14 @@ const useUpdateFigureStatusList = () => {
     setLoading(true);
     try {
       const res = await api.patch<ApiResponse<number[] | null>>('/api/figure/status', body);
+
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: figureKeys.list() });
         await Promise.all(
           (res.data.data ?? []).map((figureId) => queryClient.invalidateQueries({ queryKey: figureKeys.detail(figureId) })),
         );
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<number[]>(err);

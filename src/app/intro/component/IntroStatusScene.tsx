@@ -16,7 +16,7 @@ import { noop } from '@/app/intro/utils/IntroUtils';
 
 const COUNTS = countByTab(INTRO_FIGURES);
 
-/* 장면 높이에 맞춰 탭의 상품 중 앞의 몇 건만 카드로 보여 준다 */
+/** 장면 높이에 맞춰 탭의 상품 중 앞의 몇 건만 카드로 보여 준다 */
 const SHOWN_COUNT = 3;
 
 /**

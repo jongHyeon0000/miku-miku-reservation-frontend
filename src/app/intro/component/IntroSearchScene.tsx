@@ -11,7 +11,7 @@ import useSceneActive from '@/app/intro/hook/useSceneActive';
 import useSearchDemo from '@/app/intro/hook/useSearchDemo';
 import { noop } from '@/app/intro/utils/IntroUtils';
 
-/* 장면 높이에 맞춰 걸러진 상품 중 앞의 몇 건만 카드로 보여 준다 */
+/** 장면 높이에 맞춰 걸러진 상품 중 앞의 몇 건만 카드로 보여 준다 */
 const SHOWN_COUNT = 3;
 
 const OPTIONS = buildFilterOptions(INTRO_FIGURES);

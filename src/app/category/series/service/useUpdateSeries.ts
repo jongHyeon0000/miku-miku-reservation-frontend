@@ -21,11 +21,13 @@ const useUpdateSeries = () => {
     setLoading(true);
     try {
       const res = await api.put<ApiResponse<null>>(`/api/series/${id}`, toSeriesRequest(values));
+
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: seriesKeys.groupAll() });
         await queryClient.invalidateQueries({ queryKey: seriesKeys.pageAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.all });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<null>(err);

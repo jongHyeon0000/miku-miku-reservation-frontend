@@ -21,7 +21,9 @@ const SignupPage = () => {
   const showResult = useUiStore((state) => state.showResult);
   const navigate = useNavigate();
 
-  if (isAuthenticated) return <Navigate to="/figures" replace />;
+  if (isAuthenticated) {
+    return <Navigate to="/figures" replace />;
+  }
 
   const handleSendCode = (email: string) => emailVerification.sendCode({ email });
 
@@ -29,6 +31,7 @@ const SignupPage = () => {
     const res = await fetchSignup(body);
 
     showResult(res);
+
     if (res.code === API_CODE.OK) {
       navigate('/login');
       return;

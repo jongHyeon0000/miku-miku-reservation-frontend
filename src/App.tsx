@@ -13,7 +13,9 @@ const AppContent = () => {
   useInitAuth()
   const isInitialized = useAuthStore((state) => state.isInitialized)
 
-  if (!isInitialized) return <LoadingOverlay open />
+  if (!isInitialized) {
+    return <LoadingOverlay open />
+  }
 
   return (
     <>

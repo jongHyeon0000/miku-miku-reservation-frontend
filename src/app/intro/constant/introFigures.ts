@@ -13,7 +13,7 @@ import {
 import { INTRO_FIGURE_SOURCES, type IntroFigureSource } from '@/app/intro/constant/introFigureSource';
 import { INTRO_THUMBNAILS } from '@/app/intro/constant/introImages';
 
-/*
+/**
 * 소개 화면 데모에 쓰는 상품 목데이터 (목록 응답 한 건의 모양 그대로, 20건).
 * 이름과 분류는 원본(introFigureSource)이고, 상태, 가격, 수량, 마감일, 배송월은 순서에 따라 정해 둔다(실제 구매 내역과 무관).
 * 마감일과 배송월은 항상 "오늘 기준 며칠 뒤"로 만들어, 언제 열어도 마감 임박(깜빡임, 알림)이 그대로 보이게 한다.
@@ -23,13 +23,13 @@ const dayAfter = (days: number): string => dayjs().add(days, 'day').format('YYYY
 
 const monthAfter = (months: number): string => dayjs().add(months, 'month').startOf('month').format('YYYY-MM-DD');
 
-/* 상태는 이 순서가 되풀이된다 (미구매를 가장 많이) */
+/** 상태는 이 순서가 되풀이된다 (미구매를 가장 많이) */
 const STATUS_CYCLE: FigureStatus[] = ['CART', 'UNPURCHASED', 'UNPURCHASED', 'RESERVED', 'PURCHASED', 'DELIVERED'];
 
-/* 목데이터의 상위 한 건 (어느 축이든 같은 모양) */
+/** 목데이터의 상위 한 건 (어느 축이든 같은 모양) */
 type DemoGroup = { id: number; name: string; children: { id: number; name: string }[] };
 
-/* 분류 목데이터에서 id 로 하위를 찾아 상품이 가진 분류 모양으로 바꾼다 */
+/** 분류 목데이터에서 id 로 하위를 찾아 상품이 가진 분류 모양으로 바꾼다 */
 const refById = (groups: DemoGroup[], itemId: number): FigureCategoryRef => {
   const found = groups.find((candidate) => candidate.children.some((child) => child.id === itemId))!;
   const child = found.children.find((candidate) => candidate.id === itemId)!;
@@ -46,16 +46,25 @@ const makerByName = (name: string): FigureMakerRef => {
   return { id: found.id, name: found.name };
 };
 
-/* 형태: 넨도로이드는 기본형, 스케일은 이름에 1/7 이 있으면 1/7 스케일 */
+/** 형태: 넨도로이드는 기본형, 스케일은 이름에 1/7 이 있으면 1/7 스케일 */
 const figureTypeOf = (source: IntroFigureSource): FigureCategoryRef => {
-  if (source.style === '넨도로이드') return refById(INTRO_FIGURE_TYPE_GROUPS, 21);
+  if (source.style === '넨도로이드') {
+    return refById(INTRO_FIGURE_TYPE_GROUPS, 21);
+  }
+
   return refById(INTRO_FIGURE_TYPE_GROUPS, source.name.includes('1/7') ? 11 : 14);
 };
 
-/* 시리즈: 특전이나 한정이면 특전·한정, 재판이면 재판, 나머지는 일반 예약 */
+/** 시리즈: 특전이나 한정이면 특전·한정, 재판이면 재판, 나머지는 일반 예약 */
 const seriesOf = (source: IntroFigureSource): FigureCategoryRef => {
-  if (/\[특전\]|한정/.test(source.name)) return refById(INTRO_SERIES_GROUPS, 61);
-  if (source.name.includes('(재판)')) return refById(INTRO_SERIES_GROUPS, 62);
+  if (/\[특전\]|한정/.test(source.name)) {
+    return refById(INTRO_SERIES_GROUPS, 61);
+  }
+
+  if (source.name.includes('(재판)')) {
+    return refById(INTRO_SERIES_GROUPS, 62);
+  }
+
   return refById(INTRO_SERIES_GROUPS, 71);
 };
 

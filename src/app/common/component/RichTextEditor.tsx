@@ -23,7 +23,7 @@ import { API_CODE } from '@/config/axios/constant/apiCode';
 import { useUiStore } from '@/store/uiStore';
 import { alpha, styled } from '@mui/material/styles';
 
-/*
+/**
 * 이미지 노드. 저장되는 주소(src)는 서버가 준 '/uploads/...' 상대 경로 그대로 두고, 에디터 화면에 그릴 때만 서버 주소를 붙인다.
 * (상대 경로로 저장해야 서버가 글에 이미지를 연결한다. 운영에서 다른 도메인을 써도 저장 값은 바뀌지 않는다)
 * */
@@ -36,7 +36,10 @@ const EditorImage = Image.extend({
       return {
         dom,
         update: (updated) => {
-          if (updated.type !== node.type) return false;
+          if (updated.type !== node.type) {
+            return false;
+          }
+
           dom.src = imageUrl(updated.attrs.src);
           return true;
         },
@@ -97,24 +100,31 @@ const RichTextEditor = ({ value, onChange, placeholder, disabled }: RichTextEdit
     editor?.setEditable(!disabled);
   }, [editor, disabled]);
 
-  if (!editor || !active) return null;
+  if (!editor || !active) {
+    return null;
+  }
 
   /* 고른 이미지들을 한 장씩 올려서 본문에 넣는다. position 이 있으면 그 자리에 넣는다(끌어다 놓기) */
   const insertImages = async (files: File[], position?: number) => {
-    if (position !== undefined) editor.commands.setTextSelection(position);
+    if (position !== undefined) {
+      editor.commands.setTextSelection(position);
+    }
 
     for (const file of files) {
       const message = validateThumbnailFiles([file]);
+
       if (message) {
         showSnackbar(`${file.name}: ${message}`, 'warning');
         continue;
       }
 
       const res = await fetchUploadEditorImage(file);
+
       if (res.code !== API_CODE.OK) {
         showResult(res);
         continue;
       }
+
       /* 이미지만 넣으면 그 이미지가 선택된 채로 남아서 다음 이미지가 덮어쓰므로, 뒤에 빈 문단을 같이 넣어 커서를 그리로 옮긴다 */
       editor
         .chain()
@@ -133,7 +143,10 @@ const RichTextEditor = ({ value, onChange, placeholder, disabled }: RichTextEdit
   /* 파일이 끼어 있는 끌어다 놓기와 붙여넣기만 가로채고, 글자는 에디터가 그대로 처리한다 */
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     const files = Array.from(e.dataTransfer.files);
-    if (files.length === 0) return;
+
+    if (files.length === 0) {
+      return;
+    }
 
     e.preventDefault();
     e.stopPropagation();
@@ -143,7 +156,10 @@ const RichTextEditor = ({ value, onChange, placeholder, disabled }: RichTextEdit
 
   const handlePaste = (e: ClipboardEvent<HTMLDivElement>) => {
     const files = Array.from(e.clipboardData.files);
-    if (files.length === 0) return;
+
+    if (files.length === 0) {
+      return;
+    }
 
     e.preventDefault();
     e.stopPropagation();
@@ -230,7 +246,7 @@ interface ToolButtonProps {
   children: ReactNode;
 }
 
-/* 도구줄 버튼 하나. 켜져 있으면 포인트 색 면을 깐다 */
+/** 도구줄 버튼 하나. 켜져 있으면 포인트 색 면을 깐다 */
 const ToolButton = ({ label, active = false, disabled = false, onClick, children }: ToolButtonProps) => {
   return (
     <Tooltip title={label}>
@@ -243,7 +259,7 @@ const ToolButton = ({ label, active = false, disabled = false, onClick, children
   );
 };
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const Toolbar = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -263,7 +279,7 @@ const ToolIconButton = styled(IconButton, { shouldForwardProp: (prop) => prop !=
   }),
 );
 
-/* 글을 쓰는 어두운 면. 안의 ProseMirror 영역이 이 면을 가득 채워서 어디를 눌러도 글을 쓸 수 있다 */
+/** 글을 쓰는 어두운 면. 안의 ProseMirror 영역이 이 면을 가득 채워서 어디를 눌러도 글을 쓸 수 있다 */
 const Content = styled(Box)(({ theme }) => ({
   minHeight: theme.spacing(24),
   backgroundColor: theme.palette.surfaceSunken,

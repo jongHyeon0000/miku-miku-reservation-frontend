@@ -29,7 +29,7 @@ const FigureDeadlineText = ({ date, passed = false, urgent = false }: FigureDead
 
 export default FigureDeadlineText;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const DateText = styled(motion.span, { shouldForwardProp: (prop) => prop !== 'passed' })<{ passed: boolean }>(
   ({ theme, passed }) => ({

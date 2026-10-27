@@ -23,7 +23,10 @@ export const todayString = (): string => {
  * 저장할 때 쓰는 값(설명 HTML의 src 등)에는 쓰지 않는다. 저장 값은 상대 경로를 그대로 둔다.
  */
 export const imageUrl = (path?: string | null): string => {
-  if (!path) return '';
+  if (!path) {
+    return '';
+  }
+
   return path.startsWith('/uploads/') ? `${BASE_URL}${path}` : path;
 };
 

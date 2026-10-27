@@ -25,7 +25,10 @@ const useEmailVerification = (purpose: EmailPurpose) => {
     const res = await fetchSendEmailCode(purpose, body);
 
     showResult(res);
-    if (res.code !== API_CODE.OK) return;
+
+    if (res.code !== API_CODE.OK) {
+      return;
+    }
 
     setCodeSent(true);
     startCountdown(EMAIL_RESEND_SECONDS);
@@ -36,7 +39,10 @@ const useEmailVerification = (purpose: EmailPurpose) => {
     const res = await fetchVerifyEmailCode({ email, purpose, code });
 
     showResult(res);
-    if (res.code !== API_CODE.OK) return false;
+
+    if (res.code !== API_CODE.OK) {
+      return false;
+    }
 
     setEmailVerified(true);
     return true;

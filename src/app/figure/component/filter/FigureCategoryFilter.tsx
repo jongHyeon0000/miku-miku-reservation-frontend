@@ -130,9 +130,9 @@ const FigureCategoryFilter = ({ label, groups = [], items = [], value, onChange 
 
 export default FigureCategoryFilter;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
-/* 상위 목록 카드가 차지하는 자리. 하위 목록 카드는 이 자리 오른쪽에 절대 위치로 뜬다 */
+/** 상위 목록 카드가 차지하는 자리. 하위 목록 카드는 이 자리 오른쪽에 절대 위치로 뜬다 */
 const Columns = styled(Box)({
   position: 'relative',
 });

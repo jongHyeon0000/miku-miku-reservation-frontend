@@ -13,12 +13,12 @@ interface SearchDemoStep {
   sort: FigureSortKey;
 }
 
-/* 배송월 필터로 고르는 달 (상품 2번의 배송월, "YYYY-MM") */
+/** 배송월 필터로 고르는 달 (상품 2번의 배송월, "YYYY-MM") */
 const MONTH = pickIntroFigures([2])[0].deliveryMonth.slice(0, 7);
 
 const NO_FILTERS = { filters: EMPTY_FIGURE_FILTERS, month: null, sort: DEFAULT_FIGURE_SORT };
 
-/* 전체 → 상위 분류(그룹 단위) → 하위 분류(개별 단위) → 직접 만든 분류 → 배송월 → 정렬. id 는 introCategories 의 것이다 */
+/** 전체 → 상위 분류(그룹 단위) → 하위 분류(개별 단위) → 직접 만든 분류 → 배송월 → 정렬. id 는 introCategories 의 것이다 */
 const STEPS: SearchDemoStep[] = [
   { ...NO_FILTERS },
   {
@@ -49,7 +49,10 @@ const useSearchDemo = (active: boolean): SearchDemoStep => {
     for (const next of STEPS) {
       setStep(next);
       await wait(STEP_MILLISECONDS);
-      if (!alive()) return;
+
+      if (!alive()) {
+        return;
+      }
     }
   });
 

@@ -10,7 +10,7 @@ import IntroStartScene from '@/app/intro/component/IntroStartScene';
 import IntroStatusScene from '@/app/intro/component/IntroStatusScene';
 import useSceneScroll from '@/app/intro/hook/useSceneScroll';
 
-/* 진행 점의 이름 (장면 순서와 같다) */
+/** 진행 점의 이름 (장면 순서와 같다) */
 const SCENE_NAMES = ['첫 화면', '분류', '등록', '검색', '상태 전이', '알림', '시작하기'];
 
 /**
@@ -24,7 +24,9 @@ const IntroPage = () => {
 
   const { scrollerRef, viewHeight, index, goTo } = useSceneScroll(SCENE_NAMES.length);
 
-  if (isAuthenticated) return <Navigate to="/figures" replace />;
+  if (isAuthenticated) {
+    return <Navigate to="/figures" replace />;
+  }
 
   return (
     <>

@@ -12,7 +12,10 @@ const GlobalSnackbar = () => {
   const closeSnackbar = useUiStore((state) => state.closeSnackbar);
 
   const handleSnackbarClose = (_event?: unknown, reason?: string) => {
-    if (reason === 'clickaway') return;
+    if (reason === 'clickaway') {
+      return;
+    }
+
     closeSnackbar();
   };
 

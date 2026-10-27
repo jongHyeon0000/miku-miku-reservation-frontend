@@ -13,7 +13,7 @@ import { API_CODE } from '@/config/axios/constant/apiCode';
 import { useUiStore } from '@/store/uiStore';
 import { styled } from '@mui/material/styles';
 
-/* 삭제 확인창 글자 */
+/** 삭제 확인창 글자 */
 const DELETE_ALERT = {
   title: '해당 글을 삭제할까요?',
   text: '글을 삭제하면 다시 되돌릴 수 없어요.',
@@ -38,11 +38,17 @@ const PostDetailPage = () => {
 
   const handleDelete = async () => {
     const confirmed = await showConfirmAlert({ ...DELETE_ALERT, danger: true, focusCancel: true });
-    if (!confirmed) return;
+
+    if (!confirmed) {
+      return;
+    }
 
     const res = await fetchDeletePost(postId);
     showResult(res);
-    if (res.code === API_CODE.OK) navigate('/community');
+
+    if (res.code === API_CODE.OK) {
+      navigate('/community');
+    }
   };
 
   return (
@@ -69,7 +75,7 @@ const PostDetailPage = () => {
   );
 };
 
-/* 글 카드와 아래 버튼 줄을 세로로 쌓는다 */
+/** 글 카드와 아래 버튼 줄을 세로로 쌓는다 */
 const DetailColumn = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',

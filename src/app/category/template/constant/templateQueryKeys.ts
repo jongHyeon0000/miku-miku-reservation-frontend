@@ -13,7 +13,7 @@ export const templateKeys = {
   list: () => [...templateKeys.all, 'list'] as const,
 };
 
-/* 가져오기가 성공하면 낡아지는 키. 분류 생성과 같은 규칙이다(해당 축 목록(하위 목록 포함)과 상품 폼의 선택지). 템플릿은 바뀌지 않으므로 템플릿 목록 키는 울리지 않는다 */
+/** 가져오기가 성공하면 낡아지는 키. 분류 생성과 같은 규칙이다(해당 축 목록(하위 목록 포함)과 상품 폼의 선택지). 템플릿은 바뀌지 않으므로 템플릿 목록 키는 울리지 않는다 */
 export const TEMPLATE_IMPORT_QUERY_KEYS: Record<TemplateType, QueryKey[]> = {
   GENRE_CHARACTER: [genreCharacterKeys.groupAll(), genreCharacterKeys.pageAll(), figureKeys.formOptions()],
   SERIES: [seriesKeys.groupAll(), seriesKeys.pageAll(), figureKeys.formOptions()],

@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-/*
+/**
 * 페이지 바깥 틀 (가운데 정렬, 콘텐츠 최대 폭, 상단 GNB 아래 여백)
 * */
 export const PageContainer = styled(Box)(({ theme }) => ({
@@ -14,7 +14,7 @@ export const PageContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-/*
+/**
 * 페이지 제목 줄 (왼쪽 제목, 오른쪽 동작 버튼)
 * */
 export const PageHeader = styled(Box)(({ theme }) => ({

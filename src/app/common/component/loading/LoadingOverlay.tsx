@@ -19,9 +19,9 @@ const LoadingOverlay = ({ open }: LoadingOverlayProps) => {
 
 export default LoadingOverlay;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
-/* 열려 있는 모달 위에 뜨도록 모달 층보다 한 칸 위에 둔다 */
+/** 열려 있는 모달 위에 뜨도록 모달 층보다 한 칸 위에 둔다 */
 const LoadingBackdrop = styled(Backdrop)(({ theme }) => ({
   zIndex: theme.zIndex.modal + 1,
 }));

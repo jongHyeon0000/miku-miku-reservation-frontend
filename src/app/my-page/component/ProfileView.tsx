@@ -76,14 +76,14 @@ const ProfileView = ({ user, thumbnail, onThumbnailChange, loading, onSave, onCh
 
 export default ProfileView;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
-/* 정보 줄 사이를 넉넉히 띄운다 */
+/** 정보 줄 사이를 넉넉히 띄운다 */
 const Info = styled(LabelValueGrid)(({ theme }) => ({
   rowGap: theme.spacing(2),
 }));
 
-/* 카드가 길어져도 비밀번호 변경 버튼은 맨 아래 오른쪽에 붙는다 */
+/** 카드가 길어져도 비밀번호 변경 버튼은 맨 아래 오른쪽에 붙는다 */
 const ButtonRow = styled(EndRow)({
   marginTop: 'auto',
 });

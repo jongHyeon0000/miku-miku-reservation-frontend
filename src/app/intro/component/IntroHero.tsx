@@ -50,9 +50,9 @@ const IntroHero = () => {
 
 export default IntroHero;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
-/* 제목, 이미지 줄을 세로로 쌓고 이미지 줄은 화면 가로를 가득 쓴다 */
+/** 제목, 이미지 줄을 세로로 쌓고 이미지 줄은 화면 가로를 가득 쓴다 */
 const HeroScene = styled(Scene)(({ theme }) => ({
   flexDirection: 'column',
   gap: theme.spacing(5),
@@ -68,7 +68,7 @@ const Head = styled(Box)(({ theme }) => ({
   padding: theme.spacing(0, 3),
 }));
 
-/* 양쪽 끝으로 갈수록 이미지가 옅어진다 */
+/** 양쪽 끝으로 갈수록 이미지가 옅어진다 */
 const RollWindow = styled(Box)({
   width: '100%',
   overflow: 'hidden',
@@ -80,7 +80,7 @@ const RollTrack = styled(motion.div)({
   width: 'max-content',
 });
 
-/* 사이 간격은 gap 이 아니라 오른쪽 여백으로 둔다 (같은 목록 두 벌의 길이가 정확히 절반이 되어 끊기지 않는다) */
+/** 사이 간격은 gap 이 아니라 오른쪽 여백으로 둔다 (같은 목록 두 벌의 길이가 정확히 절반이 되어 끊기지 않는다) */
 const RollTile = styled(ThumbFrame)(({ theme }) => ({
   flex: 'none',
   width: 'clamp(9rem, 18vw, 14rem)',

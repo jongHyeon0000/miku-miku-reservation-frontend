@@ -2,7 +2,7 @@ import axios, { HttpStatusCode, type AxiosInstance } from 'axios';
 import { getAccessToken, removeAccessToken } from '@/utils/cookieUtils';
 import { useAuthStore } from '@/store/authStore';
 
-/*
+/**
 * prod 빌드가 호출할 백엔드 주소 (.env.production 의 VITE_PROD_API_BASE_URL, 빌드할 때 값이 박힌다)
 * local 에서는 비어 있어서 같은 출처(Vite 프록시)로 호출한다
 * */

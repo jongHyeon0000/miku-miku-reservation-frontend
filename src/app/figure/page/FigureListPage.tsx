@@ -69,11 +69,17 @@ const FigureListPage = () => {
   const handleTabChange = (next: FigureTabKey) => {
     selection.exitMode();
     setTab(next);
-    if (isUrgentTab(next) && !urgentDismissed.includes(next) && findUrgentFigures(next).length > 0) setUrgentTab(next);
+
+    if (isUrgentTab(next) && !urgentDismissed.includes(next) && findUrgentFigures(next).length > 0) {
+      setUrgentTab(next);
+    }
   };
 
   const handleUrgentClose = (dismiss: boolean) => {
-    if (dismiss) dismissUrgent(urgentTab!);
+    if (dismiss) {
+      dismissUrgent(urgentTab!);
+    }
+
     setUrgentTab(null);
   };
 
@@ -87,11 +93,17 @@ const FigureListPage = () => {
       danger: true,
       focusCancel: true,
     });
-    if (!confirmed) return;
+
+    if (!confirmed) {
+      return;
+    }
 
     const res = await fetchDeleteFigureList(selection.checkedIds);
     showResult(res);
-    if (res.code !== API_CODE.OK) return;
+
+    if (res.code !== API_CODE.OK) {
+      return;
+    }
 
     selection.exitMode();
   };
@@ -102,6 +114,7 @@ const FigureListPage = () => {
       handleStatusSave(bulkTransition!, null);
       return;
     }
+
     setStatusModalOpen(true);
   };
 
@@ -111,12 +124,18 @@ const FigureListPage = () => {
 
   const handleStatusSave = async (transition: FigureTransition, date: Dayjs | null) => {
     const confirmed = await showConfirmAlert(getBulkConfirm(transition, selection.checkedIds.length, date));
-    if (!confirmed) return;
+
+    if (!confirmed) {
+      return;
+    }
 
     const body = toStatusRequestBody(transition, { ...toStatusFormValues([transition], 0), date }, selection.checkedIds);
     const res = await fetchUpdateFigureStatusList(body);
     showResult(res);
-    if (res.code !== API_CODE.OK) return;
+
+    if (res.code !== API_CODE.OK) {
+      return;
+    }
 
     setStatusModalOpen(false);
     selection.exitMode();
@@ -225,9 +244,9 @@ const FigureListPage = () => {
 
 export default FigureListPage;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
-/* 탭(왼쪽)과 결과 요약(오른쪽 끝)을 한 줄에 두고 아래에 선을 긋는다 */
+/** 탭(왼쪽)과 결과 요약(오른쪽 끝)을 한 줄에 두고 아래에 선을 긋는다 */
 const TabRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'flex-end',
@@ -237,12 +256,12 @@ const TabRow = styled(Box)(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
 }));
 
-/* 필터 줄과 고른 필터 칩. 아래 카드 목록과는 크게 띄운다 */
+/** 필터 줄과 고른 필터 칩. 아래 카드 목록과는 크게 띄운다 */
 const Conditions = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(4.5),
 }));
 
-/* 목록 화면의 제목 줄. 아래 탭 줄과 가깝게 붙인다 */
+/** 목록 화면의 제목 줄. 아래 탭 줄과 가깝게 붙인다 */
 const ListHeader = styled(PageHeader)(({ theme }) => ({
   marginBottom: theme.spacing(1),
 }));

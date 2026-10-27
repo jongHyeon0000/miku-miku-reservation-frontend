@@ -3,7 +3,7 @@ import { API_CODE } from '@/config/axios/constant/apiCode';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import type { UrgentTabKey } from '@/app/figure/constant/figureStatus';
 
-/* 서버 결과 코드에 맞는 스낵바 종류. 성공은 success, 입력을 고치면 되는 문제는 warning, 나머지 실패는 error */
+/** 서버 결과 코드에 맞는 스낵바 종류. 성공은 success, 입력을 고치면 되는 문제는 warning, 나머지 실패는 error */
 const getSeverity = (code: string): 'success' | 'warning' | 'error' => {
   switch (code) {
     case API_CODE.OK:

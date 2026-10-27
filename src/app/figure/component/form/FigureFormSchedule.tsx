@@ -41,8 +41,11 @@ const FigureFormSchedule = ({ form }: FigureFormScheduleProps) => {
               value={field.value}
               onChange={(date) => {
                 field.onChange(date);
+
                 /* 예약마감일을 바꿀 때마다 배송예정월을 다음 달로 맞춘다 (그 뒤에 배송예정월을 직접 바꿀 수 있다) */
-                if (date?.isValid()) setValue('deliveryMonth', date.add(1, 'month'));
+                if (date?.isValid()) {
+                  setValue('deliveryMonth', date.add(1, 'month'));
+                }
               }}
               slotProps={{ field: { clearable: true }, textField: { onBlur: field.onBlur, inputRef: field.ref } }}
             />
@@ -101,7 +104,7 @@ const FigureFormSchedule = ({ form }: FigureFormScheduleProps) => {
 
 export default FigureFormSchedule;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const Pair = styled(Box)(({ theme }) => ({
   display: 'grid',

@@ -55,20 +55,32 @@ const FigureDetailPage = () => {
       danger: true,
       focusCancel: true,
     });
-    if (!confirmed) return;
+
+    if (!confirmed) {
+      return;
+    }
 
     const res = await fetchDeleteFigure(figureId);
     showResult(res);
-    if (res.code === API_CODE.OK) navigate('/figures');
+
+    if (res.code === API_CODE.OK) {
+      navigate('/figures');
+    }
   };
 
   const handleFigureStatusSave = async (transition: FigureTransition, values: FigureStatusFormValues) => {
     const confirmed = await showConfirmAlert(getSingleConfirm(transition, values));
-    if (!confirmed) return;
+
+    if (!confirmed) {
+      return;
+    }
 
     const res = await fetchUpdateFigureStatus(figureId, toStatusRequestBody(transition, values));
     showResult(res);
-    if (res.code !== API_CODE.OK) return;
+
+    if (res.code !== API_CODE.OK) {
+      return;
+    }
 
     setStatusModalOpen(false);
   };
@@ -128,7 +140,7 @@ const FigureDetailPage = () => {
 
 export default FigureDetailPage;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const Layout = styled(SplitLayout)(({ theme }) => ({
   marginBottom: theme.spacing(2),

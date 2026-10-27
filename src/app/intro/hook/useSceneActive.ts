@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-/* 장면이 이만큼 보이면 지금 보고 있는 장면으로 본다 */
+/** 장면이 이만큼 보이면 지금 보고 있는 장면으로 본다 */
 const SCENE_ACTIVE_RATIO = 0.6;
 
 /**
@@ -13,7 +13,10 @@ const useSceneActive = () => {
 
   useEffect(() => {
     const scene = sceneRef.current;
-    if (!scene) return;
+
+    if (!scene) {
+      return;
+    }
 
     const observer = new IntersectionObserver(([entry]) => setActive(entry.isIntersecting), { threshold: SCENE_ACTIVE_RATIO });
     observer.observe(scene);

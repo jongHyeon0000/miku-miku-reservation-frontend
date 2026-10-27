@@ -39,7 +39,7 @@ const FigureDetailThumbnail = ({ figure }: FigureDetailThumbnailProps) => {
 
 export default FigureDetailThumbnail;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const Badges = styled(Box)(({ theme }) => ({
   position: 'absolute',

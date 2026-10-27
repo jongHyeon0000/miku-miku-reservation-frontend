@@ -20,11 +20,17 @@ const useCreatePost = () => {
     setLoading(true);
     try {
       const res = await api.post<ApiResponse<PostDetail | null>>('/api/post', body);
+
       if (res.data.code === API_CODE.OK) {
         const created = res.data.data;
-        if (created !== null) queryClient.setQueryData(postKeys.detail(created.postId), res.data);
+
+        if (created !== null) {
+          queryClient.setQueryData(postKeys.detail(created.postId), res.data);
+        }
+
         await queryClient.invalidateQueries({ queryKey: postKeys.pageAll() });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<PostDetail>(err);

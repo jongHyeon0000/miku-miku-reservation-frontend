@@ -11,7 +11,7 @@ import { DialogFieldStack, FormActions } from '@/app/common/style/CommonForm.sty
 import { alpha, styled } from '@mui/material/styles';
 import CheckIcon from '@mui/icons-material/Check';
 
-/* 분류 선택 창에서 한 쪽에 보여 주는 개수 (한 줄 5개, 두 줄) */
+/** 분류 선택 창에서 한 쪽에 보여 주는 개수 (한 줄 5개, 두 줄) */
 const PICK_PAGE_SIZE = 10;
 
 interface FigurePickDialogProps {
@@ -63,6 +63,7 @@ const FigurePickDialog = ({ title, items, selectedIds, multiple, onSelect, onClo
       onSelect([id]);
       return;
     }
+
     setCheckedIds((prev) => (prev.includes(id) ? prev.filter((checkedId) => checkedId !== id) : [...prev, id]));
   };
 
@@ -128,7 +129,7 @@ const FigurePickDialog = ({ title, items, selectedIds, multiple, onSelect, onClo
 
 export default FigurePickDialog;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const Tabs = styled(Box)(({ theme }) => ({
   display: 'flex',

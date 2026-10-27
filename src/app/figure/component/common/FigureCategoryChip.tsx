@@ -44,15 +44,15 @@ const FigureCategoryChip = ({ name, groupName, thumbnailUrl, onDelete }: FigureC
 
 export default FigureCategoryChip;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
-/* 동그란 사진(48px)과 그 옆의 낮은 이름 알약이 열쇠처럼 이어진다. 줄 높이는 사진을 따르고 사진이 알약보다 위아래로 튀어나온다 */
+/** 동그란 사진(48px)과 그 옆의 낮은 이름 알약이 열쇠처럼 이어진다. 줄 높이는 사진을 따르고 사진이 알약보다 위아래로 튀어나온다 */
 const Chip = styled('span')({
   display: 'inline-flex',
   alignItems: 'center',
 });
 
-/* 알약 왼쪽 끝이 사진 아래로 조금 파고들고, 사진이 그 위에 그려진다 */
+/** 알약 왼쪽 끝이 사진 아래로 조금 파고들고, 사진이 그 위에 그려진다 */
 const Photo = styled(ThumbAvatar)(({ theme }) => ({
   position: 'relative',
   zIndex: 1,

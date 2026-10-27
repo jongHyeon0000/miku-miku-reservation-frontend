@@ -62,28 +62,28 @@ const PostDetailCard = ({ post }: PostDetailCardProps) => {
   );
 };
 
-/* 닉네임과 날짜는 글자 크기가 달라서, 글자 밑선(기준선)을 맞춰 한 줄로 보이게 한다. 사진은 이 묶음 옆에서 가운데 정렬이다 */
+/** 닉네임과 날짜는 글자 크기가 달라서, 글자 밑선(기준선)을 맞춰 한 줄로 보이게 한다. 사진은 이 묶음 옆에서 가운데 정렬이다 */
 const NameLine = styled(Row)({
   alignItems: 'baseline',
 });
 
-/* 날짜와 수정됨 사이의 구분점 */
+/** 날짜와 수정됨 사이의 구분점 */
 const Dot = styled('span')(({ theme }) => ({
   margin: theme.spacing(0, 1),
 }));
 
-/* 마우스를 올리면 수정일이 보이는 글자 (점선 밑줄과 도움말 커서) */
+/** 마우스를 올리면 수정일이 보이는 글자 (점선 밑줄과 도움말 커서) */
 const EditedMark = styled('span')(({ theme }) => ({
   borderBottom: `1px dotted ${theme.palette.text.secondary}`,
   cursor: 'help',
 }));
 
-/* 조회와 댓글 한 줄. 아이콘을 글자 줄 안에 글자처럼 넣는다 */
+/** 조회와 댓글 한 줄. 아이콘을 글자 줄 안에 글자처럼 넣는다 */
 const StatLine = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
 })) as typeof Typography;
 
-/*
+/**
  * 글자 앞의 작은 아이콘. 글자 기준선에 맞추는 값(verticalAlign)이라 글꼴이 달라도 따로 위치를 보정하지 않는다.
  * 분류의 (i) 아이콘(InfoIcon)과 같은 방식이다.
  */

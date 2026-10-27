@@ -68,7 +68,10 @@ const FigureFormPage = ({ mode }: FigureFormPageProps) => {
   const { deleteThumbnailLoading, fetchDeleteThumbnail } = useDeleteThumbnail();
 
   const fetchAll = () => {
-    if (mode === 'edit') fetchReadFigure();
+    if (mode === 'edit') {
+      fetchReadFigure();
+    }
+
     fetchReadFigureFormOptions();
   };
 
@@ -81,7 +84,9 @@ const FigureFormPage = ({ mode }: FigureFormPageProps) => {
 
   /* 고른 썸네일 변경 사항을 서버에 보낸다. 보낼 것이 없으면 null */
   const saveThumbnail = async (savedFigureId: number, thumbnail: ThumbnailChange) => {
-    if (thumbnail.type === 'none') return null;
+    if (thumbnail.type === 'none') {
+      return null;
+    }
 
     return thumbnail.type === 'upload'
       ? fetchUploadThumbnail('figure', savedFigureId, thumbnail.file)
@@ -107,6 +112,7 @@ const FigureFormPage = ({ mode }: FigureFormPageProps) => {
     } else {
       showResult(res);
     }
+
     navigate(`/figures/${savedFigureId}`);
   };
 

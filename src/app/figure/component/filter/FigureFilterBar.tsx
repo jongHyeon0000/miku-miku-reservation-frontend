@@ -105,7 +105,7 @@ const FigureFilterBar = ({
 
 export default FigureFilterBar;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const RightSide = styled(Row)({
   marginLeft: 'auto',

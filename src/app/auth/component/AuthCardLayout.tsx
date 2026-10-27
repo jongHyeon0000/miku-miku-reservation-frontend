@@ -40,7 +40,7 @@ const AuthCardLayout = ({ title, description, children, footer }: AuthCardLayout
 
 export default AuthCardLayout;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const AuthWrap = styled(Box)(({ theme }) => ({
   display: 'flex',

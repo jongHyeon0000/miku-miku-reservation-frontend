@@ -13,8 +13,15 @@ export const formatPostDate = (dateTime: string): string => {
  */
 export const validatePostTitle = (value: string): string | undefined => {
   const trimmed = value.trim();
-  if (trimmed === '') return '제목을 입력해 주세요.';
-  if (trimmed.length > 200) return '제목은 200자 이하로 입력해 주세요.';
+
+  if (trimmed === '') {
+    return '제목을 입력해 주세요.';
+  }
+
+  if (trimmed.length > 200) {
+    return '제목은 200자 이하로 입력해 주세요.';
+  }
+
   return undefined;
 };
 
@@ -24,6 +31,9 @@ export const validatePostTitle = (value: string): string | undefined => {
  * 본문: 비어 있으면 안 된다(에디터는 내용이 없으면 빈 글자를 준다)
  */
 export const validatePostContent = (value: string): string | undefined => {
-  if (value.trim() === '') return '내용을 입력해 주세요.';
+  if (value.trim() === '') {
+    return '내용을 입력해 주세요.';
+  }
+
   return undefined;
 };

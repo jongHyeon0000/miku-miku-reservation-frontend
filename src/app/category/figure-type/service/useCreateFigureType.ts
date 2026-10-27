@@ -26,11 +26,13 @@ const useCreateFigureType = () => {
     setLoading(true);
     try {
       const res = await api.post<ApiResponse<FigureTypeItem | null>>('/api/figure-type', toFigureTypeRequest(values, groupId));
+
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: figureTypeKeys.groupAll() });
         await queryClient.invalidateQueries({ queryKey: figureTypeKeys.pageAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.formOptions() });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<FigureTypeItem>(err);

@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 import { createTheme } from '@mui/material/styles'
 
-/*
+/**
 * 색, 폰트, 둥근 정도는 이 파일에서만 정한다.
 * 컴포넌트에서는 hex를 직접 쓰지 않고 theme.palette 를 참조한다.
 */

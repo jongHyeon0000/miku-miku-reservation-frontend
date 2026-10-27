@@ -57,9 +57,9 @@ const FigureUrgentModal = ({ title, subtitle, figures, onClose, embedded = false
 
 export default FigureUrgentModal;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
-/* 제목 줄과 부제목을 세로로 쌓고 왼쪽 정렬한다 */
+/** 제목 줄과 부제목을 세로로 쌓고 왼쪽 정렬한다 */
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -73,7 +73,7 @@ const UrgentTitle = styled(DialogTitle)(({ theme }) => ({
   color: theme.palette.error.main,
 }));
 
-/* 부제목과 첫 카드 사이, 마지막 카드와 아래 버튼 줄 사이를 좁힌다 */
+/** 부제목과 첫 카드 사이, 마지막 카드와 아래 버튼 줄 사이를 좁힌다 */
 const Content = styled(DialogContent)(({ theme }) => ({
   paddingTop: theme.spacing(1.5),
   paddingBottom: theme.spacing(0.5),

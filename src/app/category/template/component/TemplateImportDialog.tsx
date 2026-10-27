@@ -54,22 +54,28 @@ const TemplateImportDialog = ({ onClose }: TemplateImportDialogProps) => {
 
   const handleImportClick = async (template: Template) => {
     const res = await fetchReadTemplateImportPreview(template.templateId);
+
     if (res.code !== API_CODE.OK) {
       showResult(res);
       return;
     }
+
     setConfirm({ template: template, preview: res.data! });
   };
 
   /* 성공하면 확인 창만 닫는다. 목록 창은 열어 두어 이어서 다른 템플릿을 가져올 수 있다 */
   const handleConfirm = async () => {
-    if (confirm === null) return;
+    if (confirm === null) {
+      return;
+    }
 
     const res = await fetchImportTemplate(confirm.template.templateId, confirm.template.templateType);
+
     if (res.code !== API_CODE.OK) {
       showResult(res);
       return;
     }
+
     showSnackbar(`${res.data!.addedCount}개를 가져왔어요.`, 'success');
     setConfirm(null);
   };

@@ -17,16 +17,16 @@ import { APP_ROUTES } from '@/config/route/RoutesConfig';
 import { useUiStore } from '@/store/uiStore';
 import { styled } from '@mui/material/styles';
 
-/* 화면에 보이는 앱 이름. index.html 의 <title> 은 코드가 아니라서 같은 글자를 따로 적는다 */
+/** 화면에 보이는 앱 이름. index.html 의 <title> 은 코드가 아니라서 같은 글자를 따로 적는다 */
 const APP_NAME = '미쿠미쿠예약시스템';
 
-/*
+/**
 * 상단 메뉴에 나올 라우트 (APP_ROUTES 에서 type 이 gnb 인 것)
 * */
 const GNB_ROUTES = APP_ROUTES.filter((route) => route.type === 'gnb');
 
-/* 판매처 탭은 이동하는 주소가 없어서 라우트 표에 없다. 라우트 탭들 뒤에 붙인다 */
-/* 탭에서 패널로 마우스가 건너가는 사이에 닫히지 않도록 닫기를 미루는 시간(ms) */
+/** 판매처 탭은 이동하는 주소가 없어서 라우트 표에 없다. 라우트 탭들 뒤에 붙인다 */
+/** 탭에서 패널로 마우스가 건너가는 사이에 닫히지 않도록 닫기를 미루는 시간(ms) */
 const SHOP_CLOSE_DELAY = 150;
 
 /**
@@ -150,7 +150,7 @@ const GNB = () => {
 
 export default GNB;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
 const GnbBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -165,7 +165,7 @@ const Brand = styled(Typography)(({ theme }) => ({
   textDecoration: 'none',
 })) as typeof Typography;
 
-/* 글자 높이에 가깝게 rem 으로 정한다 */
+/** 글자 높이에 가깝게 rem 으로 정한다 */
 const BrandIcon = styled('img')(({ theme }) => ({
   height: '2rem',
   borderRadius: theme.shape.borderRadius,
@@ -177,7 +177,7 @@ const MenuName = styled(Typography)(({ theme }) => ({
 
 const Spacer = styled('div')({ flexGrow: 1 });
 
-/* 상단 메뉴 탭 줄. 남는 폭을 차지하고 로고와 간격을 둔다 */
+/** 상단 메뉴 탭 줄. 남는 폭을 차지하고 로고와 간격을 둔다 */
 const NavTabs = styled(HoverTabs)(({ theme }) => ({
   flexGrow: 1,
   marginLeft: theme.spacing(3),

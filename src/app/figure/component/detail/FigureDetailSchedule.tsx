@@ -68,9 +68,9 @@ const FigureDetailSchedule = ({ figure }: FigureDetailScheduleProps) => {
 
 export default FigureDetailSchedule;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
-/* 이름표, 값, 이름표, 값 네 칸. 값이 같은 세로선에서 시작하도록 줄들이 칸을 같이 쓴다(DateRow 는 칸만 거든다) */
+/** 이름표, 값, 이름표, 값 네 칸. 값이 같은 세로선에서 시작하도록 줄들이 칸을 같이 쓴다(DateRow 는 칸만 거든다) */
 const Dates = styled(LabelValueGrid)(({ theme }) => ({
   ...theme.typography.mono,
   gridTemplateColumns: 'auto 1fr auto 1fr',

@@ -30,7 +30,9 @@ const ResetPasswordPage = () => {
   const [loginId, setLoginId] = useState<string>('');
   const [email, setEmail] = useState<string>('');
 
-  if (isAuthenticated) return <Navigate to="/figures" replace />;
+  if (isAuthenticated) {
+    return <Navigate to="/figures" replace />;
+  }
 
   const handleSendCode = (loginIdValue: string, emailValue: string) => {
     setLoginId(loginIdValue);
@@ -46,13 +48,16 @@ const ResetPasswordPage = () => {
     const res = await fetchResetPassword({ loginId, email, newPassword });
 
     showResult(res);
+
     if (res.code === API_CODE.OK) {
       navigate('/login');
       return;
     }
 
     /* 여기서 BAD_REQUEST 는 인증 만료(30분 지남)뿐이다(계정 일치는 코드를 받을 때 이미 확인됨). 처음부터 다시 받게 한다 */
-    if (res.code === API_CODE.BAD_REQUEST) emailVerification.reset();
+    if (res.code === API_CODE.BAD_REQUEST) {
+      emailVerification.reset();
+    }
   };
 
   const loading = emailVerification.loading || resetPasswordLoading;

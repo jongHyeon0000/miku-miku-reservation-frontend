@@ -22,10 +22,12 @@ const useUpdateFigure = () => {
     setLoading(true);
     try {
       const res = await api.put<ApiResponse<FigureSummary | null>>(`/api/figure/${figureId}`, body);
+
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: figureKeys.list() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.detail(figureId) });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<FigureSummary>(err);

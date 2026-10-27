@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { Row } from '@/app/common/style/CommonLayout.style';
 
-/* 저장 버튼이 폼 밖(페이지 위쪽)에도 있어서, form 속성으로 이 폼과 이어 준다 */
+/** 저장 버튼이 폼 밖(페이지 위쪽)에도 있어서, form 속성으로 이 폼과 이어 준다 */
 export const FIGURE_FORM_ID = 'figure-form';
 
 interface FigureFormActionsProps {

@@ -1,4 +1,4 @@
-/*
+/**
 * 마이페이지 탭 (내 정보, 회원 탈퇴)
 * */
 export const MY_PAGE_TABS = {

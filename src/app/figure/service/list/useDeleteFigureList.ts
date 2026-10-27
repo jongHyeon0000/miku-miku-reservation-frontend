@@ -18,7 +18,11 @@ const useDeleteFigureList = () => {
     try {
       /* 배열을 그대로 넘기면 figureIds[]= 로 직렬화되므로 쉼표로 이어 보낸다 */
       const res = await api.delete<ApiResponse<null>>('/api/figure', { params: { figureIds: figureIds.join(',') } });
-      if (res.data.code === API_CODE.OK) await queryClient.invalidateQueries({ queryKey: figureKeys.list() });
+
+      if (res.data.code === API_CODE.OK) {
+        await queryClient.invalidateQueries({ queryKey: figureKeys.list() });
+      }
+
       return res.data;
     } catch (err) {
       return toApiResponse<null>(err);

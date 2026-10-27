@@ -30,6 +30,7 @@ const useLogin = () => {
       setAccessToken(loginRes.data.data.accessToken);
 
       const meRes = await fetchReadMe();
+
       if (meRes.code !== API_CODE.OK) {
         removeAccessToken();
         return meRes;

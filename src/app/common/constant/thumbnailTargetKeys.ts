@@ -7,7 +7,7 @@ import { genreCharacterKeys } from '@/app/category/genre-character/constant/genr
 import { makerKeys } from '@/app/category/maker/constant/makerQueryKeys';
 import { figureKeys } from '@/app/figure/constant/figureQueryKeys';
 
-/* 썸네일이 바뀌면 낡아지는 키. 분류 썸네일은 상품 응답 안에도 들어 있어서 상품 전체를 함께 울린다 */
+/** 썸네일이 바뀌면 낡아지는 키. 분류 썸네일은 상품 응답 안에도 들어 있어서 상품 전체를 함께 울린다 */
 export const THUMBNAIL_QUERY_KEYS: Record<ThumbnailTarget, (targetId: number) => QueryKey[]> = {
   'figure': (targetId) => [figureKeys.detail(targetId), figureKeys.list()],
   'shop-group': () => [shopKeys.groupAll(), figureKeys.all],

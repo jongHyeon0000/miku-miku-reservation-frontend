@@ -19,11 +19,13 @@ const useDeleteFigureTypeGroup = () => {
     setLoading(true);
     try {
       const res = await api.delete<ApiResponse<null>>(`/api/figure-type-group/${id}`);
+
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: figureTypeKeys.groupAll() });
         await queryClient.invalidateQueries({ queryKey: figureTypeKeys.pageAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.all });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<null>(err);

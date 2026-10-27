@@ -44,19 +44,26 @@ const MyPagePage = () => {
   const [passwordDialogOpen, setPasswordDialogOpen] = useState<boolean>(false);
 
   const handleTabChange = (_event: SyntheticEvent, value: string) => {
-    if (isMyPageTabKey(value)) setTab(value);
+    if (isMyPageTabKey(value)) {
+      setTab(value);
+    }
   };
 
   /* 고른 프로필 이미지를 올리거나 지우고, 헤더 아이콘도 바뀌도록 내 정보를 다시 불러온다 */
   const handleThumbnailSave = async () => {
-    if (thumbnail.type === 'none') return;
+    if (thumbnail.type === 'none') {
+      return;
+    }
 
     const res =
       thumbnail.type === 'upload'
         ? await fetchUploadThumbnail('user', user!.userId, thumbnail.file)
         : await fetchDeleteThumbnail('user', user!.userId);
     showResult(res);
-    if (res.code !== API_CODE.OK) return;
+
+    if (res.code !== API_CODE.OK) {
+      return;
+    }
 
     setThumbnail({ type: 'none' });
     await fetchReadMe();
@@ -66,16 +73,25 @@ const MyPagePage = () => {
   const handleChangePassword = async (body: ChangePasswordRequestBody) => {
     const res = await fetchChangePassword(body);
     showResult(res);
-    if (res.code === API_CODE.OK) setPasswordDialogOpen(false);
+
+    if (res.code === API_CODE.OK) {
+      setPasswordDialogOpen(false);
+    }
   };
 
   const handleWithdraw = async (password: string) => {
     const confirmed = await showConfirmAlert({ ...WITHDRAW_ALERT, danger: true, focusCancel: true });
-    if (!confirmed) return;
+
+    if (!confirmed) {
+      return;
+    }
 
     const res = await fetchWithdraw(password);
     showResult(res);
-    if (res.code !== API_CODE.OK) return;
+
+    if (res.code !== API_CODE.OK) {
+      return;
+    }
 
     logout();
     navigate('/intro', { replace: true });

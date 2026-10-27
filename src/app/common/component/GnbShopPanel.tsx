@@ -27,7 +27,9 @@ interface GnbShopPanelProps {
  * 주소가 없거나 http, https 가 아닌 판매처는 흐리게 보이고 눌러도 아무 일도 없다.
  */
 const GnbShopPanel = ({ groups, open, onMouseEnter, onMouseLeave }: GnbShopPanelProps) => {
-  if (!open) return null;
+  if (!open) {
+    return null;
+  }
 
   return (
     <PanelRoot onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
@@ -56,9 +58,9 @@ const GnbShopPanel = ({ groups, open, onMouseEnter, onMouseLeave }: GnbShopPanel
 
 export default GnbShopPanel;
 
-/* ───────── styles ───────── */
+/** ───────── styles ───────── */
 
-/* 상단 메뉴 바로 아래에 전체 폭으로 붙는 패널. 위치는 상단 메뉴(sticky)가 기준이다. 왼쪽 칸은 가장 긴 그룹 이름에 맞춰진다 */
+/** 상단 메뉴 바로 아래에 전체 폭으로 붙는 패널. 위치는 상단 메뉴(sticky)가 기준이다. 왼쪽 칸은 가장 긴 그룹 이름에 맞춰진다 */
 const PanelRoot = styled('div')(({ theme }) => ({
   position: 'absolute',
   top: '100%',

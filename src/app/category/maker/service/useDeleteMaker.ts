@@ -19,10 +19,12 @@ const useDeleteMaker = () => {
     setLoading(true);
     try {
       const res = await api.delete<ApiResponse<null>>(`/api/maker/${id}`);
+
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: makerKeys.pageAll() });
         await queryClient.invalidateQueries({ queryKey: figureKeys.all });
       }
+
       return res.data;
     } catch (err) {
       return toApiResponse<null>(err);
