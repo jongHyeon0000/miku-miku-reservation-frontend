@@ -86,14 +86,7 @@ const SeriesCategoryContent = () => {
   };
 
   const handleSave = async (dialog: DialogState, values: SeriesFormValues, thumbnail: ThumbnailChange) => {
-    const res: ApiResponse<SeriesItem | null> =
-      dialog.mode === 'insert'
-        ? dialog.level === 'group'
-          ? await fetchCreateSeriesGroup(values)
-          : await fetchCreateSeries(dialog.parentId!, values)
-        : dialog.level === 'group'
-          ? await fetchUpdateSeriesGroup(dialog.target.id, values)
-          : await fetchUpdateSeries(dialog.target.id, values);
+    const res = await requestSave(dialog, values);
 
     if (res.code !== API_CODE.OK) {
       showResult(res);
@@ -116,6 +109,23 @@ const SeriesCategoryContent = () => {
     if (dialog.mode === 'insert' && dialog.level === 'group') {
       handleSelectGroup(targetId);
     }
+  };
+
+  /* 창 종류(추가, 수정, 상위, 하위)에 맞는 저장 요청을 보낸다 */
+  const requestSave = async (dialog: DialogState, values: SeriesFormValues): Promise<ApiResponse<SeriesItem | null>> => {
+    if (dialog.mode === 'insert' && dialog.level === 'group') {
+      return fetchCreateSeriesGroup(values);
+    }
+
+    if (dialog.mode === 'insert') {
+      return fetchCreateSeries(dialog.parentId!, values);
+    }
+
+    if (dialog.level === 'group') {
+      return fetchUpdateSeriesGroup(dialog.target.id, values);
+    }
+
+    return fetchUpdateSeries(dialog.target.id, values);
   };
 
   /* 고른 썸네일 변경 사항을 서버에 보낸다. 보낼 것이 없으면 null */

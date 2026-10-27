@@ -86,14 +86,7 @@ const FigureTypeCategoryContent = () => {
   };
 
   const handleSave = async (dialog: DialogState, values: FigureTypeFormValues, thumbnail: ThumbnailChange) => {
-    const res: ApiResponse<FigureTypeItem | null> =
-      dialog.mode === 'insert'
-        ? dialog.level === 'group'
-          ? await fetchCreateFigureTypeGroup(values)
-          : await fetchCreateFigureType(dialog.parentId!, values)
-        : dialog.level === 'group'
-          ? await fetchUpdateFigureTypeGroup(dialog.target.id, values)
-          : await fetchUpdateFigureType(dialog.target.id, values);
+    const res = await requestSave(dialog, values);
 
     if (res.code !== API_CODE.OK) {
       showResult(res);
@@ -116,6 +109,23 @@ const FigureTypeCategoryContent = () => {
     if (dialog.mode === 'insert' && dialog.level === 'group') {
       handleSelectGroup(targetId);
     }
+  };
+
+  /* 창 종류(추가, 수정, 상위, 하위)에 맞는 저장 요청을 보낸다 */
+  const requestSave = async (dialog: DialogState, values: FigureTypeFormValues): Promise<ApiResponse<FigureTypeItem | null>> => {
+    if (dialog.mode === 'insert' && dialog.level === 'group') {
+      return fetchCreateFigureTypeGroup(values);
+    }
+
+    if (dialog.mode === 'insert') {
+      return fetchCreateFigureType(dialog.parentId!, values);
+    }
+
+    if (dialog.level === 'group') {
+      return fetchUpdateFigureTypeGroup(dialog.target.id, values);
+    }
+
+    return fetchUpdateFigureType(dialog.target.id, values);
   };
 
   /* 고른 썸네일 변경 사항을 서버에 보낸다. 보낼 것이 없으면 null */

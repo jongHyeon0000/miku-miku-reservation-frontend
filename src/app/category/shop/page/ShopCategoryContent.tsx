@@ -86,14 +86,7 @@ const ShopCategoryContent = () => {
   };
 
   const handleSave = async (dialog: DialogState, values: ShopFormValues, thumbnail: ThumbnailChange) => {
-    const res: ApiResponse<ShopItem | null> =
-      dialog.mode === 'insert'
-        ? dialog.level === 'group'
-          ? await fetchCreateShopGroup(values)
-          : await fetchCreateShop(dialog.parentId!, values)
-        : dialog.level === 'group'
-          ? await fetchUpdateShopGroup(dialog.target.id, values)
-          : await fetchUpdateShop(dialog.target.id, values);
+    const res = await requestSave(dialog, values);
 
     if (res.code !== API_CODE.OK) {
       showResult(res);
@@ -116,6 +109,23 @@ const ShopCategoryContent = () => {
     if (dialog.mode === 'insert' && dialog.level === 'group') {
       handleSelectGroup(targetId);
     }
+  };
+
+  /* 창 종류(추가, 수정, 상위, 하위)에 맞는 저장 요청을 보낸다 */
+  const requestSave = async (dialog: DialogState, values: ShopFormValues): Promise<ApiResponse<ShopItem | null>> => {
+    if (dialog.mode === 'insert' && dialog.level === 'group') {
+      return fetchCreateShopGroup(values);
+    }
+
+    if (dialog.mode === 'insert') {
+      return fetchCreateShop(dialog.parentId!, values);
+    }
+
+    if (dialog.level === 'group') {
+      return fetchUpdateShopGroup(dialog.target.id, values);
+    }
+
+    return fetchUpdateShop(dialog.target.id, values);
   };
 
   /* 고른 썸네일 변경 사항을 서버에 보낸다. 보낼 것이 없으면 null */

@@ -13,9 +13,9 @@ const FIGURE_IMAGE_FILES = import.meta.glob<string>('@/assets/intro/figures/*.{j
 const toFigureId = (path: string): string => path.split('/').pop()!.split('.')[0];
 
 /** 번호 순서로 정렬한 [번호, 이미지 주소] 목록 */
-const FIGURE_IMAGES: [string, string][] = Object.entries(FIGURE_IMAGE_FILES)
-  .map(([path, url]): [string, string] => [toFigureId(path), url])
-  .sort(([a], [b]) => a.localeCompare(b));
+const imageEntries = Object.entries(FIGURE_IMAGE_FILES);
+const idUrlPairs = imageEntries.map(([path, url]): [string, string] => [toFigureId(path), url]);
+const FIGURE_IMAGES: [string, string][] = idUrlPairs.sort(([a], [b]) => a.localeCompare(b));
 
 /** 번호로 찾는 상품 썸네일 */
 export const INTRO_THUMBNAILS: Record<string, string> = Object.fromEntries(FIGURE_IMAGES);

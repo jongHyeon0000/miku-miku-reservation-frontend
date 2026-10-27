@@ -6,6 +6,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import useAuth from '@/app/auth/service/useAuth';
 import { PROTECTED_CATEGORY_NAME } from '@/app/category/common/constant/categoryAxes';
+import type { ShopGroup } from '@/app/category/shop/interface/ShopGroup';
 import useReadShopList from '@/app/category/shop/service/useReadShopList';
 import GnbShopPanel from '@/app/common/component/GnbShopPanel';
 import mainIcon from '@/assets/common/main-icon.png';
@@ -26,6 +27,17 @@ const APP_NAME = '미쿠미쿠예약시스템';
 const GNB_ROUTES = APP_ROUTES.filter((route) => route.type === 'gnb');
 
 /** 판매처 탭은 이동하는 주소가 없어서 라우트 표에 없다. 라우트 탭들 뒤에 붙인다 */
+/** 기본 분류 '기타'와, 빠진 뒤 하위가 하나도 없는 상위를 뺀 판매처 목록 */
+const toVisibleShopGroups = (groups: ShopGroup[]): ShopGroup[] => {
+  const namedGroups = groups.filter((group) => group.name !== PROTECTED_CATEGORY_NAME);
+  const trimmedGroups = namedGroups.map((group) => ({
+    ...group,
+    children: group.children.filter((shop) => shop.name !== PROTECTED_CATEGORY_NAME),
+  }));
+
+  return trimmedGroups.filter((group) => group.children.length > 0);
+};
+
 /** 탭에서 패널로 마우스가 건너가는 사이에 닫히지 않도록 닫기를 미루는 시간(ms) */
 const SHOP_CLOSE_DELAY = 150;
 
@@ -46,13 +58,7 @@ const GNB = () => {
   useEffect(() => () => window.clearTimeout(shopCloseTimer.current), []);
 
   /* 기본 분류 '기타'와, 빠진 뒤 하위가 하나도 없는 상위는 패널에 보이지 않는다 */
-  const shopGroups =
-    shopList?.code === API_CODE.OK
-      ? (shopList.data ?? [])
-          .filter((group) => group.name !== PROTECTED_CATEGORY_NAME)
-          .map((group) => ({ ...group, children: group.children.filter((shop) => shop.name !== PROTECTED_CATEGORY_NAME) }))
-          .filter((group) => group.children.length > 0)
-      : [];
+  const shopGroups = shopList?.code === API_CODE.OK ? toVisibleShopGroups(shopList.data ?? []) : [];
 
   /* 현재 주소가 속한 메뉴 탭 (상품 상세 같은 하위 주소도 '상품' 탭으로 본다) */
   const activeRoute = GNB_ROUTES.find((route) => pathname === route.path || pathname.startsWith(`${route.path}/`));

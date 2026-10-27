@@ -84,8 +84,19 @@ const ThumbnailUploader = ({ currentUrl, value, onChange, disabled = false }: Th
   const cropping = value.type === 'upload' ? source : null;
 
   /* 보여 줄 그림: 새로 고른 파일 > 서버에 있는 썸네일(지우기로 했으면 없음) */
-  const shownUrl =
-    value.type === 'upload' ? value.previewUrl : value.type === 'none' && currentUrl ? imageUrl(currentUrl) : null;
+  const getShownUrl = (): string | null => {
+    if (value.type === 'upload') {
+      return value.previewUrl;
+    }
+
+    if (value.type === 'none' && currentUrl) {
+      return imageUrl(currentUrl);
+    }
+
+    return null;
+  };
+
+  const shownUrl = getShownUrl();
 
   const applyView = (image: HTMLImageElement, next: CropView) => {
     const clamped = clampView(image, next);
@@ -245,6 +256,38 @@ const ThumbnailUploader = ({ currentUrl, value, onChange, disabled = false }: Th
   };
 
   /* 새로 고른 파일이면 고른 것을 취소하고, 서버에 있는 썸네일이면 지우기로 표시한다 */
+  /* 올린 영역 안에 보여 줄 것: 자르는 중인 그림 > 서버나 새로 고른 그림 > 빈 안내 */
+  const renderDropContent = () => {
+    if (cropping) {
+      return (
+        <CropImage
+          src={cropping.src}
+          alt="썸네일"
+          draggable={false}
+          style={{
+            width: `${(cropping.image.naturalWidth / visibleSide(cropping.image, view.zoom)) * 100}%`,
+            height: `${(cropping.image.naturalHeight / visibleSide(cropping.image, view.zoom)) * 100}%`,
+            left: `${-((view.cx * cropping.image.naturalWidth - visibleSide(cropping.image, view.zoom) / 2) / visibleSide(cropping.image, view.zoom)) * 100}%`,
+            top: `${-((view.cy * cropping.image.naturalHeight - visibleSide(cropping.image, view.zoom) / 2) / visibleSide(cropping.image, view.zoom)) * 100}%`,
+          }}
+        />
+      );
+    }
+
+    if (shownUrl) {
+      return <FillImage src={shownUrl} alt="썸네일" />;
+    }
+
+    return (
+      <Placeholder>
+        <ImageOutlinedIcon color="disabled" fontSize="large" />
+        <Typography variant="caption" color="text.secondary">
+          {placeholderText}
+        </Typography>
+      </Placeholder>
+    );
+  };
+
   const handleRemove = () => {
     setErrorMessage(null);
     setSource(null);
@@ -272,28 +315,7 @@ const ThumbnailUploader = ({ currentUrl, value, onChange, disabled = false }: Th
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       >
-        {cropping ? (
-          <CropImage
-            src={cropping.src}
-            alt="썸네일"
-            draggable={false}
-            style={{
-              width: `${(cropping.image.naturalWidth / visibleSide(cropping.image, view.zoom)) * 100}%`,
-              height: `${(cropping.image.naturalHeight / visibleSide(cropping.image, view.zoom)) * 100}%`,
-              left: `${-((view.cx * cropping.image.naturalWidth - visibleSide(cropping.image, view.zoom) / 2) / visibleSide(cropping.image, view.zoom)) * 100}%`,
-              top: `${-((view.cy * cropping.image.naturalHeight - visibleSide(cropping.image, view.zoom) / 2) / visibleSide(cropping.image, view.zoom)) * 100}%`,
-            }}
-          />
-        ) : shownUrl ? (
-          <FillImage src={shownUrl} alt="썸네일" />
-        ) : (
-          <Placeholder>
-            <ImageOutlinedIcon color="disabled" fontSize="large" />
-            <Typography variant="caption" color="text.secondary">
-              {placeholderText}
-            </Typography>
-          </Placeholder>
-        )}
+        {renderDropContent()}
         {shownUrl && !disabled && (
           <Tooltip title="이미지 지우기">
             <RemoveButton

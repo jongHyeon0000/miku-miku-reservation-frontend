@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import type { FigureStatus } from '@/app/figure/constant/figureStatus';
+import type { FigureStatus, PaymentType } from '@/app/figure/constant/figureStatus';
 import type { FigureCategoryRef } from '@/app/figure/interface/common/FigureCategoryRef';
 import type { FigureMakerRef } from '@/app/figure/interface/common/FigureMakerRef';
 import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
@@ -68,6 +68,19 @@ const seriesOf = (source: IntroFigureSource): FigureCategoryRef => {
   return refById(INTRO_SERIES_GROUPS, 71);
 };
 
+/** 결제 방식: 예약완료는 예약금, 구매완료와 배송완료는 전액, 나머지는 없음 */
+const paymentTypeOf = (status: FigureStatus): PaymentType | null => {
+  if (status === 'RESERVED') {
+    return 'DEPOSIT';
+  }
+
+  if (status === 'PURCHASED' || status === 'DELIVERED') {
+    return 'FULL';
+  }
+
+  return null;
+};
+
 const toFigure = (source: IntroFigureSource, index: number): FigureSummary => {
   const status = STATUS_CYCLE[index % STATUS_CYCLE.length];
   const beforePurchase = status === 'CART' || status === 'UNPURCHASED';
@@ -76,7 +89,7 @@ const toFigure = (source: IntroFigureSource, index: number): FigureSummary => {
   return {
     figureId: Number(source.id),
     status,
-    paymentType: status === 'RESERVED' ? 'DEPOSIT' : status === 'PURCHASED' || status === 'DELIVERED' ? 'FULL' : null,
+    paymentType: paymentTypeOf(status),
     name: source.name,
     deliveryMonth: status === 'DELIVERED' ? monthAfter(-1) : monthAfter(1 + (index % 4)),
     reservationDeadline: beforePurchase ? dayAfter(10 + ((index * 13) % 70)) : '',
