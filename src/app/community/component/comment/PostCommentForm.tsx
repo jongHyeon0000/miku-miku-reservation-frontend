@@ -65,7 +65,7 @@ const PostCommentForm = ({ postId, replyTarget, editTarget, hasReplies = false, 
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const initialImages = editTarget !== undefined ? editTarget.images : [];
-  const initialContent = editTarget !== undefined ? editTarget.content : '';
+  const initialContent = editTarget !== undefined ? (editTarget.content ?? '') : '';
   const [images, setImages] = useState<PostCommentImageUploadResponseData[]>(initialImages);
 
   const { register, handleSubmit, control, reset, formState } = useForm<PostCommentFormValues>({
@@ -76,7 +76,7 @@ const PostCommentForm = ({ postId, replyTarget, editTarget, hasReplies = false, 
 
   const busy = uploadCommentImageLoading || createPostCommentLoading || updatePostCommentLoading;
   const content = useWatch({ control, name: 'content' });
-  const isEmpty = content.trim() === '';
+  const isEmpty = content.trim() === '' && images.length === 0;
   const isImageFull = images.length >= MAX_IMAGES;
   const avatarUrl = user !== null ? user.thumbnailUrl : undefined;
   const isReply = replyTarget !== undefined;
@@ -121,10 +121,14 @@ const PostCommentForm = ({ postId, replyTarget, editTarget, hasReplies = false, 
   };
 
   const handleValid = async ({ content }: PostCommentFormValues) => {
+    const trimmed = content.trim();
     const body: PostCommentSaveRequestBody = {
-      content: content.trim(),
       postCommentImageIds: images.map((image) => image.postCommentImageId),
     };
+
+    if (trimmed !== '') {
+      body.content = trimmed;
+    }
 
     if (replyTarget !== undefined) {
       body.parentPostCommentId = replyTarget.parentPostCommentId;

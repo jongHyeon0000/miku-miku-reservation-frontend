@@ -58,14 +58,10 @@ export const countComments = (comments: PostComment[]): number => {
 /**
  * [댓글 폼]
  *
- * 내용: 앞뒤 공백을 뺀 1~1000자
+ * 내용: 앞뒤 공백을 뺀 1000자 이하. 비어도 통과한다(이미지만 있는 댓글이 있으므로, 글도 이미지도 없는 경우는 등록 버튼이 막는다)
  */
 export const validatePostComment = (value: string): string | undefined => {
   const trimmed = value.trim();
-
-  if (trimmed === '') {
-    return '내용을 입력해 주세요.';
-  }
 
   if (trimmed.length > 1000) {
     return '댓글은 1000자 이하로 입력해 주세요.';

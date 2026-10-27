@@ -42,8 +42,8 @@ export interface PostCommentNormal {
   /** 답글 대상 사용자 이름. 화면에서 '@이름'으로 그린다 */
   mentionUserName?: string;
 
-  /** 내용 (일반 텍스트, 줄바꿈 포함 가능. 멘션 글자는 들어 있지 않다) */
-  content: string;
+  /** 내용 (일반 텍스트, 줄바꿈 포함 가능. 멘션 글자는 들어 있지 않다). 이미지만 있는 댓글이면 필드가 없다 */
+  content?: string;
 
   /** 붙은 이미지 0~2장, 표시 순서대로 */
   images: PostCommentImage[];
