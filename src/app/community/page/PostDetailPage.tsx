@@ -6,9 +6,11 @@ import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.
 import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { PageContainer } from '@/app/common/style/CommonPage.style';
 import { showConfirmAlert } from '@/app/common/utils/AlertUtils';
+import PostCommentSection from '@/app/community/component/comment/PostCommentSection';
 import PostDetailCard from '@/app/community/component/detail/PostDetailCard';
 import useDeletePost from '@/app/community/service/useDeletePost';
 import useReadPost from '@/app/community/service/useReadPost';
+import useReadPostCommentList from '@/app/community/service/useReadPostCommentList';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import { useUiStore } from '@/store/uiStore';
 import { styled } from '@mui/material/styles';
@@ -30,6 +32,7 @@ const PostDetailPage = () => {
   const showResult = useUiStore((state) => state.showResult);
 
   const { post, postLoading, fetchReadPost } = useReadPost(postId);
+  const { postCommentList, postCommentListLoading, fetchReadPostCommentList } = useReadPostCommentList(postId);
   const { deletePostLoading, fetchDeletePost } = useDeletePost();
 
   const isOk = post !== undefined && post.code === API_CODE.OK;
@@ -68,9 +71,11 @@ const PostDetailPage = () => {
             </Row>
           )}
         </SpreadRow>
+
+        {detail !== null && <PostCommentSection postCommentList={postCommentList} onRetry={fetchReadPostCommentList} />}
       </DetailColumn>
 
-      <LoadingOverlay open={postLoading || deletePostLoading} />
+      <LoadingOverlay open={postLoading || postCommentListLoading || deletePostLoading} />
     </PageContainer>
   );
 };

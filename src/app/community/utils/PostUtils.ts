@@ -1,3 +1,5 @@
+import type { PostComment } from '@/app/community/interface/PostComment';
+
 /**
  * 서버가 준 날짜시간('2026-10-26T10:30:00')을 '2026.10.26' 모양으로 바꾼다.
  */
@@ -36,4 +38,17 @@ export const validatePostContent = (value: string): string | undefined => {
   }
 
   return undefined;
+};
+
+/**
+ * 댓글 수를 센다. 최상위 댓글과 모든 답글의 합이고, 삭제나 탈퇴로 자리만 남은 것도 센다.
+ */
+export const countComments = (comments: PostComment[]): number => {
+  let count = comments.length;
+
+  comments.forEach((comment) => {
+    count += comment.replies.length;
+  });
+
+  return count;
 };
