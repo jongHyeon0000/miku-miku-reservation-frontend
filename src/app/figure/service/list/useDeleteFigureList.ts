@@ -16,8 +16,8 @@ const useDeleteFigureList = () => {
   const fetchDeleteFigureList = async (figureIds: number[]): Promise<ApiResponse<null>> => {
     setLoading(true);
     try {
-      /* 배열을 그대로 넘기면 figureIds[]= 로 직렬화되므로 쉼표로 이어 보낸다 */
-      const res = await api.delete<ApiResponse<null>>('/api/figure', { params: { figureIds: figureIds.join(',') } });
+      /* 선택한 상품이 많으면 쿼리가 너무 길어지므로 id 목록은 본문으로 보낸다 */
+      const res = await api.delete<ApiResponse<null>>('/api/figure', { data: { figureIds: figureIds } });
 
       if (res.data.code === API_CODE.OK) {
         await queryClient.invalidateQueries({ queryKey: figureKeys.list() });
