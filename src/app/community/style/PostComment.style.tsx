@@ -101,13 +101,11 @@ export const ReplyItem = styled(Box)(({ theme }) => ({
 }));
 
 /**
- * 댓글 이미지 묶음 (틈 없이 붙고 바깥 모서리만 둥글다)
+ * 댓글 이미지 묶음 (틈 없이 붙은 정사각형 이미지들, 모서리를 둥글리지 않는다)
  */
 export const CommentImages = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignSelf: 'flex-start',
-  overflow: 'hidden',
-  borderRadius: theme.shape.borderRadius,
   '& > img': {
     width: theme.spacing(12),
     height: theme.spacing(12),
@@ -172,17 +170,13 @@ export const PreviewRow = styled(Box)(({ theme }) => ({
 }));
 
 /**
- * 미리보기 칸 (정사각형, 모서리에 빼기 버튼이 걸친다)
+ * 미리보기 칸 (모서리를 둥글리지 않은 정사각형, 모서리에 빼기 버튼이 걸친다)
  */
 export const PreviewFrame = styled(Box)(({ theme }) => ({
   position: 'relative',
   width: theme.spacing(8),
   height: theme.spacing(8),
-  borderRadius: theme.shape.borderRadius,
   backgroundColor: theme.palette.surfaceRaised,
-  '& > img': {
-    borderRadius: 'inherit',
-  },
 }));
 
 /**
@@ -207,4 +201,11 @@ export const ReplyButton = styled(Button)(({ theme }) => ({
   padding: theme.spacing(0.25, 0.75),
   color: theme.palette.text.secondary,
   ...theme.typography.caption,
+}));
+
+/**
+ * 댓글 ⋮ 메뉴 버튼 (작은 아이콘 버튼, 글자 보조색)
+ */
+export const MenuButton = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.text.secondary,
 }));

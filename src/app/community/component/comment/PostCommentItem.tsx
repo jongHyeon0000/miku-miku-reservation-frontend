@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
-import { Row } from '@/app/common/style/CommonLayout.style';
+import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { FillImage, ThumbAvatar } from '@/app/common/style/CommonMedia.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
+import PostCommentMenu from '@/app/community/component/comment/PostCommentMenu';
 import PostAuthorLine from '@/app/community/component/common/PostAuthorLine';
 import type { PostComment } from '@/app/community/interface/PostComment';
 import type { PostHiddenStatus } from '@/app/community/interface/PostStatus';
@@ -33,14 +34,20 @@ interface PostCommentItemProps {
 
   /** "답글"을 눌렀을 때 */
   onReply: () => void;
+
+  /** ⋮ 메뉴의 "수정"을 눌렀을 때 (내 댓글에만 메뉴가 있다) */
+  onEdit: () => void;
+
+  /** ⋮ 메뉴의 "삭제"를 눌렀을 때 */
+  onDelete: () => void;
 }
 
 /**
  * 댓글 한 줄. 사진, 이름과 날짜, 이미지(글 위), 글을 보여 준다. 답글이면 글 앞에 @이름이 붙는다.
  * 삭제나 탈퇴로 가려진 댓글은 내용 없이 날짜와 안내 글자만 보여 준다.
- * "답글" 버튼은 정상 댓글과 가려진 최상위 댓글에 있다(가려진 최상위 댓글 아래에도 서버가 답글을 받는다). 가려진 답글에는 없다.
+ * 내 댓글이면 이름 줄 오른쪽 끝에 ⋮ 메뉴(수정, 삭제)가 있다. "답글" 버튼은 정상 댓글과 가려진 최상위 댓글에 있다(가려진 최상위 댓글 아래에도 서버가 답글을 받는다). 가려진 답글에는 없다.
  */
-const PostCommentItem = ({ comment, hasReplies, onReply }: PostCommentItemProps) => {
+const PostCommentItem = ({ comment, hasReplies, onReply, onEdit, onDelete }: PostCommentItemProps) => {
   const canReply = comment.status === 'NORMAL' || comment.parentPostCommentId === undefined;
 
   const replyButton = canReply && (
@@ -79,7 +86,10 @@ const PostCommentItem = ({ comment, hasReplies, onReply }: PostCommentItemProps)
         {hasReplies && <Rail />}
       </AvatarColumn>
       <CommentBody>
-        <PostAuthorLine name={comment.authorName} createdAt={comment.createdAt} updatedAt={comment.updatedAt} />
+        <SpreadRow>
+          <PostAuthorLine name={comment.authorName} createdAt={comment.createdAt} updatedAt={comment.updatedAt} />
+          {comment.mine && <PostCommentMenu onEdit={onEdit} onDelete={onDelete} />}
+        </SpreadRow>
         {hasImages && (
           <CommentImages>
             {comment.images.map((image) => (
