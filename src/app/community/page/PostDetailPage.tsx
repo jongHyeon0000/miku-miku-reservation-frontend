@@ -72,7 +72,7 @@ const PostDetailPage = () => {
           )}
         </SpreadRow>
 
-        {detail !== null && <PostCommentSection postCommentList={postCommentList} onRetry={fetchReadPostCommentList} />}
+        {detail !== null && <PostCommentSection postId={postId} postCommentList={postCommentList} onRetry={fetchReadPostCommentList} />}
       </DetailColumn>
 
       <LoadingOverlay open={postLoading || postCommentListLoading || deletePostLoading} />

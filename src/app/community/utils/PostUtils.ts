@@ -1,4 +1,6 @@
+import { THUMBNAIL_EXTENSIONS, THUMBNAIL_MAX_BYTES } from '@/app/common/constant/thumbnailFile';
 import type { PostComment } from '@/app/community/interface/PostComment';
+import type { PostCommentReplyTarget } from '@/app/community/interface/PostCommentReplyTarget';
 
 /**
  * 서버가 준 날짜시간('2026-10-26T10:30:00')을 '2026.10.26' 모양으로 바꾼다.
@@ -51,4 +53,53 @@ export const countComments = (comments: PostComment[]): number => {
   });
 
   return count;
+};
+
+/**
+ * [댓글 폼]
+ *
+ * 내용: 앞뒤 공백을 뺀 1~1000자
+ */
+export const validatePostComment = (value: string): string | undefined => {
+  const trimmed = value.trim();
+
+  if (trimmed === '') {
+    return '내용을 입력해 주세요.';
+  }
+
+  if (trimmed.length > 1000) {
+    return '댓글은 1000자 이하로 입력해 주세요.';
+  }
+
+  return undefined;
+};
+
+/**
+ * [댓글 이미지]
+ *
+ * 한 장의 확장자와 용량. 서버 규칙이 썸네일과 같아서 같은 상수를 쓴다(파일 내용은 서버만 검사한다)
+ */
+export const validateCommentImageFile = (file: File): string | undefined => {
+  const extension = file.name.includes('.') ? (file.name.split('.').pop() ?? '').toLowerCase() : '';
+
+  if (!(THUMBNAIL_EXTENSIONS as readonly string[]).includes(extension)) {
+    return 'jpg, png, gif, webp 파일만 올릴 수 있어요.';
+  }
+
+  if (file.size > THUMBNAIL_MAX_BYTES) {
+    return '5MB 이하의 이미지만 올릴 수 있어요.';
+  }
+
+  return undefined;
+};
+
+/**
+ * 답글을 쓰는 대상을 만든다. 부모는 항상 최상위 댓글이고, 멘션은 누른 댓글의 작성자다(삭제, 탈퇴한 댓글이면 멘션 없음).
+ */
+export const toReplyTarget = (parentPostCommentId: number, target: PostComment): PostCommentReplyTarget => {
+  if (target.status !== 'NORMAL') {
+    return { parentPostCommentId };
+  }
+
+  return { parentPostCommentId, mentionUserId: target.userId, mentionUserName: target.authorName };
 };

@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import type { Theme } from '@mui/material/styles';
 
@@ -137,4 +137,74 @@ export const MentionText = styled('span')(({ theme }) => ({
   marginRight: theme.spacing(0.5),
   color: theme.palette.secondary.main,
   fontWeight: 700,
+}));
+
+/**
+ * 댓글 쓰기 상자 (이미지 줄과 입력 줄을 한 테두리 안에 담는다). 글을 쓰는 중이면 테두리가 포인트 색이다
+ */
+export const CommentFormBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: theme.shape.borderRadius,
+  '&:focus-within': {
+    borderColor: theme.palette.primary.main,
+  },
+}));
+
+/**
+ * 댓글 쓰기 상자의 입력 줄 (글 칸, 이미지 버튼, 안내 아이콘, 등록 버튼을 가로로)
+ */
+export const CommentInputLine = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'flex-end',
+  gap: theme.spacing(1),
+  padding: theme.spacing(0.75, 1, 0.75, 1.75),
+}));
+
+/**
+ * 붙인 이미지 미리보기 줄 (글 칸 위)
+ */
+export const PreviewRow = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(1),
+  padding: theme.spacing(1.75, 1.75, 0),
+}));
+
+/**
+ * 미리보기 칸 (정사각형, 모서리에 빼기 버튼이 걸친다)
+ */
+export const PreviewFrame = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  width: theme.spacing(8),
+  height: theme.spacing(8),
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.surfaceRaised,
+  '& > img': {
+    borderRadius: 'inherit',
+  },
+}));
+
+/**
+ * 미리보기 칸 모서리의 빼기(×) 버튼
+ */
+export const RemoveButton = styled(IconButton)(({ theme }) => ({
+  position: 'absolute',
+  top: theme.spacing(-0.75),
+  right: theme.spacing(-0.75),
+  padding: theme.spacing(0.25),
+  color: theme.palette.text.primary,
+  backgroundColor: theme.palette.menuSurfaceSub,
+  border: `1px solid ${theme.palette.divider}`,
+  '&:hover': { backgroundColor: theme.palette.menuSurface },
+}));
+
+/**
+ * "답글" 버튼 (작은 글자 버튼). 기본 버튼보다 안쪽 여백과 글자를 줄여 댓글 아래 간격을 덜 차지한다
+ */
+export const ReplyButton = styled(Button)(({ theme }) => ({
+  minWidth: 0,
+  padding: theme.spacing(0.25, 0.75),
+  color: theme.palette.text.secondary,
+  ...theme.typography.caption,
 }));
