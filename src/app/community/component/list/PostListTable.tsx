@@ -6,6 +6,7 @@ import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
 import { Highlight } from '@/app/common/style/CommonText.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 import type { PostListItem } from '@/app/community/interface/PostListItem';
+import { formatPostDate } from '@/app/community/utils/PostUtils';
 import { styled } from '@mui/material/styles';
 
 interface PostListTableProps {
@@ -29,12 +30,6 @@ interface PostListTableProps {
 const HIDDEN_TEXT = {
   DELETED: '[삭제된 게시글입니다.]',
   WITHDRAWN: '[탈퇴 처리된 사용자의 게시물입니다.]',
-};
-
-/* 작성일을 '2026.10.26' 모양으로 */
-const formatPostDate = (createdAt: string): string => {
-  const dateOnly = createdAt.slice(0, 10);
-  return dateOnly.replace(/-/g, '.');
 };
 
 /**
