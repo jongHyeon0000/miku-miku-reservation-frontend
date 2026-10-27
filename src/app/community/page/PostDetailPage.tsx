@@ -57,9 +57,6 @@ const PostDetailPage = () => {
   return (
     <PageContainer>
       <DetailColumn>
-        {failed !== null && <ErrorView message={failed.message} onRetry={fetchReadPost} />}
-        {detail !== null && <PostDetailCard post={detail} />}
-
         <SpreadRow>
           <Button variant="outlined" color="inherit" onClick={() => navigate('/community')}>
             목록으로
@@ -71,6 +68,9 @@ const PostDetailPage = () => {
             </Row>
           )}
         </SpreadRow>
+
+        {failed !== null && <ErrorView message={failed.message} onRetry={fetchReadPost} />}
+        {detail !== null && <PostDetailCard post={detail} />}
 
         {detail !== null && <PostCommentSection postId={postId} postCommentList={postCommentList} onRetry={fetchReadPostCommentList} />}
       </DetailColumn>
