@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import FigureSelectBar from '@/app/figure/component/list/FigureSelectBar';
+import SelectBar from '@/app/common/component/SelectBar';
 import type { SelectMode } from '@/app/figure/constant/figureSelect';
 import { Row } from '@/app/common/style/CommonLayout.style';
 
@@ -77,8 +77,8 @@ const FigureListActions = ({
   return (
     <Row>
       {mode !== null && (
-        <FigureSelectBar
-          mode={mode}
+        <SelectBar
+          danger={mode === 'MANAGE'}
           checkedCount={checkedCount}
           shownCount={shownCount}
           actionLabel={actionLabel}

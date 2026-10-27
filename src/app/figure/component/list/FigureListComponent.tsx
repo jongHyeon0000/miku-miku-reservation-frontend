@@ -9,7 +9,8 @@ import { DEADLINE_BLINK_MONTHS } from '@/app/figure/constant/figureStatus';
 import { formatDeliveryMonth, getTotalPrice, isDeadlinePassed, isDeadlineUnder } from '@/app/figure/utils/FigureUtils';
 import { LabelText, LabelValueGrid, LabelValueRow, PriceColumn, PriceText, ValueText } from '@/app/common/style/CommonText.style';
 import { FillImage, ThumbFrame } from '@/app/common/style/CommonMedia.style';
-import { Box, Checkbox, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { SelectCheck } from '@/app/common/style/CommonList.style';
 import { styled } from '@mui/material/styles';
 
 interface FigureListComponentProps {
@@ -73,7 +74,7 @@ const FigureListComponent = ({
               onKeyDown={(e) => handleTicketKeyDown(e, figure.figureId)}
             >
               {selectMode && (
-                <Check checked={checked} tabIndex={-1} disableRipple slotProps={{ input: { 'aria-label': `${figure.name} 선택` } }} />
+                <SelectCheck checked={checked} tabIndex={-1} disableRipple slotProps={{ input: { 'aria-label': `${figure.name} 선택` } }} />
               )}
               <Thumb>
                 {figure.thumbnailUrl ? (
@@ -169,12 +170,6 @@ const Ticket = styled(Box, { shouldForwardProp: (prop) => prop !== 'checked' && 
       outline: 'none',
     },
   }),
-}));
-
-/** 선택 모드의 체크칸. 카드 세로 가운데에 둔다 */
-const Check = styled(Checkbox)(({ theme }) => ({
-  alignSelf: 'center',
-  marginLeft: theme.spacing(1),
 }));
 
 const Thumb = styled(ThumbFrame)(({ theme }) => ({

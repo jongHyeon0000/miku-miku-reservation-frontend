@@ -51,6 +51,14 @@ const IntroCategoryScene = () => {
                 onInsert={noop}
                 onEdit={noop}
                 onDelete={noop}
+                selectMode={false}
+                checkedIds={[]}
+                selectableCount={childItems.length}
+                onEnterSelect={noop}
+                onExitSelect={noop}
+                onToggleItem={noop}
+                onToggleAll={noop}
+                onBulkDelete={noop}
               />
             ) : (
               <SeriesCategoryTree
@@ -64,6 +72,14 @@ const IntroCategoryScene = () => {
                 onInsert={noop}
                 onEdit={noop}
                 onDelete={noop}
+                selectMode={false}
+                checkedIds={[]}
+                selectableCount={childItems.length}
+                onEnterSelect={noop}
+                onExitSelect={noop}
+                onToggleItem={noop}
+                onToggleAll={noop}
+                onBulkDelete={noop}
               />
             )}
           </FieldStack>

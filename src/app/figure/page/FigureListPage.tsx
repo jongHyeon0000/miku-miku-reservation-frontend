@@ -19,7 +19,8 @@ import FigureUrgentModal from '@/app/figure/component/list/FigureUrgentModal';
 import { DEADLINE_ALERT_MONTHS, isUrgentTab, URGENT_ALERT, type FigureTabKey, type UrgentTabKey } from '@/app/figure/constant/figureStatus';
 import type { FigureTransition } from '@/app/figure/constant/figureTransition';
 import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
-import useFigureSelection from '@/app/figure/hook/useFigureSelection';
+import useSelection from '@/app/common/hook/useSelection';
+import type { SelectMode } from '@/app/figure/constant/figureSelect';
 import useDeleteFigureList from '@/app/figure/service/list/useDeleteFigureList';
 import useReadFigureList from '@/app/figure/service/list/useReadFigureList';
 import useUpdateFigureStatusList from '@/app/figure/service/list/useUpdateFigureStatusList';
@@ -53,7 +54,7 @@ const FigureListPage = () => {
   const active = pruneFilters(filters, month, options);
   const shownFigures = sortFigures(applyFilters(tabFigures, active.filters, active.month), sort);
 
-  const selection = useFigureSelection(shownFigures);
+  const selection = useSelection<SelectMode>(shownFigures.map((figure) => figure.figureId));
 
   /* 이 탭의 상품을 한 번에 바꿀 수 있는 전이. 없으면 상태 변경 버튼을 숨긴다(전체, 배송완료 탭) */
   const bulkTransition = findBulkTransition(tab);
@@ -156,7 +157,7 @@ const FigureListPage = () => {
           actionLabel={selection.mode === 'STATUS' ? getTransitionLabel(bulkTransition!) : '삭제'}
           onEnterMode={selection.enterMode}
           onExitMode={selection.exitMode}
-          onToggleAll={selection.toggleAllFigures}
+          onToggleAll={selection.toggleAllIds}
           onAction={selection.mode === 'STATUS' ? handleCheckedStatusChange : handleCheckedDelete}
           onInsert={() => navigate('/figures/new')}
         />
@@ -212,7 +213,7 @@ const FigureListPage = () => {
               onOpenDetail={handleOpenDetail}
               selectMode={selection.mode !== null}
               checkedIds={selection.checkedIds}
-              onToggle={selection.toggleFigure}
+              onToggle={selection.toggleId}
             />
           )}
         </>

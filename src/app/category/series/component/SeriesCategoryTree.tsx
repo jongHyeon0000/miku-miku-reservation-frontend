@@ -6,7 +6,8 @@ import SeriesGroupItem from '@/app/category/series/component/SeriesGroupItem';
 import type { SeriesGroup } from '@/app/category/series/interface/SeriesGroup';
 import type { SeriesItem } from '@/app/category/series/interface/SeriesItem';
 import PageNumbers from '@/app/common/component/PageNumbers';
-import { AddButton, PanelHeader, PanelTop, TreeLayout } from '@/app/category/common/style/CategoryPanel.style';
+import SelectBar from '@/app/common/component/SelectBar';
+import { AddButton, BulkDeleteButton, PanelHeader, PanelTop, TreeLayout } from '@/app/category/common/style/CategoryPanel.style';
 import { AddRow, PagerRow, Panel } from '@/app/common/style/CommonList.style';
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style';
 import { Row } from '@/app/common/style/CommonLayout.style';
@@ -42,12 +43,55 @@ interface SeriesCategoryTreeProps {
 
   /** 삭제 버튼을 눌렀을 때 */
   onDelete: (level: CategoryLevel, target: SeriesItem) => void;
+
+  /** 일괄 삭제 선택 모드 여부. 켜지면 하위 줄에 체크칸이 생기고 아래 칸이 선택 도구줄이 된다 */
+  selectMode: boolean;
+
+  /** 선택 모드에서 체크된 하위 id */
+  checkedIds: number[];
+
+  /** 선택할 수 있는 하위 수 (이번 페이지에서 '기타'를 뺀 수) */
+  selectableCount: number;
+
+  /** 일괄 삭제 버튼을 눌러 선택 모드를 켤 때 */
+  onEnterSelect: () => void;
+
+  /** 선택 모드의 취소 버튼을 눌렀을 때 */
+  onExitSelect: () => void;
+
+  /** 하위 한 줄의 체크칸을 눌렀을 때 */
+  onToggleItem: (id: number) => void;
+
+  /** 전체 선택 (이미 전부 체크돼 있으면 전체 해제) */
+  onToggleAll: () => void;
+
+  /** 선택 도구줄의 삭제 버튼을 눌렀을 때 */
+  onBulkDelete: () => void;
 }
 
 /**
  * 시리즈 분류 목록. 왼쪽에 상위 목록, 오른쪽에 고른 상위의 하위 목록을 둔다.
  */
-const SeriesCategoryTree = ({ groups, selectedGroupId, childItems, page, totalPages, onSelectGroup, onChangePage, onInsert, onEdit, onDelete }: SeriesCategoryTreeProps) => {
+const SeriesCategoryTree = ({
+  groups,
+  selectedGroupId,
+  childItems,
+  page,
+  totalPages,
+  onSelectGroup,
+  onChangePage,
+  onInsert,
+  onEdit,
+  onDelete,
+  selectMode,
+  checkedIds,
+  selectableCount,
+  onEnterSelect,
+  onExitSelect,
+  onToggleItem,
+  onToggleAll,
+  onBulkDelete,
+}: SeriesCategoryTreeProps) => {
   const selectedGroup = groups.find((group) => group.id === selectedGroupId) ?? groups[0];
   const isGroupProtected = selectedGroup.name === PROTECTED_CATEGORY_NAME;
 
@@ -85,7 +129,7 @@ const SeriesCategoryTree = ({ groups, selectedGroupId, childItems, page, totalPa
                 </Tooltip>
               )}
             </Typography>
-            {!isGroupProtected && (
+            {!isGroupProtected && !selectMode && (
               <Row>
                 <TonalButton size="small" onClick={() => onEdit('group', selectedGroup)}>
                   그룹 수정
@@ -99,7 +143,15 @@ const SeriesCategoryTree = ({ groups, selectedGroupId, childItems, page, totalPa
         </PanelTop>
         <Box>
           {childItems.map((child) => (
-            <SeriesChildRow key={child.id} item={child} onEdit={() => onEdit('child', child)} onDelete={() => onDelete('child', child)} />
+            <SeriesChildRow
+              key={child.id}
+              item={child}
+              selectMode={selectMode}
+              checked={checkedIds.includes(child.id)}
+              onToggle={() => onToggleItem(child.id)}
+              onEdit={() => onEdit('child', child)}
+              onDelete={() => onDelete('child', child)}
+            />
           ))}
         </Box>
         {totalPages > 1 && (
@@ -107,11 +159,29 @@ const SeriesCategoryTree = ({ groups, selectedGroupId, childItems, page, totalPa
             <PageNumbers page={page} totalPages={totalPages} onChange={onChangePage} />
           </PagerRow>
         )}
-        {!isGroupProtected && (
+        {!isGroupProtected && !selectMode && (
           <AddRow>
-            <AddButton variant="outlined" size="small" startIcon={<AddOutlinedIcon />} onClick={() => onInsert('child', selectedGroup.id)}>
-              하위 추가
-            </AddButton>
+            <Row>
+              <AddButton variant="outlined" size="small" startIcon={<AddOutlinedIcon />} onClick={() => onInsert('child', selectedGroup.id)}>
+                하위 추가
+              </AddButton>
+              <BulkDeleteButton variant="outlined" size="small" color="error" disabled={selectableCount === 0} onClick={onEnterSelect}>
+                일괄 삭제
+              </BulkDeleteButton>
+            </Row>
+          </AddRow>
+        )}
+        {!isGroupProtected && selectMode && (
+          <AddRow>
+            <SelectBar
+              danger
+              checkedCount={checkedIds.length}
+              shownCount={selectableCount}
+              actionLabel="삭제"
+              onToggleAll={onToggleAll}
+              onAction={onBulkDelete}
+              onCancel={onExitSelect}
+            />
           </AddRow>
         )}
       </Panel>

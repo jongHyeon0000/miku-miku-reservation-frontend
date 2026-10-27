@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
 import { SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { styled } from '@mui/material/styles';
 
@@ -18,6 +18,12 @@ export const RowBox = styled(SpreadRow)(({ theme }) => ({
   '&:nth-of-type(odd)': { backgroundColor: theme.palette.rowStripe },
   '&:nth-of-type(even)': { backgroundColor: theme.palette.rowStripeAlt },
   '&:hover': { backgroundColor: theme.palette.rowHover },
+}));
+
+/** 선택 모드의 체크칸 (상품 카드, 분류 줄이 같이 쓴다). 줄 세로 가운데에 둔다 */
+export const SelectCheck = styled(Checkbox)(({ theme }) => ({
+  alignSelf: 'center',
+  marginLeft: theme.spacing(1),
 }));
 
 /** 패널 아래쪽에 붙는 칸 (하위 추가 칸). 위에 선이 있다 */

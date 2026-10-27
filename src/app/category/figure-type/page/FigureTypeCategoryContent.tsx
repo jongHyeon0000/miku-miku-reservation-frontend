@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@mui/material';
-import type { CategoryLevel } from '@/app/category/common/constant/categoryAxes';
+import { PROTECTED_CATEGORY_NAME, type CategoryLevel } from '@/app/category/common/constant/categoryAxes';
 import FigureTypeCategoryTree from '@/app/category/figure-type/component/FigureTypeCategoryTree';
 import FigureTypeFormDialog from '@/app/category/figure-type/component/FigureTypeFormDialog';
 import type { FigureTypeFormValues } from '@/app/category/figure-type/interface/FigureTypeFormValues';
@@ -11,6 +11,7 @@ import useUpdateFigureTypeGroup from '@/app/category/figure-type/service/useUpda
 import useUpdateFigureType from '@/app/category/figure-type/service/useUpdateFigureType';
 import useDeleteFigureTypeGroup from '@/app/category/figure-type/service/useDeleteFigureTypeGroup';
 import useDeleteFigureType from '@/app/category/figure-type/service/useDeleteFigureType';
+import useDeleteFigureTypeList from '@/app/category/figure-type/service/useDeleteFigureTypeList';
 import useReadFigureTypeList from '@/app/category/figure-type/service/useReadFigureTypeList';
 import useReadFigureTypeChildList from '@/app/category/figure-type/service/useReadFigureTypeChildList';
 import useReadFigureTypeGroupUsage from '@/app/category/figure-type/service/useReadFigureTypeGroupUsage';
@@ -18,6 +19,7 @@ import useReadFigureTypeUsage from '@/app/category/figure-type/service/useReadFi
 import EmptyView from '@/app/common/component/EmptyView';
 import ErrorView from '@/app/common/component/ErrorView';
 import LoadingOverlay from '@/app/common/component/loading/LoadingOverlay';
+import useSelection from '@/app/common/hook/useSelection';
 import type { ThumbnailChange } from '@/app/common/interface/ThumbnailChange';
 import useDeleteThumbnail from '@/app/common/service/useDeleteThumbnail';
 import useUploadThumbnail from '@/app/common/service/useUploadThumbnail';
@@ -25,6 +27,13 @@ import { showConfirmAlert } from '@/app/common/utils/AlertUtils';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import { useUiStore } from '@/store/uiStore';
+
+/** 일괄 삭제 확인창 글자 */
+const BULK_DELETE_ALERT = {
+  title: (count: number) => `${count}개를 삭제할까요?`,
+  text: "선택한 분류를 쓰는 상품은 '기타'로 옮겨져요. 삭제하면 되돌릴 수 없어요.",
+  confirmText: '삭제',
+};
 
 /** 열려 있는 추가/수정 창의 상태. 하위를 추가할 때는 속할 상위 id 를 가진다 */
 type DialogState =
@@ -47,6 +56,7 @@ const FigureTypeCategoryContent = () => {
   const { createFigureTypeLoading, fetchCreateFigureType } = useCreateFigureType();
   const { updateFigureTypeLoading, fetchUpdateFigureType } = useUpdateFigureType();
   const { deleteFigureTypeLoading, fetchDeleteFigureType } = useDeleteFigureType();
+  const { deleteFigureTypeListLoading, fetchDeleteFigureTypeList } = useDeleteFigureTypeList();
   const { figureTypeUsageLoading, fetchReadFigureTypeUsage } = useReadFigureTypeUsage();
   const { uploadThumbnailLoading, fetchUploadThumbnail } = useUploadThumbnail();
   const { deleteThumbnailLoading, fetchDeleteThumbnail } = useDeleteThumbnail();
@@ -65,6 +75,10 @@ const FigureTypeCategoryContent = () => {
   const childPageData = figureTypeChildPage?.data;
   const childItems = childPageData ? childPageData.items : [];
   const totalPages = childPageData ? childPageData.totalPages : 0;
+
+  /* 일괄 삭제로 고를 수 있는 하위. 서버가 막아 둔 '기타'는 뺀다 */
+  const selectableIds = childItems.filter((item) => item.name !== PROTECTED_CATEGORY_NAME).map((item) => item.id);
+  const selection = useSelection<'DELETE'>(selectableIds);
   const isBusy =
     figureTypeListLoading ||
     figureTypeChildLoading ||
@@ -75,14 +89,22 @@ const FigureTypeCategoryContent = () => {
     createFigureTypeLoading ||
     updateFigureTypeLoading ||
     deleteFigureTypeLoading ||
+    deleteFigureTypeListLoading ||
     figureTypeUsageLoading ||
     uploadThumbnailLoading ||
     deleteThumbnailLoading;
 
   /* 상위를 바꾸면 하위 목록은 1쪽부터 다시 본다 */
   const handleSelectGroup = (groupId: number) => {
+    selection.exitMode();
     setSelectedGroupId(groupId);
     setPage(1);
+  };
+
+  /* 쪽을 바꾸면 선택 모드는 끝난다(체크는 이번 쪽의 하위에만 있다) */
+  const handleChangePage = (nextPage: number) => {
+    selection.exitMode();
+    setPage(nextPage);
   };
 
   const handleSave = async (dialog: DialogState, values: FigureTypeFormValues, thumbnail: ThumbnailChange) => {
@@ -184,6 +206,36 @@ const FigureTypeCategoryContent = () => {
     }
   };
 
+  /* 체크한 하위를 확인창을 거쳐 한 번에 지운다 */
+  const handleBulkDelete = async () => {
+    const checkedCount = selection.checkedIds.length;
+    const confirmed = await showConfirmAlert({
+      title: BULK_DELETE_ALERT.title(checkedCount),
+      text: BULK_DELETE_ALERT.text,
+      confirmText: BULK_DELETE_ALERT.confirmText,
+      danger: true,
+      focusCancel: true,
+    });
+
+    if (!confirmed) {
+      return;
+    }
+
+    const res = await fetchDeleteFigureTypeList(selection.checkedIds);
+    showResult(res);
+
+    if (res.code !== API_CODE.OK) {
+      return;
+    }
+
+    selection.exitMode();
+
+    /* 이번 쪽 하위를 모두 지웠으면 그 쪽이 비므로 앞 쪽으로 돌아간다 */
+    if (checkedCount === childItems.length && page > 1) {
+      setPage(page - 1);
+    }
+  };
+
   return (
     <>
       {figureTypeList && figureTypeList.code !== API_CODE.OK && <ErrorView message={figureTypeList.message} onRetry={fetchReadFigureTypeList} />}
@@ -205,10 +257,18 @@ const FigureTypeCategoryContent = () => {
           page={page}
           totalPages={totalPages}
           onSelectGroup={handleSelectGroup}
-          onChangePage={setPage}
+          onChangePage={handleChangePage}
           onInsert={(level, parentId) => setDialog({ mode: 'insert', level, parentId })}
           onEdit={(level, target) => setDialog({ mode: 'edit', level, target })}
           onDelete={handleDelete}
+          selectMode={selection.mode !== null}
+          checkedIds={selection.checkedIds}
+          selectableCount={selectableIds.length}
+          onEnterSelect={() => selection.enterMode('DELETE')}
+          onExitSelect={selection.exitMode}
+          onToggleItem={selection.toggleId}
+          onToggleAll={selection.toggleAllIds}
+          onBulkDelete={handleBulkDelete}
         />
       )}
 
