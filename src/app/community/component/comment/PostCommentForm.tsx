@@ -1,13 +1,12 @@
 import { useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { Button, FormHelperText, InputBase, Tooltip, Typography } from '@mui/material';
+import { Button, FormHelperText, InputBase, Typography } from '@mui/material';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { THUMBNAIL_ACCEPT } from '@/app/common/constant/thumbnailFile';
 import { TonalButton } from '@/app/common/style/CommonButton.style';
 import { FormBody } from '@/app/common/style/CommonForm.style';
-import { SpreadRow } from '@/app/common/style/CommonLayout.style';
+import { EndRow, SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
-import { InfoIcon } from '@/app/common/style/CommonTooltip.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 import PostCommentFormImages from '@/app/community/component/comment/PostCommentFormImages';
 import type { PostCommentNormal } from '@/app/community/interface/PostComment';
@@ -26,7 +25,7 @@ import { useUiStore } from '@/store/uiStore';
 /** 댓글 하나에 붙일 수 있는 이미지 수 */
 const MAX_IMAGES = 2;
 
-/** 이미지 버튼 옆 (i) 안내 글자 */
+/** 상자 아래 오른쪽에 늘 보여 주는 이미지 안내 글자 */
 const IMAGE_TIP = '이미지는 400x400 이하를 권장합니다. ~콘 처럼 사용하는 곳이에요!';
 
 interface PostCommentFormValues {
@@ -52,7 +51,7 @@ interface PostCommentFormProps {
 }
 
 /**
- * 댓글 쓰기 상자 (새 댓글, 답글, 수정이 같은 모양). 이미지 줄(글 칸 위)과 입력 줄(글, 이미지 n/2, 안내, 등록 또는 저장)이 한 테두리 안에 있다.
+ * 댓글 쓰기 상자 (새 댓글, 답글, 수정이 같은 모양). 이미지 줄(글 칸 위)과 입력 줄(글, 이미지 n/2, 등록 또는 저장)이 한 테두리 안에 있다.
  * 이미지는 고르는 즉시 올려서 id 를 모아 두고, 등록 때 한 번에 보낸다. 수정이면 기존 이미지가 처음부터 모여 있고, 저장할 때 남은 목록이 최종 목록이 된다.
  * 성공하면 비우고 답글, 수정 상자는 닫는다.
  */
@@ -207,14 +206,14 @@ const PostCommentForm = ({ postId, replyTarget, editTarget, hasReplies = false, 
               >
                 {images.length}/{MAX_IMAGES}
               </Button>
-              <Tooltip title={IMAGE_TIP} placement="top">
-                <InfoIcon fontSize="inherit" />
-              </Tooltip>
               <TonalButton type="submit" disabled={busy || isEmpty}>
                 {isEdit ? '저장' : '등록'}
               </TonalButton>
             </CommentInputLine>
           </CommentFormBox>
+          <EndRow>
+            <FormHelperText>{IMAGE_TIP}</FormHelperText>
+          </EndRow>
           {errors.content && <FormHelperText error>{errors.content.message}</FormHelperText>}
           <input ref={fileInputRef} type="file" accept={THUMBNAIL_ACCEPT} multiple hidden onChange={handleFileChange} />
         </CommentBody>
