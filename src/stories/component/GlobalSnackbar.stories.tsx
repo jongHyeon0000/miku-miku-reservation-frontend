@@ -15,7 +15,7 @@ const withSnackbar = (message: string, severity: 'success' | 'warning' | 'error'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 알림 스낵바를 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta<typeof GlobalSnackbar> = {
-  title: '공통 컴포넌트/알림 스낵바 [GlobalSnackbar]',
+  title: '공통 컴포넌트/알림 스낵바 [GlobalSnackbar.tsx]',
   component: GlobalSnackbar,
 }
 

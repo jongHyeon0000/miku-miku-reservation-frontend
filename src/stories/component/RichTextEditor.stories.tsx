@@ -3,7 +3,7 @@ import RichTextEditor from '@/app/common/component/RichTextEditor'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 글 편집기를 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta<typeof RichTextEditor> = {
-  title: '공통 컴포넌트/글 편집기 [RichTextEditor]',
+  title: '공통 컴포넌트/글 편집기 [RichTextEditor.tsx]',
   component: RichTextEditor,
   argTypes: {
     value: { name: '처음 내용(HTML)' },

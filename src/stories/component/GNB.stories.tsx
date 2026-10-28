@@ -70,7 +70,7 @@ const withAuth = (loggedIn: boolean, user: UserInfo | null): Decorator => {
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 상단 메뉴를 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta<typeof GNB> = {
-  title: '공통 컴포넌트/상단 메뉴 [GNB]',
+  title: '공통 컴포넌트/상단 메뉴 [GNB.tsx]',
   component: GNB,
 }
 

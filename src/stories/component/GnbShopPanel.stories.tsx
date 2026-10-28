@@ -26,7 +26,7 @@ const SAMPLE_GROUPS: ShopGroup[] = [
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 판매처 패널을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta<typeof GnbShopPanel> = {
-  title: '공통 컴포넌트/판매처 바로가기 패널 [GnbShopPanel]',
+  title: '공통 컴포넌트/판매처 바로가기 패널 [GnbShopPanel.tsx]',
   component: GnbShopPanel,
   /* 패널은 상단 메뉴 바로 아래에 붙도록 위치가 정해져 있어서, 상단 메뉴 모양의 바를 기준으로 그린다 */
   decorators: [

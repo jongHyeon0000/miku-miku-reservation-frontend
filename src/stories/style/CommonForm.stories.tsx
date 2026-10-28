@@ -6,7 +6,7 @@ import { EndRow } from '@/app/common/style/CommonLayout.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 폼 스타일을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta = {
-  title: '공통 스타일/폼 [CommonForm.style]',
+  title: '공통 스타일/폼 [CommonForm.style.tsx]',
 }
 
 export default meta

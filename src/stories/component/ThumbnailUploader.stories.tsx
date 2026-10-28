@@ -26,7 +26,7 @@ const ThumbnailUploaderDemo = ({ currentUrl, disabled }: ThumbnailUploaderDemoPr
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 썸네일 올리기를 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta<typeof ThumbnailUploader> = {
-  title: '공통 컴포넌트/썸네일 올리기 [ThumbnailUploader]',
+  title: '공통 컴포넌트/썸네일 올리기 [ThumbnailUploader.tsx]',
   component: ThumbnailUploader,
   /* 조작 패널(Controls)에 보이는 칸 이름 */
   argTypes: {

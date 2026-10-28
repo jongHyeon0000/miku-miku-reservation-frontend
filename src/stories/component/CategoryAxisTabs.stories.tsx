@@ -19,7 +19,7 @@ const CategoryAxisTabsDemo = ({ axis, onTemplate }: CategoryAxisTabsDemoProps) =
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 축 탭을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta<typeof CategoryAxisTabs> = {
-  title: '분류/축 탭 [CategoryAxisTabs]',
+  title: '분류/축 탭 [CategoryAxisTabs.tsx]',
   component: CategoryAxisTabs,
   /* 조작 패널(Controls)에 보이는 칸 이름 */
   argTypes: {

@@ -10,7 +10,7 @@ import { AddRow, Panel } from '@/app/common/style/CommonList.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 분류 패널을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta = {
-  title: '분류/패널 스타일 [CategoryPanel.style]',
+  title: '분류/패널 스타일 [CategoryPanel.style.tsx]',
 }
 
 export default meta

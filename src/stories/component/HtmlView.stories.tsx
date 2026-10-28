@@ -7,7 +7,7 @@ const SAMPLE_HTML =
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. HTML 보기를 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta<typeof HtmlView> = {
-  title: '공통 컴포넌트/HTML 보기 [HtmlView]',
+  title: '공통 컴포넌트/HTML 보기 [HtmlView.tsx]',
   component: HtmlView,
   /* 조작 패널(Controls)에 보이는 칸 이름 */
   argTypes: {

@@ -17,7 +17,7 @@ import { TonalButton } from '@/app/common/style/CommonButton.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 글자 스타일을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta = {
-  title: '공통 스타일/글자 [CommonText.style]',
+  title: '공통 스타일/글자 [CommonText.style.tsx]',
 }
 
 export default meta

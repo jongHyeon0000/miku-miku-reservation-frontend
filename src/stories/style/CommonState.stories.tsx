@@ -9,7 +9,7 @@ import { StateStack } from '@/app/common/style/CommonState.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 표시 틀을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta = {
-  title: '공통 스타일/상태 표시 틀 [CommonState.style]',
+  title: '공통 스타일/상태 표시 틀 [CommonState.style.tsx]',
 }
 
 export default meta

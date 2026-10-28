@@ -9,7 +9,7 @@ import { SelectCheck } from '@/app/common/style/CommonList.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 분류 줄을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta<typeof CategoryRow> = {
-  title: '분류/분류 줄 [CategoryRow]',
+  title: '분류/분류 줄 [CategoryRow.tsx]',
   component: CategoryRow,
   /* 조작 패널(Controls)에 보이는 칸 이름 */
   argTypes: {
