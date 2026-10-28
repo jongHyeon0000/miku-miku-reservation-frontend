@@ -11,16 +11,10 @@ export const FillImage = styled('img')({
 });
 
 /**
-* 정사각형 칸 (폭에 맞춰 높이가 정해진다)
-* */
-export const SquareFrame = styled(Box)({
-  aspectRatio: '1 / 1',
-});
-
-/**
 * 썸네일 칸 (정사각형, 어두운 면, 이미지나 아이콘을 가운데에 둔다). 안에 배지를 겹쳐 올릴 수 있다
 * */
-export const ThumbFrame = styled(SquareFrame)(({ theme }) => ({
+export const ThumbFrame = styled(Box)(({ theme }) => ({
+  aspectRatio: '1 / 1',
   position: 'relative',
   display: 'flex',
   alignItems: 'center',

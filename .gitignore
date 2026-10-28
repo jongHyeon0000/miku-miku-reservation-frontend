@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+storybook-static
 
 # Editor directories and files
 .vscode/*
@@ -25,7 +26,8 @@ dist-ssr
 # IDE 모듈 파일
 *.iml
 
-# 설계 문서와 시안 (README 도식은 추적)
+# doc 아래는 README 도식(doc/readme/)만 추적한다
+# doc/mockup/(시안), doc/report/(보고서)와 그 밖의 기준 문서는 모두 제외
 doc/*
 !doc/readme/
 
