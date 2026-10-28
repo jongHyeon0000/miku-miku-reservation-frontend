@@ -1,0 +1,59 @@
+name: Deploy Storybook
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/stories/**'
+      - '.storybook/**'
+      - 'src/app/common/**'
+      - 'src/app/category/common/**'
+      - 'src/config/theme/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/deploy-storybook.yml'
+
+concurrency:
+  group: deploy-storybook
+  cancel-in-progress: false
+
+env:
+  STORYBOOK_DIR: /var/www/miku-storybook
+  SITE_URL: https://storybook.miku-miku-reservation.com/
+  STORYBOOK_DISABLE_TELEMETRY: '1'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Build
+        run: |
+          npm ci
+          npm run build-storybook
+
+      - name: SSH setup
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+
+      # 파일 소유자가 miku라 권한, 소유자, 디렉터리 시간은 건드리지 않는다
+      - name: Deploy
+        run: |
+          rsync -rlz --delete --omit-dir-times --no-perms --no-owner --no-group \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            storybook-static/ "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:$STORYBOOK_DIR/"
+
+      - name: Check
+        run: |
+          CODE=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_URL")
+          echo "status: $CODE"
+          test "$CODE" = "200"
