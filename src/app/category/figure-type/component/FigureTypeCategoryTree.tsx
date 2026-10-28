@@ -1,17 +1,15 @@
-import { Box, List, Tooltip, Typography } from '@mui/material';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { List, Typography } from '@mui/material';
 import { PROTECTED_CATEGORY_NAME, type CategoryLevel } from '@/app/category/common/constant/categoryAxes';
+import CategoryChildPanel from '@/app/category/common/component/CategoryChildPanel';
 import FigureTypeChildRow from '@/app/category/figure-type/component/FigureTypeChildRow';
 import FigureTypeGroupItem from '@/app/category/figure-type/component/FigureTypeGroupItem';
 import type { FigureTypeGroup } from '@/app/category/figure-type/interface/FigureTypeGroup';
 import type { FigureTypeItem } from '@/app/category/figure-type/interface/FigureTypeItem';
-import PageNumbers from '@/app/common/component/PageNumbers';
-import SelectBar from '@/app/common/component/SelectBar';
-import { AddButton, BulkDeleteButton, PanelHeader, PanelTop, TreeLayout } from '@/app/category/common/style/CategoryPanel.style';
-import { AddRow, PagerRow, Panel } from '@/app/common/style/CommonList.style';
+import useDeleteFigureTypeList from '@/app/category/figure-type/service/useDeleteFigureTypeList';
+import { PanelHeader, PanelTop, TreeLayout } from '@/app/category/common/style/CategoryPanel.style';
+import { Panel } from '@/app/common/style/CommonList.style';
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style';
 import { Row } from '@/app/common/style/CommonLayout.style';
-import { InfoIcon, TooltipText } from '@/app/common/style/CommonTooltip.style';
 
 interface FigureTypeCategoryTreeProps {
   /** 상위 목록 (하위 포함). 비어 있지 않을 때만 쓴다 */
@@ -43,34 +41,10 @@ interface FigureTypeCategoryTreeProps {
 
   /** 삭제 버튼을 눌렀을 때 */
   onDelete: (level: CategoryLevel, target: FigureTypeItem) => void;
-
-  /** 일괄 삭제 선택 모드 여부. 켜지면 하위 줄에 체크칸이 생기고 아래 칸이 선택 도구줄이 된다 */
-  selectMode: boolean;
-
-  /** 선택 모드에서 체크된 하위 id */
-  checkedIds: number[];
-
-  /** 선택할 수 있는 하위 수 (이번 페이지에서 '기타'를 뺀 수) */
-  selectableCount: number;
-
-  /** 일괄 삭제 버튼을 눌러 선택 모드를 켤 때 */
-  onEnterSelect: () => void;
-
-  /** 선택 모드의 취소 버튼을 눌렀을 때 */
-  onExitSelect: () => void;
-
-  /** 하위 한 줄의 체크칸을 눌렀을 때 */
-  onToggleItem: (id: number) => void;
-
-  /** 전체 선택 (이미 전부 체크돼 있으면 전체 해제) */
-  onToggleAll: () => void;
-
-  /** 선택 도구줄의 삭제 버튼을 눌렀을 때 */
-  onBulkDelete: () => void;
 }
 
 /**
- * 형태 분류 목록. 왼쪽에 상위 목록, 오른쪽에 고른 상위의 하위 목록을 둔다.
+ * 형태 분류 목록. 왼쪽에 상위 목록, 오른쪽에 고른 상위의 하위 목록(CategoryChildPanel)을 둔다.
  */
 const FigureTypeCategoryTree = ({
   groups,
@@ -83,15 +57,9 @@ const FigureTypeCategoryTree = ({
   onInsert,
   onEdit,
   onDelete,
-  selectMode,
-  checkedIds,
-  selectableCount,
-  onEnterSelect,
-  onExitSelect,
-  onToggleItem,
-  onToggleAll,
-  onBulkDelete,
 }: FigureTypeCategoryTreeProps) => {
+  const { deleteFigureTypeListLoading, fetchDeleteFigureTypeList } = useDeleteFigureTypeList();
+
   const selectedGroup = groups.find((group) => group.id === selectedGroupId) ?? groups[0];
   const isGroupProtected = selectedGroup.name === PROTECTED_CATEGORY_NAME;
 
@@ -118,73 +86,37 @@ const FigureTypeCategoryTree = ({
         </List>
       </Panel>
 
-      <Panel>
-        <PanelTop>
-          <PanelHeader>
-            <Typography variant="h6">
-              {selectedGroup.name}
-              {selectedGroup.description && (
-                <Tooltip title={<TooltipText>{selectedGroup.description}</TooltipText>} placement="right-start">
-                  <InfoIcon fontSize="inherit" />
-                </Tooltip>
-              )}
-            </Typography>
-            {!isGroupProtected && !selectMode && (
-              <Row>
-                <TonalButton size="small" onClick={() => onEdit('group', selectedGroup)}>
-                  그룹 수정
-                </TonalButton>
-                <TonalDangerButton size="small" onClick={() => onDelete('group', selectedGroup)}>
-                  그룹 삭제
-                </TonalDangerButton>
-              </Row>
-            )}
-          </PanelHeader>
-        </PanelTop>
-        <Box>
-          {childItems.map((child) => (
-            <FigureTypeChildRow
-              key={child.id}
-              item={child}
-              selectMode={selectMode}
-              checked={checkedIds.includes(child.id)}
-              onToggle={() => onToggleItem(child.id)}
-              onEdit={() => onEdit('child', child)}
-              onDelete={() => onDelete('child', child)}
-            />
-          ))}
-        </Box>
-        {totalPages > 1 && (
-          <PagerRow>
-            <PageNumbers page={page} totalPages={totalPages} onChange={onChangePage} />
-          </PagerRow>
-        )}
-        {!isGroupProtected && !selectMode && (
-          <AddRow>
+      {/* 상위나 쪽이 바뀌면 key 가 달라져 패널이 새로 그려지고 선택 모드가 끝난다 */}
+      <CategoryChildPanel
+        key={`${selectedGroup.id}-${page}`}
+        title={selectedGroup.name}
+        description={selectedGroup.description}
+        renderHeaderActions={(selectMode) =>
+          !isGroupProtected &&
+          !selectMode && (
             <Row>
-              <AddButton variant="outlined" size="small" startIcon={<AddOutlinedIcon />} onClick={() => onInsert('child', selectedGroup.id)}>
-                하위 추가
-              </AddButton>
-              <BulkDeleteButton variant="outlined" size="small" color="error" disabled={selectableCount === 0} onClick={onEnterSelect}>
-                일괄 삭제
-              </BulkDeleteButton>
+              <TonalButton size="small" onClick={() => onEdit('group', selectedGroup)}>
+                그룹 수정
+              </TonalButton>
+              <TonalDangerButton size="small" onClick={() => onDelete('group', selectedGroup)}>
+                그룹 삭제
+              </TonalDangerButton>
             </Row>
-          </AddRow>
+          )
+        }
+        locked={isGroupProtected}
+        childItems={childItems}
+        page={page}
+        totalPages={totalPages}
+        renderRow={(child, select) => (
+          <FigureTypeChildRow item={child} onEdit={() => onEdit('child', child)} onDelete={() => onDelete('child', child)} {...select} />
         )}
-        {!isGroupProtected && selectMode && (
-          <AddRow>
-            <SelectBar
-              danger
-              checkedCount={checkedIds.length}
-              shownCount={selectableCount}
-              actionLabel="삭제"
-              onToggleAll={onToggleAll}
-              onAction={onBulkDelete}
-              onCancel={onExitSelect}
-            />
-          </AddRow>
-        )}
-      </Panel>
+        addLabel="하위 추가"
+        onAdd={() => onInsert('child', selectedGroup.id)}
+        deleteListLoading={deleteFigureTypeListLoading}
+        fetchDeleteList={fetchDeleteFigureTypeList}
+        onChangePage={onChangePage}
+      />
     </TreeLayout>
   );
 };

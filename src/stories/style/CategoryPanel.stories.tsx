@@ -19,7 +19,7 @@ type Story = StoryObj
 
 /**
  * 카테고리 화면의 상위, 하위 두 칸 목록(판매처, 형태, 시리즈, 장르·캐릭터 공통.
- * 예: src/app/category/shop/component/ShopCategoryTree.tsx). 왼쪽은 상위 목록, 오른쪽은 고른 상위의 하위 목록과 맨 아래 점선 칸(하위 추가, 일괄 삭제)
+ * 예: src/app/category/shop/component/ShopCategoryTree.tsx). 왼쪽은 상위 목록, 오른쪽(CategoryChildPanel)은 고른 상위의 하위 목록과 맨 아래 점선 칸(하위 추가, 일괄 삭제)
  */
 export const CategoryTwoPanelTree: Story = {
   name: '카테고리 > 목록 > 상위와 하위 두 칸',
