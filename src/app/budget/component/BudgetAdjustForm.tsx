@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import { TonalButton } from '@/app/common/style/CommonButton.style';
-import { FieldStack } from '@/app/common/style/CommonForm.style';
+import { FieldStack, FormBody } from '@/app/common/style/CommonForm.style';
 import { EndRow, Row } from '@/app/common/style/CommonLayout.style';
 import { AddRow } from '@/app/common/style/CommonList.style';
 import { validateBudgetAdjustAmount, validateBudgetAdjustMemo } from '@/app/common/utils/ValidationUtils';
@@ -64,37 +64,39 @@ const BudgetAdjustForm = ({ mode, adjust, onClose }: BudgetAdjustFormProps) => {
   };
 
   return (
-    <AddRow component="form" noValidate onSubmit={handleSubmit(handleValid)}>
-      <FieldStack>
-        <Row>
-          <TextField
-            fullWidth
-            autoFocus
-            label="금액 (빼려면 앞에 - 를 붙여요)"
-            error={!!errors.amount}
-            helperText={errors.amount?.message}
-            inputRef={register('amount', { validate: validateBudgetAdjustAmount }).ref}
-            {...register('amount', { validate: validateBudgetAdjustAmount })}
-          />
-          <TextField
-            fullWidth
-            label="메모 (선택)"
-            error={!!errors.memo}
-            helperText={errors.memo?.message}
-            inputRef={register('memo', { validate: validateBudgetAdjustMemo }).ref}
-            {...register('memo', { validate: validateBudgetAdjustMemo })}
-          />
-        </Row>
-        <EndRow>
+    <FormBody noValidate onSubmit={handleSubmit(handleValid)}>
+      <AddRow>
+        <FieldStack>
           <Row>
-            <TonalButton onClick={onClose}>취소</TonalButton>
-            <Button type="submit" variant="contained" disabled={saving}>
-              {submitLabel}
-            </Button>
+            <TextField
+              fullWidth
+              autoFocus
+              label="금액 (빼려면 앞에 - 를 붙여요)"
+              error={!!errors.amount}
+              helperText={errors.amount?.message}
+              inputRef={register('amount', { validate: validateBudgetAdjustAmount }).ref}
+              {...register('amount', { validate: validateBudgetAdjustAmount })}
+            />
+            <TextField
+              fullWidth
+              label="메모 (선택)"
+              error={!!errors.memo}
+              helperText={errors.memo?.message}
+              inputRef={register('memo', { validate: validateBudgetAdjustMemo }).ref}
+              {...register('memo', { validate: validateBudgetAdjustMemo })}
+            />
           </Row>
-        </EndRow>
-      </FieldStack>
-    </AddRow>
+          <EndRow>
+            <Row>
+              <TonalButton onClick={onClose}>취소</TonalButton>
+              <Button type="submit" variant="contained" disabled={saving}>
+                {submitLabel}
+              </Button>
+            </Row>
+          </EndRow>
+        </FieldStack>
+      </AddRow>
+    </FormBody>
   );
 };
 

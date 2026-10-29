@@ -4,7 +4,7 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import PageNumbers from '@/app/common/component/PageNumbers'
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style'
 import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style'
-import { FieldStack } from '@/app/common/style/CommonForm.style'
+import { FieldStack, FormBody } from '@/app/common/style/CommonForm.style'
 import { EndRow, Row } from '@/app/common/style/CommonLayout.style'
 import { AddButton, AddRow, PagerRow, Panel, PanelBody, RowBox, SelectCheck } from '@/app/common/style/CommonList.style'
 import { BoldText, LabelText } from '@/app/common/style/CommonText.style'
@@ -249,7 +249,8 @@ export const BudgetAdjustPanelEditing: Story = {
             <TonalDangerButton size="small">삭제</TonalDangerButton>
           </Row>
         </RowBox>
-        <AddRow component="form">
+        <FormBody>
+          <AddRow>
           <FieldStack>
             <Row>
               <TextField fullWidth label="금액 (빼려면 앞에 - 를 붙여요)" defaultValue="-30000" />
@@ -262,7 +263,8 @@ export const BudgetAdjustPanelEditing: Story = {
               </Row>
             </EndRow>
           </FieldStack>
-        </AddRow>
+          </AddRow>
+        </FormBody>
         <RowBox>
           <Row>
             <LabelText>10/18</LabelText>
