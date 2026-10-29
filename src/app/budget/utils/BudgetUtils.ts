@@ -1,5 +1,6 @@
 import dayjs, { type Dayjs } from 'dayjs';
 import type { BudgetSettingRequestBody } from '@/app/budget/interface/BudgetSettingRequestBody';
+import { formatPrice } from '@/app/common/utils/CommonUtils';
 import type { BudgetStartFormValues } from '@/app/budget/interface/BudgetStartFormValues';
 
 const LABEL_FORMAT = 'MM/DD';
@@ -28,4 +29,51 @@ export const toBudgetStartFormValues = (startDay: number, defaultBudget: number)
  */
 export const toBudgetSettingRequestBody = (values: BudgetStartFormValues): BudgetSettingRequestBody => {
   return { startDay: values.startDay, defaultBudget: Number(values.defaultBudget) };
+};
+
+/**
+ * 날짜 글자를 "10/20" 모양으로 바꾼다 (증감, 지출 줄의 날짜). "2026-10-20"과 "2026-10-20T10:13:50" 모두 받는다
+ */
+export const formatBudgetDate = (date: string): string => {
+  return dayjs(date).format(LABEL_FORMAT);
+};
+
+/**
+ * 기간 범위를 "2026.10.25 ~ 2026.11.24" 모양으로 만든다 (이번 기간 카드 제목 옆)
+ */
+export const formatBudgetPeriod = (startDate: string, endDate: string): string => {
+  return `${dayjs(startDate).format('YYYY.MM.DD')} ~ ${dayjs(endDate).format('YYYY.MM.DD')}`;
+};
+
+/**
+ * 부호를 붙인 금액 (예: 50000 -> "+50,000원", -30000 -> "-30,000원")
+ */
+export const formatSignedPrice = (amount: number): string => {
+  return amount > 0 ? `+${formatPrice(amount)}` : formatPrice(amount);
+};
+
+/**
+ * 총 예산 대비 지출 비율(%). 100을 넘을 수 있다. 총 예산이 0 이하이면 지출이 있을 때만 100으로 본다
+ */
+export const getBudgetUsagePercent = (spent: number, totalBudget: number): number => {
+  if (totalBudget <= 0) {
+    return spent > 0 ? 100 : 0;
+  }
+
+  return Math.round((spent / totalBudget) * 100);
+};
+
+/**
+ * 금액의 부호 칸 글자. 0보다 크면 "+", 작으면 "−", 0이면 빈 글자 (증감 합계, 증감 줄의 부호 칸)
+ */
+export const getBudgetSignMark = (amount: number): string => {
+  if (amount > 0) {
+    return '+';
+  }
+
+  if (amount < 0) {
+    return '−';
+  }
+
+  return '';
 };

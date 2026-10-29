@@ -1,8 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Typography } from '@mui/material'
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined'
-import { ColumnCard, MediaCard, Pill, SectionTitle, SpreadCard } from '@/app/common/style/CommonCard.style'
+import {
+  ColumnCard,
+  DetailList,
+  MediaCard,
+  Pill,
+  ReceiptBox,
+  SectionTitle,
+  SignMark,
+  SpreadCard,
+  ToggleRow,
+  TotalDivider,
+  UsageBar,
+} from '@/app/common/style/CommonCard.style'
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style'
 import { StateIcon, ThumbFrame } from '@/app/common/style/CommonMedia.style'
+import { BoldText, LabelText, PriceText, ValueText } from '@/app/common/style/CommonText.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 카드를 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta = {
@@ -71,4 +87,156 @@ export const FigureThumbnailCard: Story = {
 export const BadgePill: Story = {
   name: '상품 > 상세, 폼 > 알약 바탕',
   render: () => <Pill>샘플 배지</Pill>,
+}
+
+/** 이번 기간 카드 견본의 공통 틀. open 이면 증감 합계와 지출을 펼친 모양, over 이면 예산을 넘긴 모양이다 */
+const renderPeriodCard = (open: boolean, over: boolean) => (
+  <ColumnCard>
+    <SpreadRow>
+      <SectionTitle variant="h6" component="h2">
+        이번 기간
+      </SectionTitle>
+      <LabelText>2026.10.25 ~ 2026.11.24</LabelText>
+    </SpreadRow>
+    <SpreadRow>
+      <BoldText>남은 돈</BoldText>
+      {over && <BoldText color="error">예산 초과</BoldText>}
+    </SpreadRow>
+    <PriceText size="lg" negative={over}>
+      {over ? '-19,000원' : '220,000원'}
+    </PriceText>
+    <SpreadRow>
+      <LabelText>사용</LabelText>
+      <LabelText>{over ? '111%' : '65%'}</LabelText>
+    </SpreadRow>
+    <UsageBar variant="determinate" value={over ? 100 : 65} color={over ? 'error' : 'primary'} />
+    <ReceiptBox>
+      <SpreadRow>
+        <Row>
+          <SignMark />
+          <LabelText>기본 예산</LabelText>
+        </Row>
+        <ValueText>550,000원</ValueText>
+      </SpreadRow>
+      <ToggleRow aria-expanded={open}>
+        <Row>
+          <SignMark>+</SignMark>
+          <LabelText>증감 합계</LabelText>
+          {open ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+        </Row>
+        <ValueText>70,000원</ValueText>
+      </ToggleRow>
+      {open && (
+        <DetailList>
+          <div>
+            <Row>
+              <SignMark>+</SignMark>
+              <Typography variant="caption" color="text.secondary">
+                10/18
+              </Typography>
+            </Row>
+            <SpreadRow>
+              <ValueText>보너스</ValueText>
+              <Typography variant="mono">100,000원</Typography>
+            </SpreadRow>
+          </div>
+          <div>
+            <Row>
+              <SignMark>−</SignMark>
+              <Typography variant="caption" color="text.secondary">
+                10/20
+              </Typography>
+            </Row>
+            <SpreadRow>
+              <ValueText>경조사</ValueText>
+              <Typography variant="mono">30,000원</Typography>
+            </SpreadRow>
+          </div>
+        </DetailList>
+      )}
+      <TotalDivider />
+      <SpreadRow>
+        <Row>
+          <SignMark>=</SignMark>
+          <BoldText>총 예산</BoldText>
+        </Row>
+        <BoldText>620,000원</BoldText>
+      </SpreadRow>
+      <ToggleRow aria-expanded={open}>
+        <Row>
+          <SignMark>−</SignMark>
+          <LabelText>지출</LabelText>
+          {open ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+        </Row>
+        <ValueText>400,000원</ValueText>
+      </ToggleRow>
+      {open && (
+        <DetailList>
+          <div>
+            <Row>
+              <Typography variant="caption" color="text.secondary">
+                11/02
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                전액
+              </Typography>
+            </Row>
+            <SpreadRow>
+              <ValueText>하츠네 미쿠 1/7 스케일</ValueText>
+              <Typography variant="mono">220,000원</Typography>
+            </SpreadRow>
+          </div>
+        </DetailList>
+      )}
+      <TotalDivider />
+      <SpreadRow>
+        <Row>
+          <SignMark>=</SignMark>
+          <BoldText>남은 돈</BoldText>
+        </Row>
+        <BoldText color={over ? 'error' : 'primary'}>{over ? '-19,000원' : '220,000원'}</BoldText>
+      </SpreadRow>
+    </ReceiptBox>
+  </ColumnCard>
+)
+
+/** 예산 관리 화면의 이번 기간 카드(budget/component/BudgetPeriodCard.tsx). 위에 남은 돈과 사용 막대, 아래 어두운 상자에 계산 내역을 영수증처럼 쌓는다(줄 끝의 화살표를 누르면 열림) */
+export const BudgetPeriodCard: Story = {
+  name: '예산 관리 > 오른쪽 > 이번 기간 카드',
+  render: () => renderPeriodCard(false, false),
+}
+
+/** 증감 합계와 지출 줄을 눌러 내역을 펼친 이번 기간 카드. 펼친 줄은 왼쪽 세로선 아래로 들여써서 쌓고, 같은 줄을 다시 누르면 접힌다 */
+export const BudgetPeriodCardOpen: Story = {
+  name: '예산 관리 > 오른쪽 > 이번 기간 카드(내역 펼침)',
+  render: () => renderPeriodCard(true, false),
+}
+
+/** 예산을 넘겨 쓴 이번 기간 카드. 남은 돈과 막대가 빨갛게 되고 "예산 초과"가 붙는다 */
+export const BudgetPeriodCardOver: Story = {
+  name: '예산 관리 > 오른쪽 > 이번 기간 카드(예산 초과)',
+  render: () => renderPeriodCard(false, true),
+}
+
+/** 예산 관리 화면의 예산 설정 카드(budget/component/BudgetSettingCard.tsx). 제목, 이름표와 값 줄, 아래 안내 글자 */
+export const BudgetSettingCard: Story = {
+  name: '예산 관리 > 오른쪽 > 설정 카드',
+  render: () => (
+    <ColumnCard>
+      <SectionTitle variant="h6" component="h2">
+        예산 설정
+      </SectionTitle>
+      <SpreadRow>
+        <LabelText>기간 시작일</LabelText>
+        <ValueText>매월 25일</ValueText>
+      </SpreadRow>
+      <SpreadRow>
+        <LabelText>기본 예산</LabelText>
+        <ValueText>550,000원</ValueText>
+      </SpreadRow>
+      <Typography variant="caption" color="text.secondary">
+        바꾼 값은 다음 기간부터 적용돼요. 이번 기간은 그대로예요.
+      </Typography>
+    </ColumnCard>
+  ),
 }

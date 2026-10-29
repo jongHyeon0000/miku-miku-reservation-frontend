@@ -44,16 +44,17 @@ export const LabelValueRow = styled(Box)({
 });
 
 /**
-* 가격 글자 (고정폭 글꼴, 포인트 색, 굵게). 크기는 md(목록 카드), lg(상세, 폼)
+* 가격 글자 (고정폭 글꼴, 포인트 색, 굵게). 크기는 md(목록 카드), lg(상세, 폼). negative 면 경고색(빨강)이다 (남은 돈이 음수일 때)
 * */
-export const PriceText = styled(Typography, { shouldForwardProp: (prop) => prop !== 'size' })<{ size?: 'md' | 'lg' }>(
-  ({ theme, size = 'md' }) => ({
-    ...theme.typography.mono,
-    fontSize: size === 'lg' ? '1.9375rem' : '1.25rem',
-    fontWeight: 700,
-    color: theme.palette.primary.main,
-  }),
-);
+export const PriceText = styled(Typography, { shouldForwardProp: (prop) => prop !== 'size' && prop !== 'negative' })<{
+  size?: 'md' | 'lg';
+  negative?: boolean;
+}>(({ theme, size = 'md', negative = false }) => ({
+  ...theme.typography.mono,
+  fontSize: size === 'lg' ? '1.9375rem' : '1.25rem',
+  fontWeight: 700,
+  color: negative ? theme.palette.error.main : theme.palette.primary.main,
+}));
 
 /**
 * 가격과 그 아래 내역을 오른쪽 끝에 세로로 쌓는 칸

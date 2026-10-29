@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, ButtonBase, LinearProgress, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 /**
@@ -51,4 +51,69 @@ export const Pill = styled('span')(({ theme }) => ({
   display: 'inline-flex',
   alignItems: 'center',
   borderRadius: theme.shape.pillRadius,
+}));
+
+/**
+* 사용 막대. 막대가 비율만큼 차고, 쓰는 쪽이 color 로 경고색(error)을 줄 수 있다 (예산 사용 비율)
+* */
+export const UsageBar = styled(LinearProgress)(({ theme }) => ({
+  height: theme.spacing(1.25),
+  borderRadius: theme.shape.pillRadius,
+  backgroundColor: theme.palette.surfaceSunken,
+  '& .MuiLinearProgress-bar': { borderRadius: theme.shape.pillRadius },
+}));
+
+/**
+* 세로 덧셈의 합계 위에 긋는 가는 선 (예산의 총 예산 위). 줄 구분선과 같은 색이다
+* */
+export const TotalDivider = styled(Box)(({ theme }) => ({
+  borderTop: `1px solid ${theme.palette.divider}`,
+}));
+
+/**
+* 계산 내역을 묶는 어두운 상자 (카드 안에서 줄들을 세로로 쌓는다. 예산의 기본 예산, 증감, 총 예산, 지출, 남은 돈)
+* */
+export const ReceiptBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.surfaceSunken,
+  borderRadius: theme.shape.borderRadius,
+}));
+
+/**
+* 계산 줄 앞의 부호 칸 (+, −, =). 부호가 없는 줄도 같은 폭을 차지해서 글자의 세로선이 맞는다
+* */
+export const SignMark = styled('span')(({ theme }) => ({
+  ...theme.typography.mono,
+  display: 'inline-block',
+  width: '1.25em',
+  color: theme.palette.primary.main,
+}));
+
+/**
+* 누르면 아래 내역이 열리는 줄 (줄 전체가 버튼이고 양 끝 정렬)
+* */
+export const ToggleRow = styled(ButtonBase)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: theme.spacing(2),
+  width: '100%',
+  textAlign: 'left',
+  font: 'inherit',
+  color: 'inherit',
+}));
+
+/**
+* 열린 내역을 담는 칸 (왼쪽 세로선과 들여쓰기, 줄들을 세로로 쌓는다)
+* */
+export const DetailList = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+  marginLeft: '1.25em',
+  padding: theme.spacing(0.5, 0, 0.5, 1.5),
+  borderLeft: `2px solid ${theme.palette.divider}`,
 }));

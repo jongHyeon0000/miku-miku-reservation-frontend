@@ -2,8 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Box, Button, Typography } from '@mui/material'
 import PageNumbers from '@/app/common/component/PageNumbers'
 import { TonalButton } from '@/app/common/style/CommonButton.style'
+import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style'
 import { Row } from '@/app/common/style/CommonLayout.style'
 import { AddRow, PagerRow, Panel, RowBox, SelectCheck } from '@/app/common/style/CommonList.style'
+import { BoldText, LabelText } from '@/app/common/style/CommonText.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 목록 틀을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta = {
@@ -142,6 +144,72 @@ export const PostListPanel: Story = {
       <PagerRow>
         <PageNumbers page={1} totalPages={3} onChange={() => undefined} />
       </PagerRow>
+    </Panel>
+  ),
+}
+
+/** 예산 관리 화면의 증감 내역 패널(budget/component/BudgetAdjustPanel.tsx). 금색 밑줄 제목 아래에 날짜, 메모, 금액 줄. 빼는 금액은 빨간 글자 */
+export const BudgetAdjustPanel: Story = {
+  name: '예산 관리 > 왼쪽 > 증감 내역 패널',
+  render: () => (
+    <Panel>
+      <PanelTop>
+        <PanelHeader>
+          <Typography variant="h6">증감 내역</Typography>
+          <LabelText>2건</LabelText>
+        </PanelHeader>
+      </PanelTop>
+      <Box>
+        <RowBox>
+          <Row>
+            <LabelText>10/20</LabelText>
+            <BoldText>경조사</BoldText>
+          </Row>
+          <Typography variant="mono" color="error">
+            -30,000원
+          </Typography>
+        </RowBox>
+        <RowBox>
+          <Row>
+            <LabelText>10/18</LabelText>
+            <BoldText>보너스</BoldText>
+          </Row>
+          <Typography variant="mono">+100,000원</Typography>
+        </RowBox>
+      </Box>
+    </Panel>
+  ),
+}
+
+/** 예산 관리 화면의 지출 내역 패널(budget/component/BudgetSpendingPanel.tsx). 제목 옆에 건수와 합계, 줄마다 날짜, 지출 종류, 상품명, 금액 */
+export const BudgetSpendingPanel: Story = {
+  name: '예산 관리 > 왼쪽 > 지출 내역 패널',
+  render: () => (
+    <Panel>
+      <PanelTop>
+        <PanelHeader>
+          <Typography variant="h6">지출 내역</Typography>
+          <LabelText>2건 · 300,000원</LabelText>
+        </PanelHeader>
+      </PanelTop>
+      <Box>
+        <RowBox>
+          <Row>
+            <LabelText>11/02</LabelText>
+            <LabelText>전액</LabelText>
+            <Typography>하츠네 미쿠 1/7 스케일</Typography>
+          </Row>
+          <Typography variant="mono">220,000원</Typography>
+        </RowBox>
+        <RowBox>
+          <Row>
+            <LabelText>10/30</LabelText>
+            <LabelText>예약금</LabelText>
+            <Typography>카가미네 린 넨도로이드</Typography>
+          </Row>
+          <Typography variant="mono">80,000원</Typography>
+        </RowBox>
+      </Box>
     </Panel>
   ),
 }

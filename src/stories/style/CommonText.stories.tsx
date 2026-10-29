@@ -176,3 +176,13 @@ export const UrgentSubtitle: Story = {
   name: '임박 알림 창 > 위 > 부제목',
   render: () => <BoldText color="text.secondary">예약마감이 한 달 안으로 남은 상품이에요</BoldText>,
 }
+
+/** 예산 관리 이번 기간 카드(budget/component/BudgetPeriodCard.tsx)의 남은 돈. 지출이 총 예산을 넘어 음수가 되면 빨간색이다 */
+export const BudgetRemainNegative: Story = {
+  name: '예산 관리 > 이번 기간 > 남은 돈(음수)',
+  render: () => (
+    <PriceText size="lg" negative>
+      -19,000원
+    </PriceText>
+  ),
+}

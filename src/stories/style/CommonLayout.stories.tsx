@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button, Link, Typography } from '@mui/material'
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style'
 import { ColumnCard, MediaCard, SpreadCard } from '@/app/common/style/CommonCard.style'
+import { FieldStack } from '@/app/common/style/CommonForm.style'
 import { EndRow, Row, SideColumn, SpreadRow, SplitLayout } from '@/app/common/style/CommonLayout.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 배치 틀을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
@@ -134,6 +135,31 @@ export const SplitProfile: Story = {
       <MediaCard>
         <Typography>프로필 이미지 구역</Typography>
       </MediaCard>
+    </SplitLayout>
+  ),
+}
+
+/** 예산 관리 화면(budget/page/BudgetStatusPage.tsx). 왼쪽 넓은 열에 증감과 지출 패널, 오른쪽 좁은 열에 이번 기간과 설정 카드를 각각 세로로 쌓는다 */
+export const BudgetStatusSplit: Story = {
+  name: '예산 관리 > 본문 > 넓은 열과 좁은 열',
+  render: () => (
+    <SplitLayout>
+      <FieldStack>
+        <ColumnCard>
+          <Typography>증감 내역 자리</Typography>
+        </ColumnCard>
+        <ColumnCard>
+          <Typography>지출 내역 자리</Typography>
+        </ColumnCard>
+      </FieldStack>
+      <FieldStack>
+        <ColumnCard>
+          <Typography>이번 기간 자리</Typography>
+        </ColumnCard>
+        <ColumnCard>
+          <Typography>예산 설정 자리</Typography>
+        </ColumnCard>
+      </FieldStack>
     </SplitLayout>
   ),
 }
