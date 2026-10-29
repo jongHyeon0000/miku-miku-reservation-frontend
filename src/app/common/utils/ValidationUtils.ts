@@ -341,3 +341,71 @@ export const validateDepositAmount = (value: string, formValues: FigureStatusFor
 
   return undefined;
 };
+
+/**
+ * [예산관리 페이지]
+ *
+ * 기간 시작일: 1~28의 정수 (29일 이후는 없는 달이 있어서 서버가 받지 않는다)
+ */
+export const validateBudgetStartDay = (value: string): string | undefined => {
+  if (value.trim() === '') {
+    return '시작일을 입력해 주세요.';
+  }
+
+  if (!/^\d+$/.test(value.trim()) || Number(value) < 1 || Number(value) > 28) {
+    return '시작일은 1부터 28 사이의 숫자로 입력해 주세요.';
+  }
+
+  return undefined;
+};
+
+/**
+ * [예산관리 페이지]
+ *
+ * 기본 예산: 0 이상의 정수
+ */
+export const validateBudgetDefaultBudget = (value: string): string | undefined => {
+  if (value.trim() === '') {
+    return '기본 예산을 입력해 주세요.';
+  }
+
+  if (!/^\d+$/.test(value.trim()) || Number(value) > 2147483647) {
+    return '기본 예산은 0 이상의 숫자로 입력해 주세요.';
+  }
+
+  return undefined;
+};
+
+/**
+ * [예산관리 페이지]
+ *
+ * 증감 금액: 0이 아닌 정수. 더하면 양수, 빼려면 앞에 -를 붙인다
+ */
+export const validateBudgetAdjustAmount = (value: string): string | undefined => {
+  if (value.trim() === '') {
+    return '금액을 입력해 주세요.';
+  }
+
+  if (!/^-?\d+$/.test(value.trim()) || Math.abs(Number(value)) > 2147483647) {
+    return '금액은 숫자로 입력해 주세요. 빼려면 앞에 -를 붙여 주세요.';
+  }
+
+  if (Number(value) === 0) {
+    return '0원은 입력할 수 없어요.';
+  }
+
+  return undefined;
+};
+
+/**
+ * [예산관리 페이지]
+ *
+ * 증감 메모: 100자 이하 (비워도 된다)
+ */
+export const validateBudgetAdjustMemo = (value: string): string | undefined => {
+  if (value.length > 100) {
+    return '메모는 100자 이하로 입력해 주세요.';
+  }
+
+  return undefined;
+};
