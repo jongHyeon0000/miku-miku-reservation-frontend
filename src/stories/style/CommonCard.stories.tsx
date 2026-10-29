@@ -15,7 +15,10 @@ import {
 } from '@/app/common/style/CommonCard.style'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style'
+import { TonalButton } from '@/app/common/style/CommonButton.style'
 import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style'
+import { Panel, PanelBody } from '@/app/common/style/CommonList.style'
 import { StateIcon, ThumbFrame } from '@/app/common/style/CommonMedia.style'
 import { BoldText, LabelText, PriceText, ValueText } from '@/app/common/style/CommonText.style'
 
@@ -90,13 +93,16 @@ export const BadgePill: Story = {
 
 /** 이번 기간 카드 견본의 공통 틀. open 이면 증감 합계와 지출을 펼친 모양, over 이면 예산을 넘긴 모양이다 */
 const renderPeriodCard = (open: boolean, over: boolean) => (
-  <ColumnCard>
-    <SpreadRow>
-      <SectionTitle variant="h6" component="h2">
-        이번 기간
-      </SectionTitle>
-      <LabelText>2026.10.25 ~ 2026.11.24</LabelText>
-    </SpreadRow>
+  <Panel>
+    <PanelTop>
+      <PanelHeader>
+        <SectionTitle variant="h6" component="h2">
+          이번 기간
+        </SectionTitle>
+        <LabelText>2026.10.25 ~ 2026.11.24</LabelText>
+      </PanelHeader>
+    </PanelTop>
+    <PanelBody>
     <SpreadRow>
       <BoldText>남은 돈</BoldText>
       {over && <BoldText color="error">예산 초과</BoldText>}
@@ -179,7 +185,8 @@ const renderPeriodCard = (open: boolean, over: boolean) => (
         <BoldText color={over ? 'error' : 'primary'}>{over ? '-19,000원' : '220,000원'}</BoldText>
       </SpreadRow>
     </ReceiptBox>
-  </ColumnCard>
+    </PanelBody>
+  </Panel>
 )
 
 /** 예산 관리 화면의 이번 기간 카드(budget/component/BudgetPeriodCard.tsx). 위에 남은 돈과 사용 막대, 아래 어두운 상자에 계산 내역을 영수증처럼 쌓는다(줄 끝의 화살표를 누르면 열림) */
@@ -204,10 +211,16 @@ export const BudgetPeriodCardOver: Story = {
 export const BudgetSettingCard: Story = {
   name: '예산 관리 > 오른쪽 > 설정 카드',
   render: () => (
-    <ColumnCard>
-      <SectionTitle variant="h6" component="h2">
-        예산 설정
-      </SectionTitle>
+    <Panel>
+      <PanelTop>
+        <PanelHeader>
+          <SectionTitle variant="h6" component="h2">
+            예산 설정
+          </SectionTitle>
+          <TonalButton size="small">수정</TonalButton>
+        </PanelHeader>
+      </PanelTop>
+      <PanelBody>
       <SpreadRow>
         <LabelText>기간 시작일</LabelText>
         <ValueText>매월 25일</ValueText>
@@ -219,6 +232,7 @@ export const BudgetSettingCard: Story = {
       <Typography variant="caption" color="text.secondary">
         바꾼 값은 다음 기간부터 적용돼요. 이번 기간은 그대로예요.
       </Typography>
-    </ColumnCard>
+      </PanelBody>
+    </Panel>
   ),
 }

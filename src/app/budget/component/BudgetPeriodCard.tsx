@@ -3,8 +3,10 @@ import type { LinearProgressProps } from '@mui/material';
 import { Typography } from '@mui/material';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ColumnCard, DetailList, ReceiptBox, SectionTitle, ToggleRow, TotalDivider, UsageBar } from '@/app/common/style/CommonCard.style';
+import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style';
+import { DetailList, ReceiptBox, SectionTitle, ToggleRow, TotalDivider, UsageBar } from '@/app/common/style/CommonCard.style';
 import { GroupStack, Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
+import { Panel, PanelBody } from '@/app/common/style/CommonList.style';
 import { BoldText, LabelText, PriceText, ValueText } from '@/app/common/style/CommonText.style';
 import { formatPrice } from '@/app/common/utils/CommonUtils';
 import { BUDGET_SPENDING_KIND_LABELS } from '@/app/budget/constant/budgetSpendingKind';
@@ -48,116 +50,120 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
   };
 
   return (
-    <ColumnCard>
-      <SpreadRow>
-        <SectionTitle variant="h6" component="h2">
-          이번 기간
-        </SectionTitle>
-        <LabelText>{formatBudgetPeriod(period.startDate, period.endDate)}</LabelText>
-      </SpreadRow>
+    <Panel>
+      <PanelTop>
+        <PanelHeader>
+          <SectionTitle variant="h6" component="h2">
+            이번 기간
+          </SectionTitle>
+          <LabelText>{formatBudgetPeriod(period.startDate, period.endDate)}</LabelText>
+        </PanelHeader>
+      </PanelTop>
+      <PanelBody>
 
-      <GroupStack>
-        <SpreadRow>
-          <BoldText>남은 돈</BoldText>
-          {isOver && <BoldText color="error">예산 초과</BoldText>}
-        </SpreadRow>
-        <PriceText size="lg" negative={isOver}>
-          {formatPrice(period.remaining)}
-        </PriceText>
-      </GroupStack>
+        <GroupStack>
+          <SpreadRow>
+            <BoldText>남은 돈</BoldText>
+            {isOver && <BoldText color="error">예산 초과</BoldText>}
+          </SpreadRow>
+          <PriceText size="lg" negative={isOver}>
+            {formatPrice(period.remaining)}
+          </PriceText>
+        </GroupStack>
 
-      <GroupStack>
-        <SpreadRow>
-          <LabelText>사용</LabelText>
-          <LabelText>{usagePercent}%</LabelText>
-        </SpreadRow>
-        <UsageBar variant="determinate" value={barValue} color={barColor} />
-      </GroupStack>
+        <GroupStack>
+          <SpreadRow>
+            <LabelText>사용</LabelText>
+            <LabelText>{usagePercent}%</LabelText>
+          </SpreadRow>
+          <UsageBar variant="determinate" value={barValue} color={barColor} />
+        </GroupStack>
 
-      <ReceiptBox>
-        <SpreadRow>
-          <LabelText>기본 예산</LabelText>
-          <ValueText>{formatPrice(period.amount)}</ValueText>
-        </SpreadRow>
+        <ReceiptBox>
+          <SpreadRow>
+            <LabelText>기본 예산</LabelText>
+            <ValueText>{formatPrice(period.amount)}</ValueText>
+          </SpreadRow>
 
-        <ToggleRow aria-expanded={adjustOpen} onClick={handleToggleAdjust}>
-          <Row>
-            <LabelText>증감 합계</LabelText>
-            {adjustOpen ? <ExpandLessIcon fontSize="inherit" /> : <ExpandMoreIcon fontSize="inherit" />}
-          </Row>
-          <ValueText negative={period.adjustTotal < 0}>{formatSignedPrice(period.adjustTotal)}</ValueText>
-        </ToggleRow>
-        {adjustOpen && (
-          <DetailList>
-            {adjusts.length === 0 && (
-              <Typography variant="caption" color="text.secondary">
-                증감 내역이 없어요.
-              </Typography>
-            )}
-            {adjusts.map((adjust) => (
-              <div key={adjust.budgetAdjustId}>
-                <Typography variant="body2" color="text.secondary">
-                  {formatBudgetDate(adjust.createdAt)}
+          <ToggleRow aria-expanded={adjustOpen} onClick={handleToggleAdjust}>
+            <Row>
+              <LabelText>증감 합계</LabelText>
+              {adjustOpen ? <ExpandLessIcon fontSize="inherit" /> : <ExpandMoreIcon fontSize="inherit" />}
+            </Row>
+            <ValueText negative={period.adjustTotal < 0}>{formatSignedPrice(period.adjustTotal)}</ValueText>
+          </ToggleRow>
+          {adjustOpen && (
+            <DetailList>
+              {adjusts.length === 0 && (
+                <Typography variant="caption" color="text.secondary">
+                  증감 내역이 없어요.
                 </Typography>
-                <SpreadRow>
-                  <ValueText>{adjust.memo ? adjust.memo : '(메모 없음)'}</ValueText>
-                  <Row>
-                    <ValueText negative={adjust.amount < 0}>{formatSignedPrice(adjust.amount)}</ValueText>
-                  </Row>
-                </SpreadRow>
-              </div>
-            ))}
-          </DetailList>
-        )}
-
-        <TotalDivider />
-        <SpreadRow>
-          <BoldText>총 예산</BoldText>
-          <BoldText color={period.totalBudget < 0 ? 'error' : 'text.primary'}>{formatPrice(period.totalBudget)}</BoldText>
-        </SpreadRow>
-
-        <ToggleRow aria-expanded={spendingOpen} onClick={handleToggleSpending}>
-          <Row>
-            <LabelText>지출</LabelText>
-            {spendingOpen ? <ExpandLessIcon fontSize="inherit" /> : <ExpandMoreIcon fontSize="inherit" />}
-          </Row>
-          <ValueText negative={period.spent > 0}>{formatSignedPrice(-period.spent)}</ValueText>
-        </ToggleRow>
-        {spendingOpen && (
-          <DetailList>
-            {spendings.length === 0 && (
-              <Typography variant="caption" color="text.secondary">
-                이번 기간에 결제한 상품이 없어요.
-              </Typography>
-            )}
-            {spendings.map((spending) => (
-              <div key={`${spending.figureId}-${spending.kind}`}>
-                <Row>
+              )}
+              {adjusts.map((adjust) => (
+                <div key={adjust.budgetAdjustId}>
                   <Typography variant="body2" color="text.secondary">
-                    {formatBudgetDate(spending.paidDate)}
+                    {formatBudgetDate(adjust.createdAt)}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {BUDGET_SPENDING_KIND_LABELS[spending.kind]}
-                  </Typography>
-                </Row>
-                <SpreadRow>
-                  <ValueText>{spending.figureName}</ValueText>
-                  <Row>
-                    <ValueText negative={spending.amount > 0}>{formatSignedPrice(-spending.amount)}</ValueText>
-                  </Row>
-                </SpreadRow>
-              </div>
-            ))}
-          </DetailList>
-        )}
+                  <SpreadRow>
+                    <ValueText>{adjust.memo ? adjust.memo : '(메모 없음)'}</ValueText>
+                    <Row>
+                      <ValueText negative={adjust.amount < 0}>{formatSignedPrice(adjust.amount)}</ValueText>
+                    </Row>
+                  </SpreadRow>
+                </div>
+              ))}
+            </DetailList>
+          )}
 
-        <TotalDivider />
-        <SpreadRow>
-          <BoldText>남은 돈</BoldText>
-          <BoldText color={remainColor}>{formatPrice(period.remaining)}</BoldText>
-        </SpreadRow>
-      </ReceiptBox>
-    </ColumnCard>
+          <TotalDivider />
+          <SpreadRow>
+            <BoldText>총 예산</BoldText>
+            <BoldText color={period.totalBudget < 0 ? 'error' : 'text.primary'}>{formatPrice(period.totalBudget)}</BoldText>
+          </SpreadRow>
+
+          <ToggleRow aria-expanded={spendingOpen} onClick={handleToggleSpending}>
+            <Row>
+              <LabelText>지출</LabelText>
+              {spendingOpen ? <ExpandLessIcon fontSize="inherit" /> : <ExpandMoreIcon fontSize="inherit" />}
+            </Row>
+            <ValueText negative={period.spent > 0}>{formatSignedPrice(-period.spent)}</ValueText>
+          </ToggleRow>
+          {spendingOpen && (
+            <DetailList>
+              {spendings.length === 0 && (
+                <Typography variant="caption" color="text.secondary">
+                  이번 기간에 결제한 상품이 없어요.
+                </Typography>
+              )}
+              {spendings.map((spending) => (
+                <div key={`${spending.figureId}-${spending.kind}`}>
+                  <Row>
+                    <Typography variant="body2" color="text.secondary">
+                      {formatBudgetDate(spending.paidDate)}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {BUDGET_SPENDING_KIND_LABELS[spending.kind]}
+                    </Typography>
+                  </Row>
+                  <SpreadRow>
+                    <ValueText>{spending.figureName}</ValueText>
+                    <Row>
+                      <ValueText negative={spending.amount > 0}>{formatSignedPrice(-spending.amount)}</ValueText>
+                    </Row>
+                  </SpreadRow>
+                </div>
+              ))}
+            </DetailList>
+          )}
+
+          <TotalDivider />
+          <SpreadRow>
+            <BoldText>남은 돈</BoldText>
+            <BoldText color={remainColor}>{formatPrice(period.remaining)}</BoldText>
+          </SpreadRow>
+        </ReceiptBox>
+      </PanelBody>
+    </Panel>
   );
 };
 

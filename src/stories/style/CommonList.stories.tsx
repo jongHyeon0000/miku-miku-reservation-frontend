@@ -6,7 +6,7 @@ import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.
 import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style'
 import { FieldStack } from '@/app/common/style/CommonForm.style'
 import { EndRow, Row } from '@/app/common/style/CommonLayout.style'
-import { AddButton, AddRow, PagerRow, Panel, RowBox, SelectCheck } from '@/app/common/style/CommonList.style'
+import { AddButton, AddRow, PagerRow, Panel, PanelBody, RowBox, SelectCheck } from '@/app/common/style/CommonList.style'
 import { BoldText, LabelText } from '@/app/common/style/CommonText.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 목록 틀을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
@@ -280,6 +280,25 @@ export const BudgetAdjustPanelEditing: Story = {
           증감 추가
         </AddButton>
       </AddRow>
+    </Panel>
+  ),
+}
+
+/** 예산 관리 오른쪽 카드(budget/component/BudgetPeriodCard.tsx, BudgetSettingCard.tsx)의 머리 아래 본문. 머리 칸 아래에서 안쪽 여백을 두고 칸들을 같은 간격으로 쌓는다 */
+export const BudgetCardBody: Story = {
+  name: '예산 관리 > 오른쪽 > 카드 본문 묶음',
+  render: () => (
+    <Panel>
+      <PanelTop>
+        <PanelHeader>
+          <Typography variant="h6">예산 설정</Typography>
+          <TonalButton size="small">수정</TonalButton>
+        </PanelHeader>
+      </PanelTop>
+      <PanelBody>
+        <LabelText>첫째 칸</LabelText>
+        <LabelText>둘째 칸</LabelText>
+      </PanelBody>
     </Panel>
   ),
 }

@@ -20,6 +20,14 @@ export const RowBox = styled(SpreadRow)(({ theme }) => ({
   '&:hover': { backgroundColor: theme.palette.rowHover },
 }));
 
+/** 패널 머리 칸 아래의 본문 묶음 (안쪽 여백을 두고 칸들을 세로로 쌓는다. 예산의 이번 기간, 예산 설정이 같이 쓴다) */
+export const PanelBody = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(2),
+  padding: theme.spacing(3),
+}));
+
 /** 선택 모드의 체크칸 (상품 카드, 분류 줄이 같이 쓴다). 줄 세로 가운데에 둔다 */
 export const SelectCheck = styled(Checkbox)(({ theme }) => ({
   alignSelf: 'center',

@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Button, TextField, ToggleButton, Typography } from '@mui/material';
 import { TonalButton } from '@/app/common/style/CommonButton.style';
-import { ColumnCard, SectionTitle } from '@/app/common/style/CommonCard.style';
+import { SectionTitle } from '@/app/common/style/CommonCard.style';
+import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style';
 import { DayOfMonthGrid, FormBody } from '@/app/common/style/CommonForm.style';
 import { EndRow, GroupStack, Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
+import { Panel, PanelBody } from '@/app/common/style/CommonList.style';
 import { LabelText, ValueText } from '@/app/common/style/CommonText.style';
 import { formatPrice } from '@/app/common/utils/CommonUtils';
 import { validateBudgetDefaultBudget } from '@/app/common/utils/ValidationUtils';
@@ -38,34 +40,38 @@ const BudgetSettingCard = ({ startDay, defaultBudget }: BudgetSettingCardProps) 
   };
 
   return (
-    <ColumnCard>
-      <SpreadRow>
-        <SectionTitle variant="h6" component="h2">
-          예산 설정
-        </SectionTitle>
+    <Panel>
+      <PanelTop>
+        <PanelHeader>
+          <SectionTitle variant="h6" component="h2">
+            예산 설정
+          </SectionTitle>
+          {!editing && (
+            <TonalButton size="small" onClick={handleEdit}>
+              수정
+            </TonalButton>
+          )}
+        </PanelHeader>
+      </PanelTop>
+      <PanelBody>
+        {editing && <BudgetSettingForm startDay={startDay} defaultBudget={defaultBudget} onClose={handleClose} />}
         {!editing && (
-          <TonalButton size="small" onClick={handleEdit}>
-            수정
-          </TonalButton>
+          <GroupStack>
+            <SpreadRow>
+              <LabelText>기간 시작일</LabelText>
+              <ValueText>매월 {startDay}일</ValueText>
+            </SpreadRow>
+            <SpreadRow>
+              <LabelText>기본 예산</LabelText>
+              <ValueText>{formatPrice(defaultBudget)}</ValueText>
+            </SpreadRow>
+          </GroupStack>
         )}
-      </SpreadRow>
-      {editing && <BudgetSettingForm startDay={startDay} defaultBudget={defaultBudget} onClose={handleClose} />}
-      {!editing && (
-        <GroupStack>
-          <SpreadRow>
-            <LabelText>기간 시작일</LabelText>
-            <ValueText>매월 {startDay}일</ValueText>
-          </SpreadRow>
-          <SpreadRow>
-            <LabelText>기본 예산</LabelText>
-            <ValueText>{formatPrice(defaultBudget)}</ValueText>
-          </SpreadRow>
-        </GroupStack>
-      )}
-      <LabelText>
-        <Typography variant="caption">바꾼 값은 다음 기간부터 적용돼요. 이번 기간은 그대로예요.</Typography>
-      </LabelText>
-    </ColumnCard>
+        <LabelText>
+          <Typography variant="caption">바꾼 값은 다음 기간부터 적용돼요. 이번 기간은 그대로예요.</Typography>
+        </LabelText>
+      </PanelBody>
+    </Panel>
   );
 };
 
