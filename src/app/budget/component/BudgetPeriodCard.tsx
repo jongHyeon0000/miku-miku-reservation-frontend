@@ -25,13 +25,6 @@ interface BudgetPeriodCardProps {
 }
 
 /**
- * 부호 있는 금액의 글자색. 빼는 금액(음수)은 빨강, 더하는 금액은 기본색이다 (증감, 지출은 -를 곱해 넘긴다)
- */
-const getSignedAmountColor = (amount: number): string => {
-  return amount < 0 ? 'error' : 'text.primary';
-};
-
-/**
  * 이번 기간 카드. 위에 기간과 남은 돈, 사용 막대를 보여 주고, 아래 어두운 상자에 계산 내역을 영수증처럼 쌓는다
  * (기본 예산, 증감 합계, 총 예산, 지출, 남은 돈 순서). 증감 합계와 지출 줄을 누르면 그 줄 아래로 모든 내역이 펼쳐지고, 같은 줄을 다시 누르면 접힌다.
  * 지출이 총 예산을 넘으면(남은 돈이 음수) 남은 돈과 막대가 빨갛게 되고 "예산 초과"가 붙는다.
@@ -45,8 +38,6 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
   const isOver = period.remaining < 0;
   const barColor: LinearProgressProps['color'] = isOver ? 'error' : 'primary';
   const remainColor = isOver ? 'error' : 'primary';
-  const adjustAmountColor = getSignedAmountColor(period.adjustTotal);
-  const spentColor = getSignedAmountColor(-period.spent);
 
   const handleToggleAdjust = () => {
     setAdjustOpen((isOpen) => !isOpen);
@@ -94,9 +85,7 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
             <LabelText>증감 합계</LabelText>
             {adjustOpen ? <ExpandLessIcon fontSize="inherit" /> : <ExpandMoreIcon fontSize="inherit" />}
           </Row>
-          <Typography variant="inherit" component="span" color={adjustAmountColor}>
-            {formatSignedPrice(period.adjustTotal)}
-          </Typography>
+          <ValueText negative={period.adjustTotal < 0}>{formatSignedPrice(period.adjustTotal)}</ValueText>
         </ToggleRow>
         {adjustOpen && (
           <DetailList>
@@ -113,9 +102,7 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
                 <SpreadRow>
                   <ValueText>{adjust.memo ? adjust.memo : '(메모 없음)'}</ValueText>
                   <Row>
-                    <Typography variant="mono" noWrap color={getSignedAmountColor(adjust.amount)}>
-                      {formatSignedPrice(adjust.amount)}
-                    </Typography>
+                    <ValueText negative={adjust.amount < 0}>{formatSignedPrice(adjust.amount)}</ValueText>
                   </Row>
                 </SpreadRow>
               </div>
@@ -126,7 +113,7 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
         <TotalDivider />
         <SpreadRow>
           <BoldText>총 예산</BoldText>
-          <BoldText color={getSignedAmountColor(period.totalBudget)}>{formatPrice(period.totalBudget)}</BoldText>
+          <BoldText color={period.totalBudget < 0 ? 'error' : 'text.primary'}>{formatPrice(period.totalBudget)}</BoldText>
         </SpreadRow>
 
         <ToggleRow aria-expanded={spendingOpen} onClick={handleToggleSpending}>
@@ -134,9 +121,7 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
             <LabelText>지출</LabelText>
             {spendingOpen ? <ExpandLessIcon fontSize="inherit" /> : <ExpandMoreIcon fontSize="inherit" />}
           </Row>
-          <Typography variant="inherit" component="span" color={spentColor}>
-            {formatSignedPrice(-period.spent)}
-          </Typography>
+          <ValueText negative={period.spent > 0}>{formatSignedPrice(-period.spent)}</ValueText>
         </ToggleRow>
         {spendingOpen && (
           <DetailList>
@@ -158,9 +143,7 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
                 <SpreadRow>
                   <ValueText>{spending.figureName}</ValueText>
                   <Row>
-                    <Typography variant="mono" noWrap color={getSignedAmountColor(-spending.amount)}>
-                      {formatSignedPrice(-spending.amount)}
-                    </Typography>
+                    <ValueText negative={spending.amount > 0}>{formatSignedPrice(-spending.amount)}</ValueText>
                   </Row>
                 </SpreadRow>
               </div>

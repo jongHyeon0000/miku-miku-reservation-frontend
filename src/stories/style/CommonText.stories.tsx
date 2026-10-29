@@ -186,3 +186,16 @@ export const BudgetRemainNegative: Story = {
     </PriceText>
   ),
 }
+
+/** 예산 관리 이번 기간 카드(budget/component/BudgetPeriodCard.tsx)의 증감 합계, 지출 값. 이름표 옆 값이 음수 금액이면 negative 로 빨갛게 한다 */
+export const NegativeValue: Story = {
+  name: '예산 관리 > 오른쪽 > 이번 기간 카드 > 음수 금액',
+  render: () => (
+    <LabelValueGrid>
+      <LabelText>증감 합계</LabelText>
+      <ValueText negative>-604,000원</ValueText>
+      <LabelText>기본 예산</LabelText>
+      <ValueText>550,000원</ValueText>
+    </LabelValueGrid>
+  ),
+}

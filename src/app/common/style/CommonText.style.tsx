@@ -17,13 +17,15 @@ export const LabelText = styled('span')(({ theme }) => ({
 }));
 
 /**
-* 이름표 옆의 값 글자 (한 줄, 길면 …로 줄임)
+* 이름표 옆의 값 글자 (한 줄, 길면 …로 줄임). negative 면 경고색(빨강)이다 (음수 금액)
 * */
-export const ValueText = styled('span')(({ theme }) => ({
+export const ValueText = styled('span', { shouldForwardProp: (prop) => prop !== 'negative' })<{
+  negative?: boolean;
+}>(({ theme, negative = false }) => ({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  color: theme.palette.text.primary,
+  color: negative ? theme.palette.error.main : theme.palette.text.primary,
   fontWeight: 500,
 }));
 
