@@ -39,7 +39,7 @@ const BudgetStatusPage = ({ budget }: BudgetStatusPageProps) => {
       <SplitLayout>
         <FieldStack>
           <BudgetAdjustPanel adjusts={budget.adjusts} />
-          <BudgetSpendingPanel spendings={budget.spendings} spent={period.spent} />
+          <BudgetSpendingPanel spendings={budget.spendings} />
         </FieldStack>
         <FieldStack>
           <BudgetPeriodCard period={period} adjusts={budget.adjusts} spendings={budget.spendings} />

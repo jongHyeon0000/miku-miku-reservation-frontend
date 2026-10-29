@@ -156,7 +156,6 @@ export const BudgetAdjustPanel: Story = {
       <PanelTop>
         <PanelHeader>
           <Typography variant="h6">증감 내역</Typography>
-          <LabelText>2건</LabelText>
         </PanelHeader>
       </PanelTop>
       <Box>
@@ -189,7 +188,6 @@ export const BudgetSpendingPanel: Story = {
       <PanelTop>
         <PanelHeader>
           <Typography variant="h6">지출 내역</Typography>
-          <LabelText>2건 · 300,000원</LabelText>
         </PanelHeader>
       </PanelTop>
       <Box>

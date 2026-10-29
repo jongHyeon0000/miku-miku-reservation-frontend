@@ -74,9 +74,10 @@ export const TotalDivider = styled(Box)(({ theme }) => ({
 * 계산 내역을 묶는 어두운 상자 (카드 안에서 줄들을 세로로 쌓는다. 예산의 기본 예산, 증감, 총 예산, 지출, 남은 돈)
 * */
 export const ReceiptBox = styled(Box)(({ theme }) => ({
+  lineHeight: 1,
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(1),
+  gap: theme.spacing(2),
   padding: theme.spacing(2),
   backgroundColor: theme.palette.surfaceSunken,
   borderRadius: theme.shape.borderRadius,
@@ -107,13 +108,12 @@ export const ToggleRow = styled(ButtonBase)(({ theme }) => ({
 }));
 
 /**
-* 열린 내역을 담는 칸 (왼쪽 세로선과 들여쓰기, 줄들을 세로로 쌓는다)
+* 열린 내역을 담는 칸 (왼쪽으로 조금 들여쓰고, 줄들을 세로로 쌓는다)
 * */
 export const DetailList = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(1),
-  marginLeft: '1.25em',
+  gap: theme.spacing(2),
+  marginLeft: '0.625em',
   padding: theme.spacing(0.5, 0, 0.5, 1.5),
-  borderLeft: `2px solid ${theme.palette.divider}`,
 }));

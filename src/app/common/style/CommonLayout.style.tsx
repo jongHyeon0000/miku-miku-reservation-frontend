@@ -11,6 +11,17 @@ export const Row = styled(Box)(({ theme }) => ({
 }));
 
 /**
+* 세로로 쌓는 작은 묶음 (요소 사이 간격이 좁아서 서로 붙은 한 덩어리로 보인다. 예산의 이름과 막대, 이름과 큰 숫자)
+* */
+export const GroupStack = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+  width: '100%',
+  minWidth: 0,
+}));
+
+/**
 * 양 끝 정렬 한 줄 (왼쪽 묶음, 오른쪽 묶음). 필터 줄, 패널 머리글 등에 쓴다
 * */
 export const SpreadRow = styled(Box)(({ theme }) => ({
@@ -33,10 +44,10 @@ export const EndRow = styled(Box)({
 * */
 export const SplitLayout = styled(Box)(({ theme }) => ({
   display: 'grid',
-  gridTemplateColumns: '1fr',
+  gridTemplateColumns: 'minmax(0, 1fr)',
   gap: theme.spacing(2),
   [theme.breakpoints.up('md')]: {
-    gridTemplateColumns: '2fr 1fr',
+    gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)',
   },
 }));
 

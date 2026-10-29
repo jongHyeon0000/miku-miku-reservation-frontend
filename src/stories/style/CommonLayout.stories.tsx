@@ -3,7 +3,7 @@ import { Button, Link, Typography } from '@mui/material'
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style'
 import { ColumnCard, MediaCard, SpreadCard } from '@/app/common/style/CommonCard.style'
 import { FieldStack } from '@/app/common/style/CommonForm.style'
-import { EndRow, Row, SideColumn, SpreadRow, SplitLayout } from '@/app/common/style/CommonLayout.style'
+import { EndRow, GroupStack, Row, SideColumn, SpreadRow, SplitLayout } from '@/app/common/style/CommonLayout.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 배치 틀을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta = {
@@ -161,5 +161,22 @@ export const BudgetStatusSplit: Story = {
         </ColumnCard>
       </FieldStack>
     </SplitLayout>
+  ),
+}
+
+/** 예산 이번 기간 카드(budget/component/BudgetPeriodCard.tsx)의 남은 돈 묶음과 사용 묶음. 이름과 아래 요소가 좁은 간격으로 붙어 한 덩어리로 보이고, 카드의 다른 구역과는 넓은 간격으로 떨어진다 */
+export const GroupedStack: Story = {
+  name: '예산 관리 > 오른쪽 > 이번 기간 카드 > 이름과 큰 숫자, 이름과 막대 묶음',
+  render: () => (
+    <ColumnCard>
+      <GroupStack>
+        <Typography variant="body2">남은 돈</Typography>
+        <Typography>220,000원</Typography>
+      </GroupStack>
+      <GroupStack>
+        <Typography variant="caption">사용</Typography>
+        <Typography>막대 자리</Typography>
+      </GroupStack>
+    </ColumnCard>
   ),
 }

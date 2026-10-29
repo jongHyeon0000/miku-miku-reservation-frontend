@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ColumnCard, DetailList, ReceiptBox, SectionTitle, SignMark, ToggleRow, TotalDivider, UsageBar } from '@/app/common/style/CommonCard.style';
-import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
+import { GroupStack, Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { BoldText, LabelText, PriceText, ValueText } from '@/app/common/style/CommonText.style';
 import { formatPrice } from '@/app/common/utils/CommonUtils';
 import { BUDGET_SPENDING_KIND_LABELS } from '@/app/budget/constant/budgetSpendingKind';
@@ -57,34 +57,40 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
         <LabelText>{formatBudgetPeriod(period.startDate, period.endDate)}</LabelText>
       </SpreadRow>
 
-      <SpreadRow>
-        <BoldText>남은 돈</BoldText>
-        {isOver && <BoldText color="error">예산 초과</BoldText>}
-      </SpreadRow>
-      <PriceText size="lg" negative={isOver}>
-        {formatPrice(period.remaining)}
-      </PriceText>
+      <GroupStack>
+        <SpreadRow>
+          <BoldText>남은 돈</BoldText>
+          {isOver && <BoldText color="error">예산 초과</BoldText>}
+        </SpreadRow>
+        <PriceText size="lg" negative={isOver}>
+          {formatPrice(period.remaining)}
+        </PriceText>
+      </GroupStack>
 
-      <SpreadRow>
-        <LabelText>사용</LabelText>
-        <LabelText>{usagePercent}%</LabelText>
-      </SpreadRow>
-      <UsageBar variant="determinate" value={barValue} color={barColor} />
+      <GroupStack>
+        <SpreadRow>
+          <LabelText>사용</LabelText>
+          <LabelText>{usagePercent}%</LabelText>
+        </SpreadRow>
+        <UsageBar variant="determinate" value={barValue} color={barColor} />
+      </GroupStack>
 
       <ReceiptBox>
         <SpreadRow>
-          <Row>
+          <LabelText>
             <SignMark />
-            <LabelText>기본 예산</LabelText>
-          </Row>
+            기본 예산
+          </LabelText>
           <ValueText>{formatPrice(period.amount)}</ValueText>
         </SpreadRow>
 
         <ToggleRow aria-expanded={adjustOpen} onClick={handleToggleAdjust}>
           <Row>
-            <SignMark>{adjustSign}</SignMark>
-            <LabelText>증감 합계</LabelText>
-            {adjustOpen ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+            <LabelText>
+              <SignMark>{adjustSign}</SignMark>
+              증감 합계
+            </LabelText>
+            {adjustOpen ? <ExpandLessIcon fontSize="inherit" /> : <ExpandMoreIcon fontSize="inherit" />}
           </Row>
           <ValueText>{formatPrice(Math.abs(period.adjustTotal))}</ValueText>
         </ToggleRow>
@@ -99,13 +105,17 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
               <div key={adjust.budgetAdjustId}>
                 <Row>
                   <SignMark>{getBudgetSignMark(adjust.amount)}</SignMark>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     {formatBudgetDate(adjust.createdAt)}
                   </Typography>
                 </Row>
                 <SpreadRow>
                   <ValueText>{adjust.memo ? adjust.memo : '(메모 없음)'}</ValueText>
-                  <Typography variant="mono">{formatPrice(Math.abs(adjust.amount))}</Typography>
+                  <Row>
+                    <Typography variant="mono" noWrap>
+                      {formatPrice(Math.abs(adjust.amount))}
+                    </Typography>
+                  </Row>
                 </SpreadRow>
               </div>
             ))}
@@ -114,18 +124,20 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
 
         <TotalDivider />
         <SpreadRow>
-          <Row>
+          <BoldText>
             <SignMark>=</SignMark>
-            <BoldText>총 예산</BoldText>
-          </Row>
+            총 예산
+          </BoldText>
           <BoldText>{formatPrice(period.totalBudget)}</BoldText>
         </SpreadRow>
 
         <ToggleRow aria-expanded={spendingOpen} onClick={handleToggleSpending}>
           <Row>
-            <SignMark>−</SignMark>
-            <LabelText>지출</LabelText>
-            {spendingOpen ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+            <LabelText>
+              <SignMark>−</SignMark>
+              지출
+            </LabelText>
+            {spendingOpen ? <ExpandLessIcon fontSize="inherit" /> : <ExpandMoreIcon fontSize="inherit" />}
           </Row>
           <ValueText>{formatPrice(period.spent)}</ValueText>
         </ToggleRow>
@@ -139,16 +151,20 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
             {spendings.map((spending) => (
               <div key={`${spending.figureId}-${spending.kind}`}>
                 <Row>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     {formatBudgetDate(spending.paidDate)}
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     {BUDGET_SPENDING_KIND_LABELS[spending.kind]}
                   </Typography>
                 </Row>
                 <SpreadRow>
                   <ValueText>{spending.figureName}</ValueText>
-                  <Typography variant="mono">{formatPrice(spending.amount)}</Typography>
+                  <Row>
+                    <Typography variant="mono" noWrap>
+                      {formatPrice(spending.amount)}
+                    </Typography>
+                  </Row>
                 </SpreadRow>
               </div>
             ))}
@@ -157,10 +173,10 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
 
         <TotalDivider />
         <SpreadRow>
-          <Row>
+          <BoldText>
             <SignMark>=</SignMark>
-            <BoldText>남은 돈</BoldText>
-          </Row>
+            남은 돈
+          </BoldText>
           <BoldText color={remainColor}>{formatPrice(period.remaining)}</BoldText>
         </SpreadRow>
       </ReceiptBox>

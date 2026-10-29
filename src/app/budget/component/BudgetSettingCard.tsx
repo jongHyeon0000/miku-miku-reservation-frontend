@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { ColumnCard, SectionTitle } from '@/app/common/style/CommonCard.style';
-import { SpreadRow } from '@/app/common/style/CommonLayout.style';
+import { GroupStack, SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { LabelText, ValueText } from '@/app/common/style/CommonText.style';
 import { formatPrice } from '@/app/common/utils/CommonUtils';
 
@@ -21,17 +21,19 @@ const BudgetSettingCard = ({ startDay, defaultBudget }: BudgetSettingCardProps) 
       <SectionTitle variant="h6" component="h2">
         예산 설정
       </SectionTitle>
-      <SpreadRow>
-        <LabelText>기간 시작일</LabelText>
-        <ValueText>매월 {startDay}일</ValueText>
-      </SpreadRow>
-      <SpreadRow>
-        <LabelText>기본 예산</LabelText>
-        <ValueText>{formatPrice(defaultBudget)}</ValueText>
-      </SpreadRow>
-      <Typography variant="caption" color="text.secondary">
-        바꾼 값은 다음 기간부터 적용돼요. 이번 기간은 그대로예요.
-      </Typography>
+      <GroupStack>
+        <SpreadRow>
+          <LabelText>기간 시작일</LabelText>
+          <ValueText>매월 {startDay}일</ValueText>
+        </SpreadRow>
+        <SpreadRow>
+          <LabelText>기본 예산</LabelText>
+          <ValueText>{formatPrice(defaultBudget)}</ValueText>
+        </SpreadRow>
+      </GroupStack>
+      <LabelText>
+        <Typography variant="caption">바꾼 값은 다음 기간부터 적용돼요. 이번 기간은 그대로예요.</Typography>
+      </LabelText>
     </ColumnCard>
   );
 };
