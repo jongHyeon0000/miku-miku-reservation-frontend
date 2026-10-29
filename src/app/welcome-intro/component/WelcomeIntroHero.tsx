@@ -5,15 +5,15 @@ import { cardEnterVariants, getRollTransition, rollAnimate } from '@/app/common/
 import { FillImage, ThumbFrame } from '@/app/common/style/CommonMedia.style';
 import { Scene, SceneDesc, SceneTitle } from '@/app/common/style/CommonScene.style';
 import { Highlight } from '@/app/common/style/CommonText.style';
-import { INTRO_IMAGES } from '@/app/intro/constant/introImages';
-import useSceneActive from '@/app/intro/hook/useSceneActive';
+import { WELCOME_INTRO_IMAGES } from '@/app/welcome-intro/constant/welcomeIntroImages';
+import useSceneActive from '@/app/common/hook/useSceneActive';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 /**
  * 첫 장면. 제목과 한 줄 소개가 떠오르고, 아래에서 이미지가 오른쪽에서 왼쪽으로 끊김 없이 흐른다.
  */
-const IntroHero = () => {
+const WelcomeIntroHero = () => {
   const { sceneRef, active } = useSceneActive();
   const animate = active ? 'visible' : 'hidden';
 
@@ -33,8 +33,8 @@ const IntroHero = () => {
       </Head>
 
       <RollWindow>
-        <RollTrack animate={rollAnimate} transition={getRollTransition(INTRO_IMAGES.length)}>
-          {[...INTRO_IMAGES, ...INTRO_IMAGES].map((src, index) => (
+        <RollTrack animate={rollAnimate} transition={getRollTransition(WELCOME_INTRO_IMAGES.length)}>
+          {[...WELCOME_INTRO_IMAGES, ...WELCOME_INTRO_IMAGES].map((src, index) => (
             <RollTile key={index}>{src ? <FillImage src={src} alt="" /> : <ImageOutlinedIcon color="disabled" fontSize="large" />}</RollTile>
           ))}
         </RollTrack>
@@ -48,7 +48,7 @@ const IntroHero = () => {
   );
 };
 
-export default IntroHero;
+export default WelcomeIntroHero;
 
 /** ───────── styles ───────── */
 

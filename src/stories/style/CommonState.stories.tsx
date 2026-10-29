@@ -57,7 +57,7 @@ export const NotFoundState: Story = {
   ),
 }
 
-/** 소개 마지막 장면(intro/component/IntroStartScene.tsx). 제목, 설명, 버튼 줄, 링크 글자를 가운데로 쌓는다 */
+/** 소개 마지막 장면(welcome-intro/component/WelcomeIntroStartScene.tsx). 제목, 설명, 버튼 줄, 링크 글자를 가운데로 쌓는다 */
 export const IntroStartState: Story = {
   name: '소개 > 시작 장면 > 가운데 쌓기',
   render: () => (

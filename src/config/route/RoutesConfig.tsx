@@ -13,7 +13,7 @@ import FigureDetailPage from '@/app/figure/page/FigureDetailPage';
 import FigureFormPage from '@/app/figure/page/FigureFormPage';
 import FigureListPage from '@/app/figure/page/FigureListPage';
 import MyPagePage from '@/app/my-page/page/MyPagePage';
-import IntroPage from '@/app/intro/page/IntroPage';
+import WelcomeIntroPage from '@/app/welcome-intro/page/WelcomeIntroPage';
 import PatchNotePage from '@/app/patch-note/page/PatchNotePage';
 import StatsPage from '@/app/stats/page/StatsPage';
 import NotFoundPage from '@/app/common/page/NotFoundPage';
@@ -57,7 +57,7 @@ export const APP_ROUTES: readonly RouteType[] = [
   { path: '/statistics', nameKr: '통계', element: <StatsPage />, type: 'gnb', requireAuth: true },
   { path: '/patch-notes', nameKr: '패치내역', element: <PatchNotePage />, type: 'gnb', requireAuth: true },
 
-  { path: '/intro', nameKr: '소개', element: <IntroPage />, type: 'intro', requireAuth: false },
+  { path: '/intro', nameKr: '소개', element: <WelcomeIntroPage />, type: 'intro', requireAuth: false },
 
   { path: '/my-page', nameKr: '마이페이지', element: <MyPagePage />, type: 'my-page', requireAuth: true },
 

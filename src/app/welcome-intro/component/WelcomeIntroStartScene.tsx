@@ -7,9 +7,9 @@ import { cardEnterVariants } from '@/app/common/style/CommonMotion.style';
 import { Scene, SceneDesc, SceneEyebrow, SceneTitle } from '@/app/common/style/CommonScene.style';
 import { StateStack } from '@/app/common/style/CommonState.style';
 import { Highlight } from '@/app/common/style/CommonText.style';
-import useSceneActive from '@/app/intro/hook/useSceneActive';
+import useSceneActive from '@/app/common/hook/useSceneActive';
 
-interface IntroStartSceneProps {
+interface WelcomeIntroStartSceneProps {
   /** 가려던 주소(RequireAuth 가 넘긴 것). 로그인 화면으로 이어서 넘긴다 */
   from?: Location;
 }
@@ -17,7 +17,7 @@ interface IntroStartSceneProps {
 /**
  * 마지막 장면. 로그인, 회원가입으로 가는 길과 아이디 찾기, 비밀번호 재설정 링크.
  */
-const IntroStartScene = ({ from }: IntroStartSceneProps) => {
+const WelcomeIntroStartScene = ({ from }: WelcomeIntroStartSceneProps) => {
   const { sceneRef, active } = useSceneActive();
   const navigate = useNavigate();
   const animate = active ? 'visible' : 'hidden';
@@ -70,4 +70,4 @@ const IntroStartScene = ({ from }: IntroStartSceneProps) => {
   );
 };
 
-export default IntroStartScene;
+export default WelcomeIntroStartScene;

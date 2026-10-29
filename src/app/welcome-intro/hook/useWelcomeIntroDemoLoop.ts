@@ -6,7 +6,7 @@ import { useReducedMotion } from 'motion/react';
  * 대본은 처음에 상태를 처음 모양으로 되돌려야 하고, 기다린 뒤에는 alive() 로 멈춰야 하는지 확인한다.
  * 움직임 줄이기 설정이면 한 번만 돌고 마지막 모양에 머문다.
  */
-const useDemoLoop = (active: boolean, script: (alive: () => boolean) => Promise<void>) => {
+const useWelcomeIntroDemoLoop = (active: boolean, script: (alive: () => boolean) => Promise<void>) => {
   const scriptRef = useRef(script);
   const reduceMotion = useReducedMotion();
 
@@ -35,4 +35,4 @@ const useDemoLoop = (active: boolean, script: (alive: () => boolean) => Promise<
   }, [active, reduceMotion]);
 };
 
-export default useDemoLoop;
+export default useWelcomeIntroDemoLoop;

@@ -32,7 +32,7 @@ export const CardEnter: Story = {
   ),
 }
 
-/** 소개 화면 장면 글(intro/component/IntroSceneText.tsx, IntroHero.tsx, IntroStartScene.tsx)의 진입. 줄마다 custom 번호로 차례로 떠오른다 */
+/** 소개 화면 장면 글(common/component/CommonSceneTextBlock.tsx, WelcomeIntroHero.tsx, WelcomeIntroStartScene.tsx)의 진입. 줄마다 custom 번호로 차례로 떠오른다 */
 export const SceneTextEnter: Story = {
   name: '소개 > 장면 > 글 진입',
   render: () => (
@@ -66,7 +66,7 @@ export const DeadlineBlink: Story = {
   ),
 }
 
-/** 소개 화면 맨 위(intro/component/IntroHero.tsx)의 이미지 롤링. 같은 목록을 두 번 이어 붙인 줄이 왼쪽으로 끊김 없이 흐른다. 앱에서는 틀이 넘친 부분을 잘라 보이지 않게 한다 */
+/** 소개 화면 맨 위(welcome-intro/component/WelcomeIntroHero.tsx)의 이미지 롤링. 같은 목록을 두 번 이어 붙인 줄이 왼쪽으로 끊김 없이 흐른다. 앱에서는 틀이 넘친 부분을 잘라 보이지 않게 한다 */
 export const ImageRolling: Story = {
   name: '소개 > 맨 위 > 이미지 롤링',
   render: () => {

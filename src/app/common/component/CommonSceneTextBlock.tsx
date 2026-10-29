@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { cardEnterVariants } from '@/app/common/style/CommonMotion.style';
 import { SceneEyebrow, SceneText, SceneTitle } from '@/app/common/style/CommonScene.style';
 
-interface IntroSceneTextProps {
+interface CommonSceneTextBlockProps {
   /** 장면이 화면에 들어와 있는지. 들어오면 글이 차례로 떠오르고 나가면 숨는다 */
   active: boolean;
 
@@ -20,7 +20,7 @@ interface IntroSceneTextProps {
 /**
  * 장면의 설명 영역. 작은 제목, 큰 제목, 설명 글이 위에서부터 차례로 떠오른다.
  */
-const IntroSceneText = ({ active, eyebrow, title, children }: IntroSceneTextProps) => {
+const CommonSceneTextBlock = ({ active, eyebrow, title, children }: CommonSceneTextBlockProps) => {
   const animate = active ? 'visible' : 'hidden';
 
   return (
@@ -40,4 +40,4 @@ const IntroSceneText = ({ active, eyebrow, title, children }: IntroSceneTextProp
   );
 };
 
-export default IntroSceneText;
+export default CommonSceneTextBlock;

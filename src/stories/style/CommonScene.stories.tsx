@@ -28,7 +28,7 @@ export default meta
 type Story = StoryObj
 
 /**
- * 소개 화면 설명 영역(src/app/intro/component/IntroSceneText.tsx)과 장면 두 열(IntroCategoryScene 등)의 모양.
+ * 소개 화면 설명 영역(src/app/common/component/CommonSceneTextBlock.tsx)과 장면 두 열(WelcomeIntroCategoryScene 등)의 모양.
  * 왼쪽에 작은 제목, 큰 제목, 설명 글이 쌓이고 오른쪽에 데모가 온다. 좁은 화면에서는 한 열이 된다
  */
 export const IntroTwoColumnScene: Story = {
@@ -57,7 +57,7 @@ export const IntroTwoColumnScene: Story = {
   ),
 }
 
-/** 소개 화면 상태 전이 장면(src/app/intro/component/IntroStatusScene.tsx). 폭이 넓은 데모라서 설명 아래에 데모를 놓는 한 열(wide) */
+/** 소개 화면 상태 전이 장면(src/app/welcome-intro/component/WelcomeIntroStatusScene.tsx). 폭이 넓은 데모라서 설명 아래에 데모를 놓는 한 열(wide) */
 export const IntroWideScene: Story = {
   name: '소개 화면 > 장면 > 설명 아래 데모 한 열',
   render: () => (
@@ -84,7 +84,7 @@ export const IntroWideScene: Story = {
 }
 
 /**
- * 소개 화면 마지막 장면(src/app/intro/component/IntroStartScene.tsx)과 첫 장면(IntroHero.tsx)의 가운데 정렬 모양.
+ * 소개 화면 마지막 장면(src/app/welcome-intro/component/WelcomeIntroStartScene.tsx)과 첫 장면(WelcomeIntroHero.tsx)의 가운데 정렬 모양.
  * 설명 틀(SceneInner) 없이 장면 안에 제목과 글을 가운데로 쌓는다
  */
 export const IntroCenterScene: Story = {
@@ -115,7 +115,7 @@ export const IntroCenterScene: Story = {
 }
 
 /**
- * 소개 화면(src/app/intro/page/IntroPage.tsx)의 스크롤 영역. 장면들이 세로로 쌓이고 한 장면이 영역 높이를 가득 채운다.
+ * 소개 화면 틀(src/app/common/component/CommonSceneFrame.tsx)의 스크롤 영역. 장면들이 세로로 쌓이고 한 장면이 영역 높이를 가득 채운다.
  * 높이(viewHeight)는 쓰는 쪽이 재서 넘기며, 여기서는 견본용 숫자를 넘긴다. 스크롤바는 숨겨져 있어 휠로 넘겨 본다
  */
 export const IntroScroller: Story = {
@@ -137,7 +137,7 @@ export const IntroScroller: Story = {
 }
 
 /**
- * 소개 화면(src/app/intro/page/IntroPage.tsx)의 오른쪽 장면 진행 점.
+ * 소개 화면 틀(src/app/common/component/CommonSceneFrame.tsx)의 오른쪽 장면 진행 점.
  * 묶음은 화면 오른쪽 가장자리에 고정되므로 이 견본에서도 미리보기 창 오른쪽 끝에 붙는다. 첫 점이 지금 장면(포인트 색)이다
  */
 export const IntroDots: Story = {

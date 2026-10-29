@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import type { CategoryAxisKey } from '@/app/category/common/constant/categoryAxes';
-import { INTRO_FIGURE_TYPE_GROUPS, INTRO_SERIES_GROUPS } from '@/app/intro/constant/introCategories';
-import useDemoLoop from '@/app/intro/hook/useDemoLoop';
-import { wait } from '@/app/intro/utils/IntroUtils';
+import { WELCOME_INTRO_FIGURE_TYPE_GROUPS, WELCOME_INTRO_SERIES_GROUPS } from '@/app/welcome-intro/constant/welcomeIntroCategories';
+import useWelcomeIntroDemoLoop from '@/app/welcome-intro/hook/useWelcomeIntroDemoLoop';
+import { wait } from '@/app/welcome-intro/utils/WelcomeIntroUtils';
 
 /** 분류 화면의 한 모습 (보고 있는 축, 그때까지 만들어진 상위와 하위, 오른쪽에 펼친 상위) */
 /** 소개 화면 데모의 상위 한 건 (어느 축이든 같은 모양) */
@@ -27,8 +27,8 @@ const buildSteps = (axis: CategoryAxisKey, groups: DemoGroup[]): CategoryDemoSte
 
 /** 형태 축을 채운 뒤 시리즈 축으로 넘어간다 */
 const STEPS: CategoryDemoStep[] = [
-  ...buildSteps('figure-type', INTRO_FIGURE_TYPE_GROUPS),
-  ...buildSteps('series', INTRO_SERIES_GROUPS),
+  ...buildSteps('figure-type', WELCOME_INTRO_FIGURE_TYPE_GROUPS),
+  ...buildSteps('series', WELCOME_INTRO_SERIES_GROUPS),
 ];
 
 const STEP_MILLISECONDS = 650;
@@ -37,10 +37,10 @@ const AXIS_CHANGE_MILLISECONDS = 1800;
 /**
  * 분류 만들기 데모 대본. 돌려주는 step 이 축 탭과 분류 목록에 그대로 쓰인다.
  */
-const useCategoryDemo = (active: boolean): CategoryDemoStep => {
+const useWelcomeIntroCategoryDemo = (active: boolean): CategoryDemoStep => {
   const [step, setStep] = useState<CategoryDemoStep>(STEPS[0]);
 
-  useDemoLoop(active, async (alive) => {
+  useWelcomeIntroDemoLoop(active, async (alive) => {
     for (let i = 0; i < STEPS.length; i++) {
       setStep(STEPS[i]);
       const axisChanges = i + 1 < STEPS.length && STEPS[i + 1].axis !== STEPS[i].axis;
@@ -55,4 +55,4 @@ const useCategoryDemo = (active: boolean): CategoryDemoStep => {
   return step;
 };
 
-export default useCategoryDemo;
+export default useWelcomeIntroCategoryDemo;

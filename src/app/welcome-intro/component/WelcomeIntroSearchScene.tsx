@@ -5,30 +5,30 @@ import { applyFilters, buildFilterOptions, sortFigures } from '@/app/figure/util
 import { FieldStack } from '@/app/common/style/CommonForm.style';
 import { Scene, SceneDemo, SceneDesc, SceneInner } from '@/app/common/style/CommonScene.style';
 import { Highlight } from '@/app/common/style/CommonText.style';
-import { INTRO_FIGURES } from '@/app/intro/constant/introFigures';
-import IntroSceneText from '@/app/intro/component/IntroSceneText';
-import useSceneActive from '@/app/intro/hook/useSceneActive';
-import useSearchDemo from '@/app/intro/hook/useSearchDemo';
-import { noop } from '@/app/intro/utils/IntroUtils';
+import { WELCOME_INTRO_FIGURES } from '@/app/welcome-intro/constant/welcomeIntroFigures';
+import CommonSceneTextBlock from '@/app/common/component/CommonSceneTextBlock';
+import useSceneActive from '@/app/common/hook/useSceneActive';
+import useWelcomeIntroSearchDemo from '@/app/welcome-intro/hook/useWelcomeIntroSearchDemo';
+import { noop } from '@/app/welcome-intro/utils/WelcomeIntroUtils';
 
 /** 장면 높이에 맞춰 걸러진 상품 중 앞의 몇 건만 카드로 보여 준다 */
 const SHOWN_COUNT = 3;
 
-const OPTIONS = buildFilterOptions(INTRO_FIGURES);
+const OPTIONS = buildFilterOptions(WELCOME_INTRO_FIGURES);
 
 /**
  * 장면 4. 분류로 골라 보는 모습. 그룹 단위, 개별 분류, 직접 만든 분류, 배송월, 정렬을 차례로 바꿀 때마다 실제 목록처럼 카드가 새로 떠오른다.
  * 필터 줄은 폭이 넓어서 설명 아래에 놓는다(wide).
  */
-const IntroSearchScene = () => {
+const WelcomeIntroSearchScene = () => {
   const { sceneRef, active } = useSceneActive();
-  const { filters, month, sort } = useSearchDemo(active);
-  const matched = sortFigures(applyFilters(INTRO_FIGURES, filters, month), sort);
+  const { filters, month, sort } = useWelcomeIntroSearchDemo(active);
+  const matched = sortFigures(applyFilters(WELCOME_INTRO_FIGURES, filters, month), sort);
 
   return (
     <Scene ref={sceneRef}>
       <SceneInner wide>
-        <IntroSceneText
+        <CommonSceneTextBlock
           active={active}
           eyebrow="03 · 검색"
           title={
@@ -43,7 +43,7 @@ const IntroSearchScene = () => {
           <SceneDesc>
             배송월과 정렬로 <Highlight>이번 달에 올 것</Highlight>만 깔끔하게 모아 봐요.
           </SceneDesc>
-        </IntroSceneText>
+        </CommonSceneTextBlock>
 
         <SceneDemo>
           <FieldStack>
@@ -66,4 +66,4 @@ const IntroSearchScene = () => {
   );
 };
 
-export default IntroSearchScene;
+export default WelcomeIntroSearchScene;

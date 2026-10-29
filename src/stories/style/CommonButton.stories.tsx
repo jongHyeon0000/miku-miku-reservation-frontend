@@ -61,7 +61,7 @@ export const SmallActionButton: Story = {
   render: () => <TonalButton size="small">코드 받기</TonalButton>,
 }
 
-/** 소개 마지막 장면의 시작 버튼 줄(intro/component/IntroStartScene.tsx). 로그인은 꽉 찬 버튼, 회원가입은 은은한 큰 버튼 */
+/** 소개 마지막 장면의 시작 버튼 줄(welcome-intro/component/WelcomeIntroStartScene.tsx). 로그인은 꽉 찬 버튼, 회원가입은 은은한 큰 버튼 */
 export const IntroStartButtons: Story = {
   name: '소개 > 시작 장면 > 로그인, 회원가입 버튼',
   render: () => (

@@ -8,13 +8,13 @@ import { FieldStack } from '@/app/common/style/CommonForm.style';
 import { EndRow } from '@/app/common/style/CommonLayout.style';
 import { Scene, SceneDemo, SceneDesc, SceneInner } from '@/app/common/style/CommonScene.style';
 import { Highlight } from '@/app/common/style/CommonText.style';
-import { INTRO_FIGURES } from '@/app/intro/constant/introFigures';
-import IntroSceneText from '@/app/intro/component/IntroSceneText';
-import useSceneActive from '@/app/intro/hook/useSceneActive';
-import useStatusDemo from '@/app/intro/hook/useStatusDemo';
-import { noop } from '@/app/intro/utils/IntroUtils';
+import { WELCOME_INTRO_FIGURES } from '@/app/welcome-intro/constant/welcomeIntroFigures';
+import CommonSceneTextBlock from '@/app/common/component/CommonSceneTextBlock';
+import useSceneActive from '@/app/common/hook/useSceneActive';
+import useWelcomeIntroStatusDemo from '@/app/welcome-intro/hook/useWelcomeIntroStatusDemo';
+import { noop } from '@/app/welcome-intro/utils/WelcomeIntroUtils';
 
-const COUNTS = countByTab(INTRO_FIGURES);
+const COUNTS = countByTab(WELCOME_INTRO_FIGURES);
 
 /** 장면 높이에 맞춰 탭의 상품 중 앞의 몇 건만 카드로 보여 준다 */
 const SHOWN_COUNT = 3;
@@ -23,17 +23,17 @@ const SHOWN_COUNT = 3;
  * 장면 5. 상품이 앞으로만 넘어가는 모습. 상태 탭을 장바구니부터 배송완료까지 보여 준 뒤,
  * 선택 모드에서 상품을 체크하고 상태 변경 창(실제 창)이 열린다. 탭과 버튼 줄이 넓어서 설명 아래에 놓는다(wide).
  */
-const IntroStatusScene = () => {
+const WelcomeIntroStatusScene = () => {
   const { sceneRef, active } = useSceneActive();
-  const { tab, mode, checkedIds, modalOpen, closeModal } = useStatusDemo(active);
+  const { tab, mode, checkedIds, modalOpen, closeModal } = useWelcomeIntroStatusDemo(active);
 
   const bulk = findBulkTransition(tab);
-  const shown = filterByTab(INTRO_FIGURES, tab).slice(0, SHOWN_COUNT);
+  const shown = filterByTab(WELCOME_INTRO_FIGURES, tab).slice(0, SHOWN_COUNT);
 
   return (
     <Scene ref={sceneRef}>
       <SceneInner wide>
-        <IntroSceneText
+        <CommonSceneTextBlock
           active={active}
           eyebrow="04 · 상태 전이"
           title={
@@ -48,7 +48,7 @@ const IntroStatusScene = () => {
           <SceneDesc>
             여러 개의 상품을 <Highlight>선택 모드</Highlight>로 한 번에 넘길 수 있어요.
           </SceneDesc>
-        </IntroSceneText>
+        </CommonSceneTextBlock>
 
         <SceneDemo>
           <FieldStack>
@@ -93,4 +93,4 @@ const IntroStatusScene = () => {
   );
 };
 
-export default IntroStatusScene;
+export default WelcomeIntroStatusScene;

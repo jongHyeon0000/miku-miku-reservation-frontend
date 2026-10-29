@@ -34,7 +34,7 @@ export const ResultSummary: Story = {
   ),
 }
 
-/** 일괄 선택 도구줄(common/component/SelectBar.tsx)의 선택 개수. 소개 화면 장면 글(intro/component/*Scene.tsx)과 같은 모양으로 강조 */
+/** 일괄 선택 도구줄(common/component/SelectBar.tsx)의 선택 개수. 소개 화면 장면 글(welcome-intro/component/*Scene.tsx)과 같은 모양으로 강조 */
 export const SelectedCount: Story = {
   name: '목록 > 선택 도구줄 > 선택 개수',
   render: () => (

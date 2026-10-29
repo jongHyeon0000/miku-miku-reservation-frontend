@@ -2,7 +2,7 @@
 * 소개 화면 데모의 원본 상품 20건 (레거시 장부에서 상품 이름과 분류만 가져왔다. 가격, 구매 링크, 날짜는 쓰지 않는다).
 * id 는 이미지 파일 이름(src/assets/intro/figures/{id}.jpg)과 같다.
 * */
-export interface IntroFigureSource {
+export interface WelcomeIntroFigureSource {
   /** 이미지 파일 이름과 같은 번호 ("002") */
   id: string;
 
@@ -25,7 +25,7 @@ export interface IntroFigureSource {
   name: string;
 }
 
-export const INTRO_FIGURE_SOURCES: IntroFigureSource[] = [
+export const WELCOME_INTRO_FIGURE_SOURCES: WelcomeIntroFigureSource[] = [
   { id: '002', genre: '동방프로젝트', character: '레이무, 마리사', style: '스케일', maker: '후류', shop: '네이버스토어', name: '[예약상품 26년 12월 출고] 2종 세트 후류 동방 프로젝트 뮤츄트 피규어 -하쿠레이 레이무--키리사메마리사-' },
   { id: '003', genre: '보컬로이드', character: '하츠네 미쿠', style: '넨도로이드', maker: '굿스마일', shop: '네이버스토어', name: '[특전] 넨도로이드 3068 하츠네 미쿠 메스머라이저Ver. / 보컬로이드' },
   { id: '004', genre: '보컬로이드', character: '카사네 테토', style: '넨도로이드', maker: '굿스마일', shop: '네이버스토어', name: '[특전] 넨도로이드 3069 카사네 테토 메스머라이저Ver. / 보컬로이드' },

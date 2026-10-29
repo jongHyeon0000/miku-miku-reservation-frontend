@@ -4,18 +4,18 @@ import type { FigureCategoryRef } from '@/app/figure/interface/common/FigureCate
 import type { FigureMakerRef } from '@/app/figure/interface/common/FigureMakerRef';
 import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
 import {
-  INTRO_CHARACTER_GROUPS,
-  INTRO_FIGURE_TYPE_GROUPS,
-  INTRO_MAKERS,
-  INTRO_SERIES_GROUPS,
-  INTRO_SHOP_GROUPS,
-} from '@/app/intro/constant/introCategories';
-import { INTRO_FIGURE_SOURCES, type IntroFigureSource } from '@/app/intro/constant/introFigureSource';
-import { INTRO_THUMBNAILS } from '@/app/intro/constant/introImages';
+  WELCOME_INTRO_CHARACTER_GROUPS,
+  WELCOME_INTRO_FIGURE_TYPE_GROUPS,
+  WELCOME_INTRO_MAKERS,
+  WELCOME_INTRO_SERIES_GROUPS,
+  WELCOME_INTRO_SHOP_GROUPS,
+} from '@/app/welcome-intro/constant/welcomeIntroCategories';
+import { WELCOME_INTRO_FIGURE_SOURCES, type WelcomeIntroFigureSource } from '@/app/welcome-intro/constant/welcomeIntroFigureSource';
+import { WELCOME_INTRO_THUMBNAILS } from '@/app/welcome-intro/constant/welcomeIntroImages';
 
 /**
 * 소개 화면 데모에 쓰는 상품 목데이터 (목록 응답 한 건의 모양 그대로, 20건).
-* 이름과 분류는 원본(introFigureSource)이고, 상태, 가격, 수량, 마감일, 배송월은 순서에 따라 정해 둔다(실제 구매 내역과 무관).
+* 이름과 분류는 원본(welcomeIntroFigureSource)이고, 상태, 가격, 수량, 마감일, 배송월은 순서에 따라 정해 둔다(실제 구매 내역과 무관).
 * 마감일과 배송월은 항상 "오늘 기준 며칠 뒤"로 만들어, 언제 열어도 마감 임박(깜빡임, 알림)이 그대로 보이게 한다.
 * */
 
@@ -42,30 +42,30 @@ const refByName = (groups: DemoGroup[], name: string): FigureCategoryRef => {
 };
 
 const makerByName = (name: string): FigureMakerRef => {
-  const found = INTRO_MAKERS.find((maker) => maker.name === name)!;
+  const found = WELCOME_INTRO_MAKERS.find((maker) => maker.name === name)!;
   return { id: found.id, name: found.name };
 };
 
 /** 형태: 넨도로이드는 기본형, 스케일은 이름에 1/7 이 있으면 1/7 스케일 */
-const figureTypeOf = (source: IntroFigureSource): FigureCategoryRef => {
+const figureTypeOf = (source: WelcomeIntroFigureSource): FigureCategoryRef => {
   if (source.style === '넨도로이드') {
-    return refById(INTRO_FIGURE_TYPE_GROUPS, 21);
+    return refById(WELCOME_INTRO_FIGURE_TYPE_GROUPS, 21);
   }
 
-  return refById(INTRO_FIGURE_TYPE_GROUPS, source.name.includes('1/7') ? 11 : 14);
+  return refById(WELCOME_INTRO_FIGURE_TYPE_GROUPS, source.name.includes('1/7') ? 11 : 14);
 };
 
 /** 시리즈: 특전이나 한정이면 특전·한정, 재판이면 재판, 나머지는 일반 예약 */
-const seriesOf = (source: IntroFigureSource): FigureCategoryRef => {
+const seriesOf = (source: WelcomeIntroFigureSource): FigureCategoryRef => {
   if (/\[특전\]|한정/.test(source.name)) {
-    return refById(INTRO_SERIES_GROUPS, 61);
+    return refById(WELCOME_INTRO_SERIES_GROUPS, 61);
   }
 
   if (source.name.includes('(재판)')) {
-    return refById(INTRO_SERIES_GROUPS, 62);
+    return refById(WELCOME_INTRO_SERIES_GROUPS, 62);
   }
 
-  return refById(INTRO_SERIES_GROUPS, 71);
+  return refById(WELCOME_INTRO_SERIES_GROUPS, 71);
 };
 
 /** 결제 방식: 예약완료는 예약금, 구매완료와 배송완료는 전액, 나머지는 없음 */
@@ -81,7 +81,7 @@ const paymentTypeOf = (status: FigureStatus): PaymentType | null => {
   return null;
 };
 
-const toFigure = (source: IntroFigureSource, index: number): FigureSummary => {
+const toFigure = (source: WelcomeIntroFigureSource, index: number): FigureSummary => {
   const status = STATUS_CYCLE[index % STATUS_CYCLE.length];
   const beforePurchase = status === 'CART' || status === 'UNPURCHASED';
   const price = (source.style === '넨도로이드' ? 60000 : 130000) + ((index * 7) % 5) * 10000;
@@ -97,23 +97,23 @@ const toFigure = (source: IntroFigureSource, index: number): FigureSummary => {
     quantity: index % 5 === 1 ? 2 : 1,
     depositAmount: status === 'RESERVED' ? 30000 : null,
     balanceDueDate: status === 'RESERVED' ? dayAfter(5 + ((index * 7) % 40)) : null,
-    thumbnailUrl: INTRO_THUMBNAILS[source.id] ?? null,
+    thumbnailUrl: WELCOME_INTRO_THUMBNAILS[source.id] ?? null,
     purchaseLink: '',
     figureType: figureTypeOf(source),
-    shop: refByName(INTRO_SHOP_GROUPS, source.shop),
+    shop: refByName(WELCOME_INTRO_SHOP_GROUPS, source.shop),
     maker: makerByName(source.maker),
     series: [seriesOf(source)],
-    characters: source.character.split(', ').map((name) => refByName(INTRO_CHARACTER_GROUPS, name)),
+    characters: source.character.split(', ').map((name) => refByName(WELCOME_INTRO_CHARACTER_GROUPS, name)),
   };
 };
 
 /** 소개 화면의 상품 20건 (figureId 는 원본 id 의 숫자: 2~21) */
-export const INTRO_FIGURES: FigureSummary[] = INTRO_FIGURE_SOURCES.map(toFigure);
+export const WELCOME_INTRO_FIGURES: FigureSummary[] = WELCOME_INTRO_FIGURE_SOURCES.map(toFigure);
 
 /** figureId 로 골라 순서대로 */
-export const pickIntroFigures = (figureIds: number[]): FigureSummary[] => {
-  return figureIds.map((figureId) => INTRO_FIGURES.find((figure) => figure.figureId === figureId)!);
+export const pickWelcomeIntroFigures = (figureIds: number[]): FigureSummary[] => {
+  return figureIds.map((figureId) => WELCOME_INTRO_FIGURES.find((figure) => figure.figureId === figureId)!);
 };
 
 /** 등록 데모가 분류를 골라 완성하는 상품 (넨도로이드, 한정판 모음 시리즈가 붙은 3번) */
-export const INTRO_REGISTER_FIGURE: FigureSummary = pickIntroFigures([3])[0];
+export const WELCOME_INTRO_REGISTER_FIGURE: FigureSummary = pickWelcomeIntroFigures([3])[0];

@@ -51,7 +51,7 @@ export const CategoryPageTabs: Story = {
   },
 }
 
-/** 소개 화면 분류 장면(src/app/intro/component/IntroCategoryScene.tsx)의 데모. 템플릿 가져오기 탭 없음 */
+/** 소개 화면 분류 장면(src/app/welcome-intro/component/WelcomeIntroCategoryScene.tsx)의 데모. 템플릿 가져오기 탭 없음 */
 export const IntroSceneTabs: Story = {
   name: '소개 > 분류 장면 > 축 탭',
 }

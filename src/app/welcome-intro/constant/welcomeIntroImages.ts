@@ -1,6 +1,6 @@
 /**
 * 소개 화면의 이미지. src/assets/intro/figures/ 에 둔 파일을 번호 순서로 모두 읽는다.
-* 파일 이름이 introFigureSource 의 id 와 같으면 그 상품의 썸네일이 되고, 첫 화면 롤링에도 모두 쓰인다.
+* 파일 이름이 welcomeIntroFigureSource 의 id 와 같으면 그 상품의 썸네일이 되고, 첫 화면 롤링에도 모두 쓰인다.
 * 파일을 넣거나 지우기만 하면 되고 코드는 고치지 않는다.
 * */
 const FIGURE_IMAGE_FILES = import.meta.glob<string>('@/assets/intro/figures/*.{jpg,jpeg,png,webp}', {
@@ -18,7 +18,7 @@ const idUrlPairs = imageEntries.map(([path, url]): [string, string] => [toFigure
 const FIGURE_IMAGES: [string, string][] = idUrlPairs.sort(([a], [b]) => a.localeCompare(b));
 
 /** 번호로 찾는 상품 썸네일 */
-export const INTRO_THUMBNAILS: Record<string, string> = Object.fromEntries(FIGURE_IMAGES);
+export const WELCOME_INTRO_THUMBNAILS: Record<string, string> = Object.fromEntries(FIGURE_IMAGES);
 
 /** 첫 화면에서 오른쪽에서 왼쪽으로 흐르는 이미지 목록 (번호 순서) */
-export const INTRO_IMAGES: string[] = FIGURE_IMAGES.map(([, url]) => url);
+export const WELCOME_INTRO_IMAGES: string[] = FIGURE_IMAGES.map(([, url]) => url);
