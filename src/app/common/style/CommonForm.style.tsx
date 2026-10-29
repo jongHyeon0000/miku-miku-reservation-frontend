@@ -50,3 +50,12 @@ export const EqualToggleGroup = styled(ToggleButtonGroup)({
   flexShrink: 0,
   whiteSpace: 'nowrap',
 });
+
+/**
+* 한 달의 날짜(1~28)를 눌러 고르는 격자 (7열, 날짜 버튼의 폭이 같다)
+* */
+export const DayOfMonthGrid = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(7, 1fr)',
+  gap: theme.spacing(0.5),
+}));

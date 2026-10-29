@@ -345,23 +345,6 @@ export const validateDepositAmount = (value: string, formValues: FigureStatusFor
 /**
  * [예산관리 페이지]
  *
- * 기간 시작일: 1~28의 정수 (29일 이후는 없는 달이 있어서 서버가 받지 않는다)
- */
-export const validateBudgetStartDay = (value: string): string | undefined => {
-  if (value.trim() === '') {
-    return '시작일을 입력해 주세요.';
-  }
-
-  if (!/^\d+$/.test(value.trim()) || Number(value) < 1 || Number(value) > 28) {
-    return '시작일은 1부터 28 사이의 숫자로 입력해 주세요.';
-  }
-
-  return undefined;
-};
-
-/**
- * [예산관리 페이지]
- *
  * 기본 예산: 0 이상의 정수
  */
 export const validateBudgetDefaultBudget = (value: string): string | undefined => {

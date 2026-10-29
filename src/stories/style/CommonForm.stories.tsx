@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button, DialogContent, DialogTitle, Paper, TextField, ToggleButton } from '@mui/material'
 import { TonalButton } from '@/app/common/style/CommonButton.style'
-import { DialogFieldStack, DialogFormBody, EqualToggleGroup, FieldStack, FormActions, FormBody } from '@/app/common/style/CommonForm.style'
+import { DayOfMonthGrid, DialogFieldStack, DialogFormBody, EqualToggleGroup, FieldStack, FormActions, FormBody } from '@/app/common/style/CommonForm.style'
+import { BUDGET_START_DAYS } from '@/app/budget/constant/budgetStartDay'
 import { EndRow } from '@/app/common/style/CommonLayout.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 폼 스타일을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
@@ -100,5 +101,19 @@ export const StatusModalToggle: Story = {
       <ToggleButton value="RESERVED">예약완료</ToggleButton>
       <ToggleButton value="PURCHASED">구매완료</ToggleButton>
     </EqualToggleGroup>
+  ),
+}
+
+/** 예산 소개 마지막 장면(budget/component/BudgetIntroStartScene.tsx)의 기간 시작일 고르기. 1~28을 눌러 고르고, 고른 날은 포인트 색이다 */
+export const BudgetStartDayGrid: Story = {
+  name: '예산 소개 > 마지막 장면 > 시작일 격자',
+  render: () => (
+    <DayOfMonthGrid>
+      {BUDGET_START_DAYS.map((day) => (
+        <ToggleButton key={day} value={day} color="primary" selected={day === 25}>
+          {day}
+        </ToggleButton>
+      ))}
+    </DayOfMonthGrid>
   ),
 }
