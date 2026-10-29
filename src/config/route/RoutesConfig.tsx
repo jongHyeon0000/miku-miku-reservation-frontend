@@ -4,6 +4,7 @@ import FindIdPage from '@/app/auth/page/FindIdPage';
 import LoginPage from '@/app/auth/page/LoginPage';
 import ResetPasswordPage from '@/app/auth/page/ResetPasswordPage';
 import SignupPage from '@/app/auth/page/SignupPage';
+import BudgetPage from '@/app/budget/page/BudgetPage';
 import CategoryPage from '@/app/category/common/page/CategoryPage';
 import PostDetailPage from '@/app/community/page/PostDetailPage';
 import PostFormPage from '@/app/community/page/PostFormPage';
@@ -13,6 +14,8 @@ import FigureFormPage from '@/app/figure/page/FigureFormPage';
 import FigureListPage from '@/app/figure/page/FigureListPage';
 import MyPagePage from '@/app/my-page/page/MyPagePage';
 import IntroPage from '@/app/intro/page/IntroPage';
+import PatchNotePage from '@/app/patch-note/page/PatchNotePage';
+import StatsPage from '@/app/stats/page/StatsPage';
 import NotFoundPage from '@/app/common/page/NotFoundPage';
 
 /** 라우트 종류. gnb 는 상단 메뉴에 나오는 라우트 */
@@ -49,6 +52,10 @@ export const APP_ROUTES: readonly RouteType[] = [
   { path: '/community/new', nameKr: '글 쓰기', element: <PostFormPage mode="insert" />, type: 'community-post', requireAuth: true },
   { path: '/community/:postId', nameKr: '게시글 상세', element: <PostDetailPage />, type: 'community-post', requireAuth: true },
   { path: '/community/:postId/edit', nameKr: '글 수정', element: <PostFormPage mode="edit" />, type: 'community-post', requireAuth: true },
+
+  { path: '/budget', nameKr: '예산관리', element: <BudgetPage />, type: 'gnb', requireAuth: true },
+  { path: '/statistics', nameKr: '통계', element: <StatsPage />, type: 'gnb', requireAuth: true },
+  { path: '/patch-notes', nameKr: '패치내역', element: <PatchNotePage />, type: 'gnb', requireAuth: true },
 
   { path: '/intro', nameKr: '소개', element: <IntroPage />, type: 'intro', requireAuth: false },
 
