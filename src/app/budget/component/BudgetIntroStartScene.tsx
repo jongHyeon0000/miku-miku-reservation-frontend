@@ -9,9 +9,9 @@ import { Highlight, LabelText } from '@/app/common/style/CommonText.style';
 import { validateBudgetDefaultBudget } from '@/app/common/utils/ValidationUtils';
 import useSceneActive from '@/app/common/hook/useSceneActive';
 import { BUDGET_START_DAYS } from '@/app/budget/constant/budgetStartDay';
-import type { BudgetStartFormValues } from '@/app/budget/interface/BudgetStartFormValues';
+import type { BudgetSettingFormValues } from '@/app/budget/interface/BudgetSettingFormValues';
 import useStartBudget from '@/app/budget/service/useStartBudget';
-import { getBudgetPeriodLabel, toBudgetSettingRequestBody, toBudgetStartFormValues } from '@/app/budget/utils/BudgetUtils';
+import { getBudgetPeriodLabel, toBudgetSettingRequestBody, toBudgetSettingFormValues } from '@/app/budget/utils/BudgetUtils';
 import { useUiStore } from '@/store/uiStore';
 
 interface BudgetIntroStartSceneProps {
@@ -37,14 +37,14 @@ const BudgetIntroStartScene = ({ startDay, defaultBudget }: BudgetIntroStartScen
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<BudgetStartFormValues>({
+  } = useForm<BudgetSettingFormValues>({
     mode: 'onTouched',
-    defaultValues: toBudgetStartFormValues(startDay, defaultBudget),
+    defaultValues: toBudgetSettingFormValues(startDay, defaultBudget),
   });
 
   const selectedDay = useWatch({ control: control, name: 'startDay' });
 
-  const handleValid = async (values: BudgetStartFormValues) => {
+  const handleValid = async (values: BudgetSettingFormValues) => {
     const res = await fetchStartBudget(toBudgetSettingRequestBody(values));
     showResult(res);
   };

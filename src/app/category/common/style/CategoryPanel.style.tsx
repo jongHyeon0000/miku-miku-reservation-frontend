@@ -20,16 +20,7 @@ export const PanelTop = styled(Box)(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.primary.main}`,
 }));
 
-/** 하위를 더 넣는 자리처럼 보이는 점선 칸 */
-export const AddButton = styled(Button)(({ theme }) => ({
-  width: '100%',
-  padding: theme.spacing(1.5, 0),
-  borderStyle: 'dashed',
-  borderColor: alpha(theme.palette.primary.main, 0.5),
-  '&:hover': { borderStyle: 'dashed' },
-}));
-
-/** 하위 일괄 삭제를 시작하는 점선 칸. 하위 추가 칸(AddButton)과 모양이 같고 경고색이다 */
+/** 하위 일괄 삭제를 시작하는 점선 칸. 추가 칸(AddButton)과 모양이 같고 경고색이다 */
 export const BulkDeleteButton = styled(Button)(({ theme }) => ({
   width: '100%',
   padding: theme.spacing(1.5, 0),

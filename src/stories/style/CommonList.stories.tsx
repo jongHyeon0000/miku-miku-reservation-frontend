@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Box, Button, Typography } from '@mui/material'
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import PageNumbers from '@/app/common/component/PageNumbers'
-import { TonalButton } from '@/app/common/style/CommonButton.style'
+import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style'
 import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style'
-import { Row } from '@/app/common/style/CommonLayout.style'
-import { AddRow, PagerRow, Panel, RowBox, SelectCheck } from '@/app/common/style/CommonList.style'
+import { FieldStack } from '@/app/common/style/CommonForm.style'
+import { EndRow, Row } from '@/app/common/style/CommonLayout.style'
+import { AddButton, AddRow, PagerRow, Panel, RowBox, SelectCheck } from '@/app/common/style/CommonList.style'
 import { BoldText, LabelText } from '@/app/common/style/CommonText.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 목록 틀을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
@@ -208,6 +210,76 @@ export const BudgetSpendingPanel: Story = {
           <Typography variant="mono">80,000원</Typography>
         </RowBox>
       </Box>
+    </Panel>
+  ),
+}
+
+/** 예산 관리 화면의 증감 내역 패널(budget/component/BudgetAdjustPanel.tsx). 줄마다 [수정], [삭제]가 있고, [수정]을 누른 줄 바로 아래에 입력 줄이 열린다(form 요소라 줄무늬가 뒤바뀌지 않는다). 맨 아래는 "증감 추가" 점선 칸이다 */
+export const BudgetAdjustPanelEditing: Story = {
+  name: '예산 관리 > 왼쪽 > 증감 내역 패널(수정 중)',
+  render: () => (
+    <Panel>
+      <PanelTop>
+        <PanelHeader>
+          <Typography variant="h6">증감 내역</Typography>
+        </PanelHeader>
+      </PanelTop>
+      <Box>
+        <RowBox>
+          <Row>
+            <LabelText>10/28</LabelText>
+            <BoldText>용돈</BoldText>
+          </Row>
+          <Row>
+            <Typography variant="mono">+50,000원</Typography>
+            <TonalButton size="small">수정</TonalButton>
+            <TonalDangerButton size="small">삭제</TonalDangerButton>
+          </Row>
+        </RowBox>
+        <RowBox>
+          <Row>
+            <LabelText>10/20</LabelText>
+            <BoldText>경조사</BoldText>
+          </Row>
+          <Row>
+            <Typography variant="mono" color="error">
+              -30,000원
+            </Typography>
+            <TonalButton size="small">수정</TonalButton>
+            <TonalDangerButton size="small">삭제</TonalDangerButton>
+          </Row>
+        </RowBox>
+        <AddRow component="form">
+          <FieldStack>
+            <Row>
+              <TextField fullWidth label="금액 (빼려면 앞에 - 를 붙여요)" defaultValue="-30000" />
+              <TextField fullWidth label="메모 (선택)" defaultValue="경조사" />
+            </Row>
+            <EndRow>
+              <Row>
+                <TonalButton>취소</TonalButton>
+                <Button variant="contained">저장</Button>
+              </Row>
+            </EndRow>
+          </FieldStack>
+        </AddRow>
+        <RowBox>
+          <Row>
+            <LabelText>10/18</LabelText>
+            <BoldText>보너스</BoldText>
+          </Row>
+          <Row>
+            <Typography variant="mono">+100,000원</Typography>
+            <TonalButton size="small">수정</TonalButton>
+            <TonalDangerButton size="small">삭제</TonalDangerButton>
+          </Row>
+        </RowBox>
+      </Box>
+      <AddRow>
+        <AddButton variant="outlined" size="small" startIcon={<AddOutlinedIcon />}>
+          증감 추가
+        </AddButton>
+      </AddRow>
     </Panel>
   ),
 }

@@ -1,7 +1,10 @@
 import dayjs, { type Dayjs } from 'dayjs';
 import type { BudgetSettingRequestBody } from '@/app/budget/interface/BudgetSettingRequestBody';
 import { formatPrice } from '@/app/common/utils/CommonUtils';
-import type { BudgetStartFormValues } from '@/app/budget/interface/BudgetStartFormValues';
+import type { BudgetAdjust } from '@/app/budget/interface/BudgetAdjust';
+import type { BudgetAdjustFormValues } from '@/app/budget/interface/BudgetAdjustFormValues';
+import type { BudgetAdjustRequestBody } from '@/app/budget/interface/BudgetAdjustRequestBody';
+import type { BudgetSettingFormValues } from '@/app/budget/interface/BudgetSettingFormValues';
 
 const LABEL_FORMAT = 'MM/DD';
 
@@ -20,15 +23,35 @@ export const getBudgetPeriodLabel = (startDay: number, today: Dayjs = dayjs()): 
 /**
  * 시작하기 폼의 처음 값. 서버가 준 마지막 설정으로 채우고, 기본 예산이 0이면 칸을 비워 둔다
  */
-export const toBudgetStartFormValues = (startDay: number, defaultBudget: number): BudgetStartFormValues => {
+export const toBudgetSettingFormValues = (startDay: number, defaultBudget: number): BudgetSettingFormValues => {
   return { startDay: startDay, defaultBudget: defaultBudget > 0 ? String(defaultBudget) : '' };
 };
 
 /**
  * 시작하기 폼 값을 서버 요청 본문으로 바꾼다
  */
-export const toBudgetSettingRequestBody = (values: BudgetStartFormValues): BudgetSettingRequestBody => {
+export const toBudgetSettingRequestBody = (values: BudgetSettingFormValues): BudgetSettingRequestBody => {
   return { startDay: values.startDay, defaultBudget: Number(values.defaultBudget) };
+};
+
+/**
+ * 증감 입력 줄의 처음 값. 수정이면 그 줄의 값으로, 추가(null)이면 빈 칸으로 채운다
+ */
+export const toBudgetAdjustFormValues = (adjust: BudgetAdjust | null): BudgetAdjustFormValues => {
+  if (adjust === null) {
+    return { amount: '', memo: '' };
+  }
+
+  const memo = adjust.memo ? adjust.memo : '';
+
+  return { amount: String(adjust.amount), memo: memo };
+};
+
+/**
+ * 증감 입력 줄 값을 서버 요청 본문으로 바꾼다. 수정은 통째로 덮어쓰므로 메모가 비어도 빈 글자로 같이 보낸다
+ */
+export const toBudgetAdjustRequestBody = (values: BudgetAdjustFormValues): BudgetAdjustRequestBody => {
+  return { amount: Number(values.amount), memo: values.memo.trim() };
 };
 
 /**
@@ -61,19 +84,4 @@ export const getBudgetUsagePercent = (spent: number, totalBudget: number): numbe
   }
 
   return Math.round((spent / totalBudget) * 100);
-};
-
-/**
- * 금액의 부호 칸 글자. 0보다 크면 "+", 작으면 "−", 0이면 빈 글자 (증감 합계, 증감 줄의 부호 칸)
- */
-export const getBudgetSignMark = (amount: number): string => {
-  if (amount > 0) {
-    return '+';
-  }
-
-  if (amount < 0) {
-    return '−';
-  }
-
-  return '';
 };

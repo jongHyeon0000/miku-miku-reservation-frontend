@@ -84,16 +84,6 @@ export const ReceiptBox = styled(Box)(({ theme }) => ({
 }));
 
 /**
-* 계산 줄 앞의 부호 칸 (+, −, =). 부호가 없는 줄도 같은 폭을 차지해서 글자의 세로선이 맞는다
-* */
-export const SignMark = styled('span')(({ theme }) => ({
-  ...theme.typography.mono,
-  display: 'inline-block',
-  width: '1.25em',
-  color: theme.palette.primary.main,
-}));
-
-/**
 * 누르면 아래 내역이 열리는 줄 (줄 전체가 버튼이고 양 끝 정렬)
 * */
 export const ToggleRow = styled(ButtonBase)(({ theme }) => ({

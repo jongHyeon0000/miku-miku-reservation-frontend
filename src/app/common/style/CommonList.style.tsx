@@ -1,6 +1,6 @@
-import { Box, Checkbox } from '@mui/material';
+import { Box, Button, Checkbox } from '@mui/material';
 import { SpreadRow } from '@/app/common/style/CommonLayout.style';
-import { styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 
 /** 목록을 담는 패널 (분류 목록, 템플릿 목록, 게시판 목록이 같이 쓴다) */
 export const Panel = styled(Box)(({ theme }) => ({
@@ -35,4 +35,13 @@ export const AddRow = styled(Box)(({ theme }) => ({
 /** 목록과 하위 추가 칸 사이의 쪽 번호 칸. 패널 맨 위 칸과 같은 어두운 면에 하위 추가 칸과 같은 여백과 선 */
 export const PagerRow = styled(AddRow)(({ theme }) => ({
   backgroundColor: theme.palette.surfaceSunken,
+}));
+
+/** 목록에 줄을 더 넣는 자리처럼 보이는 점선 칸 (분류 하위 추가, 예산 증감 추가가 같이 쓴다) */
+export const AddButton = styled(Button)(({ theme }) => ({
+  width: '100%',
+  padding: theme.spacing(1.5, 0),
+  borderStyle: 'dashed',
+  borderColor: alpha(theme.palette.primary.main, 0.5),
+  '&:hover': { borderStyle: 'dashed' },
 }));

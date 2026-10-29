@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import { Box, List, ListItemText, Typography } from '@mui/material'
 import CategoryRow from '@/app/category/common/component/CategoryRow'
-import { AddButton, BulkDeleteButton, PanelHeader, PanelTop, TreeLayout } from '@/app/category/common/style/CategoryPanel.style'
+import { BulkDeleteButton, PanelHeader, PanelTop, TreeLayout } from '@/app/category/common/style/CategoryPanel.style'
 import { GroupButton } from '@/app/category/common/style/CategoryRow.style'
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style'
 import { Row } from '@/app/common/style/CommonLayout.style'
-import { AddRow, Panel } from '@/app/common/style/CommonList.style'
+import { AddButton, AddRow, Panel } from '@/app/common/style/CommonList.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 분류 패널을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta = {

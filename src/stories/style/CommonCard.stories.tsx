@@ -8,7 +8,6 @@ import {
   Pill,
   ReceiptBox,
   SectionTitle,
-  SignMark,
   SpreadCard,
   ToggleRow,
   TotalDivider,
@@ -112,59 +111,45 @@ const renderPeriodCard = (open: boolean, over: boolean) => (
     <UsageBar variant="determinate" value={over ? 100 : 65} color={over ? 'error' : 'primary'} />
     <ReceiptBox>
       <SpreadRow>
-        <Row>
-          <SignMark />
-          <LabelText>기본 예산</LabelText>
-        </Row>
+        <LabelText>기본 예산</LabelText>
         <ValueText>550,000원</ValueText>
       </SpreadRow>
       <ToggleRow aria-expanded={open}>
         <Row>
-          <SignMark>+</SignMark>
           <LabelText>증감 합계</LabelText>
           {open ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
         </Row>
-        <ValueText>70,000원</ValueText>
+        <ValueText>+70,000원</ValueText>
       </ToggleRow>
       {open && (
         <DetailList>
           <div>
-            <Row>
-              <SignMark>+</SignMark>
-              <Typography variant="caption" color="text.secondary">
-                10/18
-              </Typography>
-            </Row>
+            <Typography variant="caption" color="text.secondary">
+              10/18
+            </Typography>
             <SpreadRow>
               <ValueText>보너스</ValueText>
-              <Typography variant="mono">100,000원</Typography>
+              <Typography variant="mono">+100,000원</Typography>
             </SpreadRow>
           </div>
           <div>
-            <Row>
-              <SignMark>−</SignMark>
-              <Typography variant="caption" color="text.secondary">
-                10/20
-              </Typography>
-            </Row>
+            <Typography variant="caption" color="text.secondary">
+              10/20
+            </Typography>
             <SpreadRow>
               <ValueText>경조사</ValueText>
-              <Typography variant="mono">30,000원</Typography>
+              <Typography variant="mono">-30,000원</Typography>
             </SpreadRow>
           </div>
         </DetailList>
       )}
       <TotalDivider />
       <SpreadRow>
-        <Row>
-          <SignMark>=</SignMark>
-          <BoldText>총 예산</BoldText>
-        </Row>
+        <BoldText>총 예산</BoldText>
         <BoldText>620,000원</BoldText>
       </SpreadRow>
       <ToggleRow aria-expanded={open}>
         <Row>
-          <SignMark>−</SignMark>
           <LabelText>지출</LabelText>
           {open ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
         </Row>
@@ -190,10 +175,7 @@ const renderPeriodCard = (open: boolean, over: boolean) => (
       )}
       <TotalDivider />
       <SpreadRow>
-        <Row>
-          <SignMark>=</SignMark>
-          <BoldText>남은 돈</BoldText>
-        </Row>
+        <BoldText>남은 돈</BoldText>
         <BoldText color={over ? 'error' : 'primary'}>{over ? '-19,000원' : '220,000원'}</BoldText>
       </SpreadRow>
     </ReceiptBox>

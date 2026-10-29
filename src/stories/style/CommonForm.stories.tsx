@@ -117,3 +117,17 @@ export const BudgetStartDayGrid: Story = {
     </DayOfMonthGrid>
   ),
 }
+
+/** 예산 관리 화면의 예산 설정 카드(budget/component/BudgetSettingCard.tsx)에서 [수정]을 눌렀을 때의 시작일 고르기. 시작하기 장면과 같은 격자를 카드 안에서 쓴다 */
+export const BudgetSettingDayGrid: Story = {
+  name: '예산 관리 > 오른쪽 > 예산 설정 카드(수정 중) > 시작일 격자',
+  render: () => (
+    <DayOfMonthGrid>
+      {BUDGET_START_DAYS.map((day) => (
+        <ToggleButton key={day} value={day} color="primary" selected={day === 1}>
+          {day}
+        </ToggleButton>
+      ))}
+    </DayOfMonthGrid>
+  ),
+}
