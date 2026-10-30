@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import { EMBEDDED_DIALOG_PROPS } from '@/app/common/constant/embeddedDialog';
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style';
 import { DetailList, ReceiptBox, ToggleRow, TotalDivider } from '@/app/common/style/CommonCard.style';
 import { FieldStack, FormActions } from '@/app/common/style/CommonForm.style';
@@ -20,6 +21,9 @@ interface BudgetPaymentWarningModalProps {
 
   /** 닫을 때. 진행이면 true(그래도 진행), 취소나 바깥 클릭이면 false */
   onClose: (proceed: boolean) => void;
+
+  /** true 면 화면 전체가 아니라 놓인 자리 안에 그린다 (소개 화면의 데모) */
+  embedded?: boolean;
 }
 
 /**
@@ -27,7 +31,7 @@ interface BudgetPaymentWarningModalProps {
  * 위에 결제하는 상품 카드(표시 전용), 아래에 영수증(현재 남은 돈, 이번 결제, 결제 후 남은 돈)을 둔다.
  * "이번 결제"를 누르면 상품별 결제 내역이 펼쳐진다.
  */
-const BudgetPaymentWarningModal = ({ warning, onClose }: BudgetPaymentWarningModalProps) => {
+const BudgetPaymentWarningModal = ({ warning, onClose, embedded = false }: BudgetPaymentWarningModalProps) => {
   const [paymentsOpen, setPaymentsOpen] = useState<boolean>(false);
   const hasPayments = warning.payments.length > 0;
 
@@ -36,7 +40,7 @@ const BudgetPaymentWarningModal = ({ warning, onClose }: BudgetPaymentWarningMod
   };
 
   return (
-    <Dialog open onClose={() => onClose(false)} fullWidth maxWidth="md">
+    <Dialog open onClose={() => onClose(false)} fullWidth maxWidth="md" {...(embedded && EMBEDDED_DIALOG_PROPS)}>
       <DialogTitle>
         <Row>
           <WarningAmberIcon color="error" />
@@ -52,7 +56,7 @@ const BudgetPaymentWarningModal = ({ warning, onClose }: BudgetPaymentWarningMod
           <ReceiptBox>
             <SpreadRow>
               <LabelText>현재 남은 예산</LabelText>
-              <ValueText>{formatPrice(warning.remaining)}</ValueText>
+              <ValueText negative={warning.remaining < 0}>{formatPrice(warning.remaining)}</ValueText>
             </SpreadRow>
 
             {hasPayments && (

@@ -131,3 +131,17 @@ export const BudgetSettingDayGrid: Story = {
     </DayOfMonthGrid>
   ),
 }
+
+/** 예산 소개 > 기간 장면(budget/component/BudgetIntroPeriodScene.tsx)의 설정 카드 안 시작일 격자. 데모라서 저절로 눌리고 눌러 볼 수는 없다 */
+export const BudgetIntroPeriodDayGrid: Story = {
+  name: '예산 소개 > 기간 장면 > 설정 카드 > 시작일 격자',
+  render: () => (
+    <DayOfMonthGrid>
+      {BUDGET_START_DAYS.map((day) => (
+        <ToggleButton key={day} value={day} color="primary" selected={day === 15}>
+          {day}
+        </ToggleButton>
+      ))}
+    </DayOfMonthGrid>
+  ),
+}

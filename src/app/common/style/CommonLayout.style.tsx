@@ -59,3 +59,17 @@ export const SideColumn = styled(Box)(({ theme }) => ({
   gridTemplateRows: 'auto 1fr',
   gap: theme.spacing(2),
 }));
+
+/**
+* 같은 폭의 칸 셋을 한 줄에 나란히 두는 배치 (좁은 화면에서는 한 줄에 하나씩). 폭은 소개 장면 안쪽(SceneInner)과 같은 한도까지다. 예산 소개 첫 장면의 핵심 세 가지 카드
+* */
+export const TripleGrid = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  width: '100%',
+  maxWidth: '70rem',
+  gridTemplateColumns: 'minmax(0, 1fr)',
+  gap: theme.spacing(2),
+  [theme.breakpoints.up('md')]: {
+    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+  },
+}));

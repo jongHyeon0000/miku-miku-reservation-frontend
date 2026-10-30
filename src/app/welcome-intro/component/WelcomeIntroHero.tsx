@@ -3,7 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { cardEnterVariants, getRollTransition, rollAnimate } from '@/app/common/style/CommonMotion.style';
 import { FillImage, ThumbFrame } from '@/app/common/style/CommonMedia.style';
-import { Scene, SceneDesc, SceneTitle } from '@/app/common/style/CommonScene.style';
+import { Scene, SceneDesc, SceneHint, SceneTitle } from '@/app/common/style/CommonScene.style';
 import { Highlight } from '@/app/common/style/CommonText.style';
 import { WELCOME_INTRO_IMAGES } from '@/app/welcome-intro/constant/welcomeIntroImages';
 import useSceneActive from '@/app/common/hook/useSceneActive';
@@ -40,10 +40,10 @@ const WelcomeIntroHero = () => {
         </RollTrack>
       </RollWindow>
 
-      <Hint animate={{ y: [0, 6, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>
+      <SceneHint animate={{ y: [0, 6, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>
         아래로 스크롤
         <ExpandMoreIcon fontSize="small" />
-      </Hint>
+      </SceneHint>
     </HeroScene>
   );
 };
@@ -86,14 +86,4 @@ const RollTile = styled(ThumbFrame)(({ theme }) => ({
   width: 'clamp(9rem, 18vw, 14rem)',
   marginRight: theme.spacing(2),
   borderRadius: theme.shape.cardRadius,
-}));
-
-const Hint = styled(motion.div)(({ theme }) => ({
-  position: 'absolute',
-  bottom: theme.spacing(2.5),
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  color: theme.palette.text.secondary,
-  fontSize: '0.75rem',
 }));

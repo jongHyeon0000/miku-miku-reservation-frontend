@@ -3,7 +3,7 @@ import { Button, Link, Typography } from '@mui/material'
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style'
 import { ColumnCard, MediaCard, SpreadCard } from '@/app/common/style/CommonCard.style'
 import { FieldStack } from '@/app/common/style/CommonForm.style'
-import { EndRow, GroupStack, Row, SideColumn, SpreadRow, SplitLayout } from '@/app/common/style/CommonLayout.style'
+import { EndRow, GroupStack, Row, SideColumn, SpreadRow, SplitLayout, TripleGrid } from '@/app/common/style/CommonLayout.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 배치 틀을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta = {
@@ -178,5 +178,26 @@ export const GroupedStack: Story = {
         <Typography>막대 자리</Typography>
       </GroupStack>
     </ColumnCard>
+  ),
+}
+
+/** 예산 소개 > 첫 장면(budget/component/BudgetIntroHeroScene.tsx)의 핵심 세 가지 카드. 같은 폭의 카드 셋이 한 줄에 나란하고 좁은 화면에서는 한 줄에 하나씩 쌓인다 */
+export const BudgetIntroKeyPoints: Story = {
+  name: '예산 소개 > 첫 장면 > 핵심 세 가지 카드',
+  render: () => (
+    <TripleGrid>
+      <ColumnCard>
+        <Typography variant="h6" color="primary">내 기간으로</Typography>
+        <Typography variant="body2" color="text.secondary">월급날 같은 시작일부터 한 달 기간이 자동으로 이어져요</Typography>
+      </ColumnCard>
+      <ColumnCard>
+        <Typography variant="h6" color="primary">남은 돈 한눈에</Typography>
+        <Typography variant="body2" color="text.secondary">기본 예산, 보너스와 경조사, 지출을 합쳐 남은 돈을 보여 줘요</Typography>
+      </ColumnCard>
+      <ColumnCard>
+        <Typography variant="h6" color="primary">상품과 자동 연동</Typography>
+        <Typography variant="body2" color="text.secondary">구매완료로 바꾸면 지출에 잡히고, 예산을 넘으면 미리 알려 줘요</Typography>
+      </ColumnCard>
+    </TripleGrid>
   ),
 }

@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material';
+import { motion } from 'motion/react';
 import { styled } from '@mui/material/styles';
 
 /**
@@ -80,7 +81,7 @@ export const SceneTitle = styled(Typography)({
 * 장면의 설명 글 (보조색, 한 줄이 너무 길어지지 않게 폭을 제한한다)
 * */
 export const SceneDesc = styled(Typography)(({ theme }) => ({
-  maxWidth: '30rem',
+  maxWidth: '44rem',
   color: theme.palette.text.secondary,
 }));
 
@@ -124,3 +125,16 @@ export const SceneDot = styled('button', { shouldForwardProp: (prop) => prop !==
     transition: 'transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease',
   }),
 );
+
+/**
+* 장면 아래쪽 가운데의 스크롤 안내 (작은 보조색 글자와 아이콘을 세로로 둔다. 위아래로 까딱이는 움직임은 쓰는 쪽이 animate 로 준다)
+* */
+export const SceneHint = styled(motion.div)(({ theme }) => ({
+  position: 'absolute',
+  bottom: theme.spacing(2.5),
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  color: theme.palette.text.secondary,
+  fontSize: '0.75rem',
+}));

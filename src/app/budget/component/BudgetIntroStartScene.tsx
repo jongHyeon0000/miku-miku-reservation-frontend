@@ -1,6 +1,7 @@
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { Button, TextField, ToggleButton } from '@mui/material';
 import { motion } from 'motion/react';
+import { ColumnCard } from '@/app/common/style/CommonCard.style';
 import { DayOfMonthGrid, FormBody } from '@/app/common/style/CommonForm.style';
 import { cardEnterVariants } from '@/app/common/style/CommonMotion.style';
 import { Scene, SceneDesc, SceneEyebrow, SceneTitle } from '@/app/common/style/CommonScene.style';
@@ -59,7 +60,7 @@ const BudgetIntroStartScene = ({ startDay, defaultBudget }: BudgetIntroStartScen
         </motion.div>
         <motion.div variants={cardEnterVariants} initial="hidden" animate={animate} custom={1}>
           <SceneTitle variant="h3" component="h2" align="center">
-            예산을 <Highlight>적어보세요</Highlight>
+            이번 달 남은 돈을 적어보세요!
           </SceneTitle>
         </motion.div>
         <motion.div variants={cardEnterVariants} initial="hidden" animate={animate} custom={2}>
@@ -71,34 +72,36 @@ const BudgetIntroStartScene = ({ startDay, defaultBudget }: BudgetIntroStartScen
         </motion.div>
         <motion.div variants={cardEnterVariants} initial="hidden" animate={animate} custom={3}>
           <FormBody noValidate onSubmit={handleSubmit(handleValid)}>
-            <LabelText>기간 시작일 (매월)</LabelText>
-            <Controller
-              name="startDay"
-              control={control}
-              render={({ field }) => (
-                <DayOfMonthGrid>
-                  {BUDGET_START_DAYS.map((day) => (
-                    <ToggleButton key={day} value={day} color="primary" selected={field.value === day} onChange={() => field.onChange(day)}>
-                      {day}
-                    </ToggleButton>
-                  ))}
-                </DayOfMonthGrid>
-              )}
-            />
-            <TextField
-              label="기본 예산 (원)"
-              error={!!errors.defaultBudget}
-              helperText={errors.defaultBudget?.message}
-              inputRef={register('defaultBudget', { validate: validateBudgetDefaultBudget }).ref}
-              {...register('defaultBudget', { validate: validateBudgetDefaultBudget })}
-            />
-            <SceneDesc align="center">
-              시작일부터 다음 달 시작일 전날까지가 한 기간이에요.
-              <br />
-              오늘은 {getBudgetPeriodLabel(selectedDay)} 기간이 돼요.
-            </SceneDesc>
+            <ColumnCard>
+              <LabelText>기간 시작일 (매월)</LabelText>
+              <Controller
+                name="startDay"
+                control={control}
+                render={({ field }) => (
+                  <DayOfMonthGrid>
+                    {BUDGET_START_DAYS.map((day) => (
+                      <ToggleButton key={day} value={day} color="primary" selected={field.value === day} onChange={() => field.onChange(day)}>
+                        {day}
+                      </ToggleButton>
+                    ))}
+                  </DayOfMonthGrid>
+                )}
+              />
+              <TextField
+                label="기본 예산 (원)"
+                error={!!errors.defaultBudget}
+                helperText={errors.defaultBudget?.message}
+                inputRef={register('defaultBudget', { validate: validateBudgetDefaultBudget }).ref}
+                {...register('defaultBudget', { validate: validateBudgetDefaultBudget })}
+              />
+              <SceneDesc align="center">
+                시작일부터 다음 달 시작일 전날까지가 한 기간이에요.
+                <br />
+                오늘은 {getBudgetPeriodLabel(selectedDay)} 기간이 돼요.
+              </SceneDesc>
+            </ColumnCard>
             <Button type="submit" variant="contained" size="large" disabled={startBudgetLoading}>
-              시작할게요!
+              시작!
             </Button>
           </FormBody>
         </motion.div>

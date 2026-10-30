@@ -10,6 +10,7 @@ import {
   SceneDot,
   SceneDots,
   SceneEyebrow,
+  SceneHint,
   SceneInner,
   SceneScroller,
   SceneText,
@@ -17,6 +18,7 @@ import {
 } from '@/app/common/style/CommonScene.style'
 import { StateStack } from '@/app/common/style/CommonState.style'
 import { Highlight } from '@/app/common/style/CommonText.style'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 소개 장면 틀을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
 const meta: Meta = {
@@ -149,5 +151,23 @@ export const IntroDots: Story = {
       <SceneDot type="button" active={false} title="등록" aria-label="등록" />
       <SceneDot type="button" active={false} title="검색" aria-label="검색" />
     </SceneDots>
+  ),
+}
+
+/** 처음 화면 첫 장면(WelcomeIntroHero.tsx)과 예산 소개 첫 장면(BudgetIntroHeroScene.tsx) 아래쪽 가운데의 스크롤 안내. 위아래로 까딱이는 움직임은 쓰는 쪽이 animate 로 준다 */
+export const IntroScrollHint: Story = {
+  name: '소개 화면 > 첫 장면 > 스크롤 안내',
+  render: () => (
+    <Scene>
+      <StateStack>
+        <SceneTitle variant="h3" component="h1" align="center">
+          예산 소개 <Highlight>첫 장면</Highlight>
+        </SceneTitle>
+      </StateStack>
+      <SceneHint animate={{ y: [0, 6, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>
+        아래로 스크롤
+        <ExpandMoreIcon fontSize="small" />
+      </SceneHint>
+    </Scene>
   ),
 }

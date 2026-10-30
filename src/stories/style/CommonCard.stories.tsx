@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Typography } from '@mui/material'
+import { TextField, ToggleButton, Typography } from '@mui/material'
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined'
 import {
   ColumnCard,
@@ -17,9 +17,11 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style'
 import { TonalButton } from '@/app/common/style/CommonButton.style'
+import { DayOfMonthGrid } from '@/app/common/style/CommonForm.style'
 import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style'
 import { Panel, PanelBody } from '@/app/common/style/CommonList.style'
 import { StateIcon, ThumbFrame } from '@/app/common/style/CommonMedia.style'
+import { BUDGET_START_DAYS } from '@/app/budget/constant/budgetStartDay'
 import { BoldText, LabelText, PriceText, ValueText } from '@/app/common/style/CommonText.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 카드를 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
@@ -54,6 +56,29 @@ export const ContentCard: Story = {
     <ColumnCard>
       <Typography variant="h6">샘플 글 제목</Typography>
       <Typography color="text.secondary">샘플 본문 내용입니다.</Typography>
+    </ColumnCard>
+  ),
+}
+
+/** 예산 소개 > 시작하기 장면(budget/component/BudgetIntroStartScene.tsx)의 입력 카드. 시작일 격자, 기본 예산 칸, 안내 글을 한 카드에 세로로 묶는다 */
+export const BudgetIntroStartCard: Story = {
+  name: '예산 소개 > 시작하기 장면 > 입력 카드',
+  render: () => (
+    <ColumnCard>
+      <LabelText>기간 시작일 (매월)</LabelText>
+      <DayOfMonthGrid>
+        {BUDGET_START_DAYS.map((day) => (
+          <ToggleButton key={day} value={day} color="primary" selected={day === 1}>
+            {day}
+          </ToggleButton>
+        ))}
+      </DayOfMonthGrid>
+      <TextField label="기본 예산 (원)" />
+      <Typography align="center">
+        시작일부터 다음 달 시작일 전날까지가 한 기간이에요.
+        <br />
+        오늘은 10/01 ~ 10/31 기간이 돼요.
+      </Typography>
     </ColumnCard>
   ),
 }
