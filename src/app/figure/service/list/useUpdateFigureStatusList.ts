@@ -4,6 +4,7 @@ import { api } from '@/config/axios/AxiosConfig';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import { toApiResponse } from '@/config/axios/utils/toApiResponse';
 import { figureKeys } from '@/app/figure/constant/figureQueryKeys';
+import { budgetKeys } from '@/app/budget/constant/budgetQueryKeys';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import type { FigureStatusRequestBody } from '@/app/figure/interface/status/FigureStatusRequestBody';
 
@@ -24,6 +25,7 @@ const useUpdateFigureStatusList = () => {
         await Promise.all(
           (res.data.data ?? []).map((figureId) => queryClient.invalidateQueries({ queryKey: figureKeys.detail(figureId) })),
         );
+        await queryClient.invalidateQueries({ queryKey: budgetKeys.all });
       }
 
       return res.data;
