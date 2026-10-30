@@ -10,10 +10,12 @@ import FigureDetailDescription from '@/app/figure/component/detail/FigureDetailD
 import FigureDetailInfo from '@/app/figure/component/detail/FigureDetailInfo';
 import FigureDetailSchedule from '@/app/figure/component/detail/FigureDetailSchedule';
 import FigureDetailThumbnail from '@/app/figure/component/detail/FigureDetailThumbnail';
+import BudgetPaymentWarningModal from '@/app/budget/component/BudgetPaymentWarningModal';
+import type { BudgetPaymentWarning } from '@/app/budget/interface/BudgetPaymentWarning';
 import FigureStatusModal from '@/app/figure/component/common/FigureStatusModal';
 import type { FigureTransition } from '@/app/figure/constant/figureTransition';
 import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
-import useConfirmBudgetPayment from '@/app/figure/hook/useConfirmBudgetPayment';
+import useCheckBudgetPayment from '@/app/figure/hook/useCheckBudgetPayment';
 import useDeleteFigure from '@/app/figure/service/detail/useDeleteFigure';
 import useReadFigure from '@/app/figure/service/common/useReadFigure';
 import useReadFigureFormOptions from '@/app/figure/service/common/useReadFigureFormOptions';
@@ -24,6 +26,13 @@ import { API_CODE } from '@/config/axios/constant/apiCode';
 import { useUiStore } from '@/store/uiStore';
 import { Row, SideColumn, SplitLayout } from '@/app/common/style/CommonLayout.style';
 import { styled } from '@mui/material/styles';
+
+/** 결제 초과 경고를 띄운 동안 보관하는 값: 경고 내용과, [그래도 진행]을 누르면 이어서 할 상태 변경 */
+interface PendingPayment {
+  warning: BudgetPaymentWarning;
+  transition: FigureTransition;
+  values: FigureStatusFormValues;
+}
 
 /**
  * 상품 상세 화면 (/figures/:figureId)
@@ -38,8 +47,9 @@ const FigureDetailPage = () => {
   const { formOptions, formOptionsLoading, fetchReadFigureFormOptions } = useReadFigureFormOptions();
   const { deleteFigureLoading, fetchDeleteFigure } = useDeleteFigure();
   const { updateFigureStatusLoading, fetchUpdateFigureStatus } = useUpdateFigureStatus();
-  const { fetchConfirmBudgetPayment } = useConfirmBudgetPayment();
+  const { fetchCheckBudgetPayment } = useCheckBudgetPayment();
   const [statusModalOpen, setStatusModalOpen] = useState<boolean>(false);
+  const [pendingPayment, setPendingPayment] = useState<PendingPayment | null>(null);
 
   const fetchAll = () => {
     fetchReadFigure();
@@ -77,19 +87,40 @@ const FigureDetailPage = () => {
       return;
     }
 
-    /* 결제하면 예산을 넘는지 먼저 확인한다. 경고에서 취소하면 상태를 바꾸지 않는다 */
+    /* 결제하면 예산을 넘는지 먼저 확인한다. 넘으면 경고 모달을 띄우고, 진행을 누르면 handlePaymentWarningClose 가 이어서 바꾼다 */
     const target = figure === undefined ? null : figure.data;
 
     if (target === null) {
       return;
     }
 
-    const proceed = await fetchConfirmBudgetPayment({ transition, figures: [target], date: values.date, depositAmount: Number(values.depositAmount) });
+    const check = await fetchCheckBudgetPayment({ transition, figures: [target], date: values.date, depositAmount: Number(values.depositAmount) });
 
-    if (!proceed) {
+    if (!check.proceed) {
       return;
     }
 
+    if (check.warning !== null) {
+      setPendingPayment({ warning: check.warning, transition: transition, values: values });
+      return;
+    }
+
+    await saveStatus(transition, values);
+  };
+
+  const handlePaymentWarningClose = async (proceed: boolean) => {
+    const pending = pendingPayment;
+
+    setPendingPayment(null);
+
+    if (!proceed || pending === null) {
+      return;
+    }
+
+    await saveStatus(pending.transition, pending.values);
+  };
+
+  const saveStatus = async (transition: FigureTransition, values: FigureStatusFormValues) => {
     const res = await fetchUpdateFigureStatus(figureId, toStatusRequestBody(transition, values));
     showResult(res);
 
@@ -147,6 +178,8 @@ const FigureDetailPage = () => {
           onClose={() => setStatusModalOpen(false)}
         />
       )}
+
+      {pendingPayment !== null && <BudgetPaymentWarningModal warning={pendingPayment.warning} onClose={handlePaymentWarningClose} />}
 
       <LoadingOverlay open={figureLoading || formOptionsLoading || deleteFigureLoading} />
     </PageContainer>

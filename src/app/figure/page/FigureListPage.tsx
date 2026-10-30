@@ -13,6 +13,8 @@ import FigureFilterChips from '@/app/figure/component/filter/FigureFilterChips';
 import FigureListComponent from '@/app/figure/component/list/FigureListComponent';
 import FigureResultSummary from '@/app/figure/component/list/FigureResultSummary';
 import FigureListActions from '@/app/figure/component/list/FigureListActions';
+import BudgetPaymentWarningModal from '@/app/budget/component/BudgetPaymentWarningModal';
+import type { BudgetPaymentWarning } from '@/app/budget/interface/BudgetPaymentWarning';
 import FigureStatusModal from '@/app/figure/component/common/FigureStatusModal';
 import FigureStatusTabs from '@/app/figure/component/list/FigureStatusTabs';
 import FigureUrgentModal from '@/app/figure/component/list/FigureUrgentModal';
@@ -21,7 +23,7 @@ import type { FigureTransition } from '@/app/figure/constant/figureTransition';
 import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
 import useSelection from '@/app/common/hook/useSelection';
 import type { SelectMode } from '@/app/figure/constant/figureSelect';
-import useConfirmBudgetPayment from '@/app/figure/hook/useConfirmBudgetPayment';
+import useCheckBudgetPayment from '@/app/figure/hook/useCheckBudgetPayment';
 import useDeleteFigureList from '@/app/figure/service/list/useDeleteFigureList';
 import useReadFigureList from '@/app/figure/service/list/useReadFigureList';
 import useUpdateFigureStatusList from '@/app/figure/service/list/useUpdateFigureStatusList';
@@ -32,6 +34,13 @@ import { useFigureViewStore } from '@/store/figureViewStore';
 import { useUiStore } from '@/store/uiStore';
 import { styled } from '@mui/material/styles';
 
+/** 결제 초과 경고를 띄운 동안 보관하는 값: 경고 내용과, [그래도 진행]을 누르면 이어서 할 상태 변경 */
+interface PendingPayment {
+  warning: BudgetPaymentWarning;
+  transition: FigureTransition;
+  date: Dayjs | null;
+}
+
 /**
  * 상품 목록 화면 (/figures)
  * 서버에서 전체를 한 번 받아 오고, 탭, 필터, 정렬은 화면에서 한다. 조건은 figureViewStore 에 담겨 상세에 갔다 와도 유지된다.
@@ -41,12 +50,13 @@ const FigureListPage = () => {
   const { figureList, figureListLoading, fetchReadFigureList } = useReadFigureList();
   const { deleteFigureListLoading, fetchDeleteFigureList } = useDeleteFigureList();
   const { updateFigureStatusListLoading, fetchUpdateFigureStatusList } = useUpdateFigureStatusList();
-  const { fetchConfirmBudgetPayment } = useConfirmBudgetPayment();
+  const { fetchCheckBudgetPayment } = useCheckBudgetPayment();
   const showResult = useUiStore((state) => state.showResult);
   const urgentDismissed = useUiStore((state) => state.urgentDismissed);
   const dismissUrgent = useUiStore((state) => state.dismissUrgent);
   const [urgentTab, setUrgentTab] = useState<UrgentTabKey | null>(null);
   const [statusModalOpen, setStatusModalOpen] = useState<boolean>(false);
+  const [pendingPayment, setPendingPayment] = useState<PendingPayment | null>(null);
   const { tab, filters, month, sort, setTab, setFilter, setMonth, setSort, resetFilters } = useFigureViewStore();
 
   const figures = figureList?.data ?? [];
@@ -132,14 +142,35 @@ const FigureListPage = () => {
       return;
     }
 
-    /* 결제하면 예산을 넘는지 먼저 확인한다. 경고에서 취소하면 상태를 바꾸지 않는다 */
+    /* 결제하면 예산을 넘는지 먼저 확인한다. 넘으면 경고 모달을 띄우고, 진행을 누르면 handlePaymentWarningClose 가 이어서 바꾼다 */
     const checkedFigures = figures.filter((figure) => selection.checkedIds.includes(figure.figureId));
-    const proceed = await fetchConfirmBudgetPayment({ transition, figures: checkedFigures, date, depositAmount: 0 });
+    const check = await fetchCheckBudgetPayment({ transition, figures: checkedFigures, date, depositAmount: 0 });
 
-    if (!proceed) {
+    if (!check.proceed) {
       return;
     }
 
+    if (check.warning !== null) {
+      setPendingPayment({ warning: check.warning, transition: transition, date: date });
+      return;
+    }
+
+    await saveStatus(transition, date);
+  };
+
+  const handlePaymentWarningClose = async (proceed: boolean) => {
+    const pending = pendingPayment;
+
+    setPendingPayment(null);
+
+    if (!proceed || pending === null) {
+      return;
+    }
+
+    await saveStatus(pending.transition, pending.date);
+  };
+
+  const saveStatus = async (transition: FigureTransition, date: Dayjs | null) => {
     const body = toStatusRequestBody(transition, { ...toStatusFormValues([transition], 0), date }, selection.checkedIds);
     const res = await fetchUpdateFigureStatusList(body);
     showResult(res);
@@ -247,6 +278,8 @@ const FigureListPage = () => {
           onClose={() => setStatusModalOpen(false)}
         />
       )}
+
+      {pendingPayment !== null && <BudgetPaymentWarningModal warning={pendingPayment.warning} onClose={handlePaymentWarningClose} />}
 
       <LoadingOverlay open={figureListLoading || deleteFigureListLoading || updateFigureStatusListLoading} />
     </PageContainer>

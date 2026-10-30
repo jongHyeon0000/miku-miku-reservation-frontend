@@ -4,6 +4,7 @@ import { API_CODE } from '@/config/axios/constant/apiCode';
 import type { FigureTransition } from '@/app/figure/constant/figureTransition';
 import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
 import { isPaymentTransition, toBudgetPaymentWarning, toPaymentCheckRequestBody } from '@/app/figure/utils/FigureTransitionUtils';
+import type { BudgetPaymentWarning } from '@/app/budget/interface/BudgetPaymentWarning';
 import useReadBudgetPaymentCheck from '@/app/budget/service/useReadBudgetPaymentCheck';
 import { useUiStore } from '@/store/uiStore';
 
@@ -25,19 +26,24 @@ interface BudgetPaymentRequest {
   depositAmount: number;
 }
 
+/** 결제 확인 결과. proceed 가 false 면 중단(알림은 이미 띄웠다), warning 이 있으면 경고 모달을 띄운 뒤 진행 여부를 묻고, 둘 다 아니면 바로 진행한다 */
+interface BudgetPaymentCheckResult {
+  proceed: boolean;
+  warning: BudgetPaymentWarning | null;
+}
+
 /**
  * 결제로 넘기기 전 예산 확인 훅. 상태를 바꾸는 핸들러가 변경 요청 직전에 부른다.
- * 결제하면 예산을 넘을 때만 경고 모달을 띄우고, 반환값은 "이어서 상태를 바꿔도 되는지"다.
- * 돈을 내지 않는 전이, 예산이 꺼진 경우, 연결과 서버 오류는 경고 없이 true 다. 요청 오류(400, 404)는 알림을 띄우고 false 다.
+ * 모달은 부른 화면이 직접 띄운다. 돈을 내지 않는 전이, 예산이 꺼진 경우, 연결과 서버 오류는 경고 없이 진행이고,
+ * 요청 오류(400, 404)는 알림을 띄우고 중단이다.
  */
-const useConfirmBudgetPayment = () => {
+const useCheckBudgetPayment = () => {
   const showResult = useUiStore((state) => state.showResult);
-  const showPaymentWarning = useUiStore((state) => state.showPaymentWarning);
   const { fetchReadBudgetPaymentCheck } = useReadBudgetPaymentCheck();
 
-  const fetchConfirmBudgetPayment = async ({ transition, figures, date, depositAmount }: BudgetPaymentRequest): Promise<boolean> => {
+  const fetchCheckBudgetPayment = async ({ transition, figures, date, depositAmount }: BudgetPaymentRequest): Promise<BudgetPaymentCheckResult> => {
     if (!isPaymentTransition(transition)) {
-      return true;
+      return { proceed: true, warning: null };
     }
 
     const paidAt = date === null ? todayString() : date.format('YYYY-MM-DD');
@@ -45,31 +51,31 @@ const useConfirmBudgetPayment = () => {
     const res = await fetchReadBudgetPaymentCheck(toPaymentCheckRequestBody(transition, figureIds, paidAt, depositAmount));
 
     if (SKIP_CHECK_CODES.includes(res.code)) {
-      return true;
+      return { proceed: true, warning: null };
     }
 
     if (res.code !== API_CODE.OK) {
       showResult(res);
-      return false;
+      return { proceed: false, warning: null };
     }
 
     const check = res.data;
 
     if (check === null || !check.exceeded) {
-      return true;
+      return { proceed: true, warning: null };
     }
 
     const { payAmount, remaining, remainingAfter } = check;
 
     if (payAmount === null || remaining === null || remainingAfter === null) {
-      return true;
+      return { proceed: true, warning: null };
     }
 
     const warning = toBudgetPaymentWarning(transition, figures, paidAt, depositAmount, payAmount, remaining, remainingAfter);
-    return showPaymentWarning(warning);
+    return { proceed: true, warning: warning };
   };
 
-  return { fetchConfirmBudgetPayment };
+  return { fetchCheckBudgetPayment };
 };
 
-export default useConfirmBudgetPayment;
+export default useCheckBudgetPayment;
