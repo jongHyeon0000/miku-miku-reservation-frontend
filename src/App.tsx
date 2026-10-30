@@ -4,6 +4,7 @@ import RequireAuth from '@/app/auth/RequireAuth'
 import useInitAuth from '@/app/auth/service/useInitAuth'
 import GNB from '@/app/common/component/GNB'
 import GlobalSnackbar from '@/app/common/component/GlobalSnackbar'
+import GlobalPaymentWarning from '@/app/common/component/GlobalPaymentWarning'
 import LoadingOverlay from '@/app/common/component/loading/LoadingOverlay'
 import { APP_ROUTES } from '@/config/route/RoutesConfig'
 import { useAuthStore } from '@/store/authStore'
@@ -41,6 +42,7 @@ const App = () => {
     <BrowserRouter>
       <AppContent />
       <GlobalSnackbar />
+      <GlobalPaymentWarning />
     </BrowserRouter>
   )
 }

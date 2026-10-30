@@ -4,6 +4,12 @@ import { FIGURE_STATUS_LABELS, type FigureStatus, type FigureTabKey } from '@/ap
 import { FIGURE_TRANSITIONS, type FigureTransition } from '@/app/figure/constant/figureTransition';
 import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
 import type { FigureStatusRequestBody } from '@/app/figure/interface/status/FigureStatusRequestBody';
+import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
+import { getTotalPrice } from '@/app/figure/utils/FigureUtils';
+import type { BudgetSpendingKind } from '@/app/budget/constant/budgetSpendingKind';
+import type { BudgetPaymentCheckRequestBody } from '@/app/budget/interface/BudgetPaymentCheckRequestBody';
+import type { BudgetPaymentWarning } from '@/app/budget/interface/BudgetPaymentWarning';
+import type { BudgetSpending } from '@/app/budget/interface/BudgetSpending';
 
 /** 확인창 글자 (sweetalert2). 계산이 필요한 글자는 함수 값 */
 const STATUS_ALERT = {
@@ -118,4 +124,85 @@ export const getSingleConfirm = (transition: FigureTransition, values: FigureSta
 
   const detail = date !== null ? `${transition.dateLabel} ${formatMonthDay(date)}로 ${nextLabel} 처리할게요.` : `${nextLabel}로 바꿀게요.`;
   return STATUS_ALERT.single(nextLabel, detail);
+};
+
+/** 이 전이가 돈을 내는 전이인지 (예약금, 전액, 잔금). 예산 확인은 이런 전이에서만 한다 */
+export const isPaymentTransition = (transition: FigureTransition): boolean => {
+  return transition.next === 'RESERVED' || transition.next === 'PURCHASED';
+};
+
+/** 결제 한 번의 종류: 예약완료는 예약금, 미구매에서 구매완료는 전액, 예약완료에서 구매완료는 잔금 */
+const getPaymentKind = (transition: FigureTransition): BudgetSpendingKind => {
+  if (transition.next === 'RESERVED') {
+    return 'DEPOSIT';
+  }
+
+  if (transition.paymentType === 'FULL') {
+    return 'FULL';
+  }
+
+  return 'BALANCE';
+};
+
+/** 상품 하나의 결제 금액. 서버의 계산식과 같다: 예약금은 입력한 금액, 전액은 가격 × 수량, 잔금은 가격 × 수량 − 낸 예약금 */
+const getPaymentAmount = (figure: FigureSummary, kind: BudgetSpendingKind, depositAmount: number): number => {
+  if (kind === 'DEPOSIT') {
+    return depositAmount;
+  }
+
+  const totalPrice = getTotalPrice(figure);
+
+  if (kind === 'FULL') {
+    return totalPrice;
+  }
+
+  const paidDeposit = figure.depositAmount === null ? 0 : figure.depositAmount;
+  return totalPrice - paidDeposit;
+};
+
+/** 결제 전 예산 확인 요청 본문. 상태 변경 요청과 같은 값(상품, 결제일, 예약금)을 쓴다 */
+export const toPaymentCheckRequestBody = (
+  transition: FigureTransition,
+  figureIds: number[],
+  paidAt: string,
+  depositAmount: number,
+): BudgetPaymentCheckRequestBody => {
+  if (transition.next === 'RESERVED') {
+    return { figureIds: figureIds, status: 'RESERVED', depositAmount: depositAmount, depositPaidAt: paidAt };
+  }
+
+  return { figureIds: figureIds, status: 'PURCHASED', paidAt: paidAt };
+};
+
+/**
+ * 결제 초과 경고 모달의 내용. 상품별 결제 내역은 화면이 계산하므로, 합이 서버의 결제 합계와 다르면 비워서 합계만 보여 준다.
+ */
+export const toBudgetPaymentWarning = (
+  transition: FigureTransition,
+  figures: FigureSummary[],
+  paidAt: string,
+  depositAmount: number,
+  payAmount: number,
+  remaining: number,
+  remainingAfter: number,
+): BudgetPaymentWarning => {
+  const kind = getPaymentKind(transition);
+  const payments: BudgetSpending[] = figures.map((figure) => ({
+    figureId: figure.figureId,
+    figureName: figure.name,
+    kind: kind,
+    paidDate: paidAt,
+    amount: getPaymentAmount(figure, kind, depositAmount),
+  }));
+  const paymentsTotal = payments.reduce((sum, payment) => sum + payment.amount, 0);
+  const subtitle = `${FIGURE_STATUS_LABELS[transition.next]}로 바꾸는 상품 ${figures.length}개 · ${transition.dateLabel} ${paidAt.replaceAll('-', '.')}`;
+
+  return {
+    subtitle: subtitle,
+    figures: figures,
+    payments: paymentsTotal === payAmount ? payments : [],
+    payAmount: payAmount,
+    remaining: remaining,
+    remainingAfter: remainingAfter,
+  };
 };

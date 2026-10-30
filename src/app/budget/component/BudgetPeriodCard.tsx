@@ -9,7 +9,7 @@ import { GroupStack, Row, SpreadRow } from '@/app/common/style/CommonLayout.styl
 import { Panel, PanelBody } from '@/app/common/style/CommonList.style';
 import { BoldText, LabelText, PriceText, ValueText } from '@/app/common/style/CommonText.style';
 import { formatPrice } from '@/app/common/utils/CommonUtils';
-import { BUDGET_SPENDING_KIND_LABELS } from '@/app/budget/constant/budgetSpendingKind';
+import BudgetSpendingLine from '@/app/budget/component/BudgetSpendingLine';
 import type { BudgetAdjust } from '@/app/budget/interface/BudgetAdjust';
 import type { BudgetPeriod } from '@/app/budget/interface/BudgetPeriod';
 import type { BudgetSpending } from '@/app/budget/interface/BudgetSpending';
@@ -136,22 +136,7 @@ const BudgetPeriodCard = ({ period, adjusts, spendings }: BudgetPeriodCardProps)
                 </Typography>
               )}
               {spendings.map((spending) => (
-                <div key={`${spending.figureId}-${spending.kind}`}>
-                  <Row>
-                    <Typography variant="body2" color="text.secondary">
-                      {formatBudgetDate(spending.paidDate)}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {BUDGET_SPENDING_KIND_LABELS[spending.kind]}
-                    </Typography>
-                  </Row>
-                  <SpreadRow>
-                    <ValueText>{spending.figureName}</ValueText>
-                    <Row>
-                      <ValueText negative={spending.amount > 0}>{formatSignedPrice(-spending.amount)}</ValueText>
-                    </Row>
-                  </SpreadRow>
-                </div>
+                <BudgetSpendingLine key={`${spending.figureId}-${spending.kind}`} spending={spending} />
               ))}
             </DetailList>
           )}

@@ -13,6 +13,7 @@ import FigureDetailThumbnail from '@/app/figure/component/detail/FigureDetailThu
 import FigureStatusModal from '@/app/figure/component/common/FigureStatusModal';
 import type { FigureTransition } from '@/app/figure/constant/figureTransition';
 import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
+import useConfirmBudgetPayment from '@/app/figure/hook/useConfirmBudgetPayment';
 import useDeleteFigure from '@/app/figure/service/detail/useDeleteFigure';
 import useReadFigure from '@/app/figure/service/common/useReadFigure';
 import useReadFigureFormOptions from '@/app/figure/service/common/useReadFigureFormOptions';
@@ -37,6 +38,7 @@ const FigureDetailPage = () => {
   const { formOptions, formOptionsLoading, fetchReadFigureFormOptions } = useReadFigureFormOptions();
   const { deleteFigureLoading, fetchDeleteFigure } = useDeleteFigure();
   const { updateFigureStatusLoading, fetchUpdateFigureStatus } = useUpdateFigureStatus();
+  const { fetchConfirmBudgetPayment } = useConfirmBudgetPayment();
   const [statusModalOpen, setStatusModalOpen] = useState<boolean>(false);
 
   const fetchAll = () => {
@@ -72,6 +74,19 @@ const FigureDetailPage = () => {
     const confirmed = await showConfirmAlert(getSingleConfirm(transition, values));
 
     if (!confirmed) {
+      return;
+    }
+
+    /* 결제하면 예산을 넘는지 먼저 확인한다. 경고에서 취소하면 상태를 바꾸지 않는다 */
+    const target = figure === undefined ? null : figure.data;
+
+    if (target === null) {
+      return;
+    }
+
+    const proceed = await fetchConfirmBudgetPayment({ transition, figures: [target], date: values.date, depositAmount: Number(values.depositAmount) });
+
+    if (!proceed) {
       return;
     }
 

@@ -236,3 +236,50 @@ export const BudgetSettingCard: Story = {
     </Panel>
   ),
 }
+
+/** 상태를 바꾸면 예산을 넘을 때 뜨는 결제 초과 경고 모달의 영수증(budget/component/BudgetPaymentWarningModal.tsx). 이번 기간 카드와 같은 모양이고 "이번 결제" 줄을 누르면 상품별 결제 내역이 열린다 */
+export const BudgetPaymentWarningReceipt: Story = {
+  name: '예산 관리 > 결제 초과 경고 모달 > 영수증(내역 펼침)',
+  render: () => (
+    <ReceiptBox>
+      <SpreadRow>
+        <LabelText>현재 남은 돈</LabelText>
+        <ValueText>170,000원</ValueText>
+      </SpreadRow>
+      <ToggleRow aria-expanded>
+        <Row>
+          <LabelText>이번 결제</LabelText>
+          <ExpandLessIcon fontSize="inherit" />
+        </Row>
+        <ValueText negative>-171,000원</ValueText>
+      </ToggleRow>
+      <DetailList>
+        <div>
+          <Row>
+            <Typography variant="body2" color="text.secondary">10/28</Typography>
+            <Typography variant="body2" color="text.secondary">전액</Typography>
+          </Row>
+          <SpreadRow>
+            <ValueText>初音ミク Project DIVA 1/7</ValueText>
+            <ValueText negative>-120,000원</ValueText>
+          </SpreadRow>
+        </div>
+        <div>
+          <Row>
+            <Typography variant="body2" color="text.secondary">10/28</Typography>
+            <Typography variant="body2" color="text.secondary">전액</Typography>
+          </Row>
+          <SpreadRow>
+            <ValueText>鏡音リン 1/8 스케일</ValueText>
+            <ValueText negative>-51,000원</ValueText>
+          </SpreadRow>
+        </div>
+      </DetailList>
+      <TotalDivider />
+      <SpreadRow>
+        <BoldText>결제 후 남은 돈</BoldText>
+        <BoldText color="error">-1,000원</BoldText>
+      </SpreadRow>
+    </ReceiptBox>
+  ),
+}

@@ -21,6 +21,7 @@ import type { FigureTransition } from '@/app/figure/constant/figureTransition';
 import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
 import useSelection from '@/app/common/hook/useSelection';
 import type { SelectMode } from '@/app/figure/constant/figureSelect';
+import useConfirmBudgetPayment from '@/app/figure/hook/useConfirmBudgetPayment';
 import useDeleteFigureList from '@/app/figure/service/list/useDeleteFigureList';
 import useReadFigureList from '@/app/figure/service/list/useReadFigureList';
 import useUpdateFigureStatusList from '@/app/figure/service/list/useUpdateFigureStatusList';
@@ -40,6 +41,7 @@ const FigureListPage = () => {
   const { figureList, figureListLoading, fetchReadFigureList } = useReadFigureList();
   const { deleteFigureListLoading, fetchDeleteFigureList } = useDeleteFigureList();
   const { updateFigureStatusListLoading, fetchUpdateFigureStatusList } = useUpdateFigureStatusList();
+  const { fetchConfirmBudgetPayment } = useConfirmBudgetPayment();
   const showResult = useUiStore((state) => state.showResult);
   const urgentDismissed = useUiStore((state) => state.urgentDismissed);
   const dismissUrgent = useUiStore((state) => state.dismissUrgent);
@@ -127,6 +129,14 @@ const FigureListPage = () => {
     const confirmed = await showConfirmAlert(getBulkConfirm(transition, selection.checkedIds.length, date));
 
     if (!confirmed) {
+      return;
+    }
+
+    /* 결제하면 예산을 넘는지 먼저 확인한다. 경고에서 취소하면 상태를 바꾸지 않는다 */
+    const checkedFigures = figures.filter((figure) => selection.checkedIds.includes(figure.figureId));
+    const proceed = await fetchConfirmBudgetPayment({ transition, figures: checkedFigures, date, depositAmount: 0 });
+
+    if (!proceed) {
       return;
     }
 

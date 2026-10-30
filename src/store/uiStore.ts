@@ -2,6 +2,10 @@ import { create } from 'zustand';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import type { ApiResponse } from '@/config/axios/interface/ApiResponse';
 import type { UrgentTabKey } from '@/app/figure/constant/figureStatus';
+import type { BudgetPaymentWarning } from '@/app/budget/interface/BudgetPaymentWarning';
+
+/** 결제 초과 경고 모달의 답을 기다리는 함수. 모달이 닫히면 진행 여부로 호출한다(화면에 그릴 값이 아니라 스토어 밖에 둔다) */
+let resolvePaymentWarning: ((proceed: boolean) => void) | null = null;
 
 /** 서버 결과 코드에 맞는 스낵바 종류. 성공은 success, 입력을 고치면 되는 문제는 warning, 나머지 실패는 error */
 const getSeverity = (code: string): 'success' | 'warning' | 'error' => {
@@ -49,6 +53,15 @@ interface UiStore {
 
   /** 임박 알림 모달을 그 탭에 한해 새로고침 전까지 끈다 */
   dismissUrgent: (tab: UrgentTabKey) => void;
+
+  /** 떠 있는 결제 초과 경고. 없으면 null */
+  paymentWarning: BudgetPaymentWarning | null;
+
+  /** 결제 초과 경고 모달을 띄우고, 진행이면 true 취소면 false 로 답이 돌아온다 */
+  showPaymentWarning: (warning: BudgetPaymentWarning) => Promise<boolean>;
+
+  /** 결제 초과 경고 모달을 닫으며 답을 돌려준다 */
+  closePaymentWarning: (proceed: boolean) => void;
 }
 
 export const useUiStore = create<UiStore>((set, get) => ({
@@ -61,4 +74,20 @@ export const useUiStore = create<UiStore>((set, get) => ({
   closeSnackbar: () => set({ snackbarOpen: false }),
   urgentDismissed: [],
   dismissUrgent: (tab) => set((state) => ({ urgentDismissed: [...state.urgentDismissed, tab] })),
+  paymentWarning: null,
+  showPaymentWarning: (warning) =>
+    new Promise<boolean>((resolve) => {
+      resolvePaymentWarning = resolve;
+      set({ paymentWarning: warning });
+    }),
+  closePaymentWarning: (proceed) => {
+    const resolve = resolvePaymentWarning;
+
+    resolvePaymentWarning = null;
+    set({ paymentWarning: null });
+
+    if (resolve !== null) {
+      resolve(proceed);
+    }
+  },
 }));
