@@ -195,10 +195,8 @@ export const toBudgetPaymentWarning = (
     amount: getPaymentAmount(figure, kind, depositAmount),
   }));
   const paymentsTotal = payments.reduce((sum, payment) => sum + payment.amount, 0);
-  const subtitle = `${FIGURE_STATUS_LABELS[transition.next]}로 바꾸는 상품 ${figures.length}개 · ${transition.dateLabel} ${paidAt.replaceAll('-', '.')}`;
 
   return {
-    subtitle: subtitle,
     figures: figures,
     payments: paymentsTotal === payAmount ? payments : [],
     payAmount: payAmount,

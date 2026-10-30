@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style';
 import { DetailList, ReceiptBox, ToggleRow, TotalDivider } from '@/app/common/style/CommonCard.style';
-import { DialogFieldStack } from '@/app/common/style/CommonForm.style';
+import { FieldStack, FormActions } from '@/app/common/style/CommonForm.style';
 import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { BoldText, LabelText, ValueText } from '@/app/common/style/CommonText.style';
 import { formatPrice } from '@/app/common/utils/CommonUtils';
@@ -36,7 +36,7 @@ const BudgetPaymentWarningModal = ({ warning, onClose }: BudgetPaymentWarningMod
   };
 
   return (
-    <Dialog open onClose={() => onClose(false)} fullWidth maxWidth="sm">
+    <Dialog open onClose={() => onClose(false)} fullWidth maxWidth="md">
       <DialogTitle>
         <Row>
           <WarningAmberIcon color="error" />
@@ -44,10 +44,9 @@ const BudgetPaymentWarningModal = ({ warning, onClose }: BudgetPaymentWarningMod
             이번 달 쓸수 있는 예산을 초과해요!!!
           </Typography>
         </Row>
-        <BoldText color="text.secondary">{warning.subtitle}</BoldText>
       </DialogTitle>
       <DialogContent>
-        <DialogFieldStack>
+        <FieldStack>
           <FigureListComponent figures={warning.figures} blinkUrgent={false} />
 
           <ReceiptBox>
@@ -85,12 +84,12 @@ const BudgetPaymentWarningModal = ({ warning, onClose }: BudgetPaymentWarningMod
               <BoldText color="error">{formatPrice(warning.remainingAfter)}</BoldText>
             </SpreadRow>
           </ReceiptBox>
-        </DialogFieldStack>
+        </FieldStack>
       </DialogContent>
-      <DialogActions>
+      <FormActions>
         <TonalButton onClick={() => onClose(false)}>취소</TonalButton>
         <TonalDangerButton onClick={() => onClose(true)}>그래도 살래..</TonalDangerButton>
-      </DialogActions>
+      </FormActions>
     </Dialog>
   );
 };

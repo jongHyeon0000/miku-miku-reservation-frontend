@@ -3,9 +3,6 @@ import type { BudgetSpending } from '@/app/budget/interface/BudgetSpending';
 
 /** 결제 초과 경고 모달이 보여 줄 값 (서버의 결제 전 예산 확인 결과 + 화면이 이미 가진 값) */
 export interface BudgetPaymentWarning {
-  /** 부제목 (예: "구매완료로 바꾸는 상품 2개 · 전액 결제일 2026.10.28") */
-  subtitle: string;
-
   /** 결제하려는 상품 (카드로 보여 준다) */
   figures: FigureSummary[];
 
