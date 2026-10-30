@@ -14,7 +14,6 @@ import FigureFormPage from '@/app/figure/page/FigureFormPage';
 import FigureListPage from '@/app/figure/page/FigureListPage';
 import MyPagePage from '@/app/my-page/page/MyPagePage';
 import WelcomeIntroPage from '@/app/welcome-intro/page/WelcomeIntroPage';
-import PatchNotePage from '@/app/patch-note/page/PatchNotePage';
 import StatsPage from '@/app/stats/page/StatsPage';
 import NotFoundPage from '@/app/common/page/NotFoundPage';
 
@@ -55,7 +54,6 @@ export const APP_ROUTES: readonly RouteType[] = [
 
   { path: '/budget', nameKr: '예산관리', element: <BudgetPage />, type: 'gnb', requireAuth: true },
   { path: '/statistics', nameKr: '통계', element: <StatsPage />, type: 'gnb', requireAuth: true },
-  { path: '/patch-notes', nameKr: '패치내역', element: <PatchNotePage />, type: 'gnb', requireAuth: true },
 
   { path: '/intro', nameKr: '소개', element: <WelcomeIntroPage />, type: 'intro', requireAuth: false },
 
