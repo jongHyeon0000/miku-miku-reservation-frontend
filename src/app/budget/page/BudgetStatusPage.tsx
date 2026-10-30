@@ -2,6 +2,7 @@ import ErrorView from '@/app/common/component/ErrorView';
 import { FieldStack } from '@/app/common/style/CommonForm.style';
 import { SplitLayout } from '@/app/common/style/CommonLayout.style';
 import { PageContainer, PageHeader, PageTitle } from '@/app/common/style/CommonPage.style';
+import BudgetDisableButton from '@/app/budget/component/BudgetDisableButton';
 import BudgetAdjustPanel from '@/app/budget/component/BudgetAdjustPanel';
 import BudgetPeriodCard from '@/app/budget/component/BudgetPeriodCard';
 import BudgetSettingCard from '@/app/budget/component/BudgetSettingCard';
@@ -34,6 +35,7 @@ const BudgetStatusPage = ({ budget }: BudgetStatusPageProps) => {
         <PageTitle variant="h4" component="h1">
           예산 관리
         </PageTitle>
+        <BudgetDisableButton />
       </PageHeader>
 
       <SplitLayout>

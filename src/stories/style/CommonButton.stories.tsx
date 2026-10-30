@@ -95,3 +95,9 @@ export const SelectBarButtons: Story = {
     </Row>
   ),
 }
+
+/** 예산관리 > 제목 줄 > 기능끄기 버튼 (확인창을 거쳐 끈다) */
+export const BudgetDisableButtonStory: Story = {
+  name: '예산관리 > 제목 줄 > 기능끄기 버튼',
+  render: () => <TonalDangerButton>예산관리 기능끄기</TonalDangerButton>,
+}
