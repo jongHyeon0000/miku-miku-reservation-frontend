@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Tooltip } from '@mui/material';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import { Description, TextBox } from '@/app/category/common/style/CategoryRow.style';
+import { Description, StruckText, TextBox } from '@/app/category/common/style/CategoryRow.style';
 import { RowBox } from '@/app/common/style/CommonList.style';
 import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
 import { BoldText } from '@/app/common/style/CommonText.style';
@@ -23,13 +23,16 @@ interface CategoryRowProps {
 
   /** 줄 오른쪽에 둘 것 (수정, 삭제 버튼, 기본 항목 칩, 개수와 가져오기 버튼 등). 줄이 세로 가운데 정렬과 간격을 맡는다. 없으면 오른쪽이 비어 있다 */
   actions?: ReactNode;
+
+  /** true 면 이름과 설명에 취소선을 긋는다 (가져올 때 제외되는 항목). 기본은 꺼짐 */
+  struck?: boolean;
 }
 
 /**
  * 분류 한 줄. 썸네일, 이름, 설명(이름 옆 (i) 툴팁과 아래 한 줄)을 보여 주고 오른쪽 칸은 부르는 쪽이 정한다.
  * 5개 분류 축의 목록 줄과 템플릿 목록, 가져오기 때 제외되는 항목 목록이 같이 쓴다.
  */
-const CategoryRow = ({ name, description, thumbnailUrl, leading, actions }: CategoryRowProps) => {
+const CategoryRow = ({ name, description, thumbnailUrl, leading, actions, struck = false }: CategoryRowProps) => {
   return (
     <RowBox>
       {leading}
@@ -38,7 +41,7 @@ const CategoryRow = ({ name, description, thumbnailUrl, leading, actions }: Cate
       </ThumbAvatar>
       <TextBox>
         <BoldText>
-          {name}
+          <StruckText struck={struck}>{name}</StruckText>
           {description && (
             <Tooltip title={<TooltipText>{description}</TooltipText>} placement="right-start">
               <InfoIcon fontSize="inherit" />
@@ -47,7 +50,7 @@ const CategoryRow = ({ name, description, thumbnailUrl, leading, actions }: Cate
         </BoldText>
         {description && (
           <Description variant="caption" color="text.secondary">
-            {description}
+            <StruckText struck={struck}>{description}</StruckText>
           </Description>
         )}
       </TextBox>

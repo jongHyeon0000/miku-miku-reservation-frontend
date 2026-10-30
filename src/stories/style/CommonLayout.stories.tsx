@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button, Link, Typography } from '@mui/material'
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style'
-import { ColumnCard, MediaCard, SpreadCard } from '@/app/common/style/CommonCard.style'
+import { ColumnCard, MediaCard, SelectableCard, SpreadCard } from '@/app/common/style/CommonCard.style'
 import { FieldStack } from '@/app/common/style/CommonForm.style'
 import { EndRow, GroupStack, Row, SideColumn, SpreadRow, SplitLayout, TripleGrid } from '@/app/common/style/CommonLayout.style'
 
@@ -198,6 +198,27 @@ export const BudgetIntroKeyPoints: Story = {
         <Typography variant="h6" color="primary">상품과 자동 연동</Typography>
         <Typography variant="body2" color="text.secondary">구매완료로 바꾸면 지출에 잡히고, 예산을 넘으면 미리 알려 줘요</Typography>
       </ColumnCard>
+    </TripleGrid>
+  ),
+}
+
+/** 템플릿 가져오기 확인 창(category/template/component/TemplateImportConfirmDialog.tsx)의 개수 카드 세 칸. 같은 폭 세 칸 안에 눌리는 카드(SelectableCard)를 놓는다 */
+export const TemplateImportCountCards: Story = {
+  name: '분류 > 템플릿 가져오기 > 확인 창 > 개수 카드 세 칸',
+  render: () => (
+    <TripleGrid>
+      <SelectableCard selected>
+        <Typography variant="body2" color="text.secondary">전체</Typography>
+        <Typography variant="h5">10개</Typography>
+      </SelectableCard>
+      <SelectableCard>
+        <Typography variant="body2" color="text.secondary">추가 항목</Typography>
+        <Typography variant="h5" color="primary">6개</Typography>
+      </SelectableCard>
+      <SelectableCard>
+        <Typography variant="body2" color="text.secondary">제외 항목</Typography>
+        <Typography variant="h5">4개</Typography>
+      </SelectableCard>
     </TripleGrid>
   ),
 }

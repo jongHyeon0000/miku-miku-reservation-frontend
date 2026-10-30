@@ -1,5 +1,5 @@
 import { Box, ButtonBase, LinearProgress, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 
 /**
 * 화면을 구역으로 나누는 카드 (상세 화면의 썸네일, 정보, 일정, 설명 구역)
@@ -107,3 +107,26 @@ export const DetailList = styled(Box)(({ theme }) => ({
   marginLeft: '0.625em',
   padding: theme.spacing(0.5, 0, 0.5, 1.5),
 }));
+
+/**
+* 눌러서 고르는 카드 (카드 전체가 버튼이고 내용은 왼쪽 위에서 세로로 쌓는다). selected 면 포인트색 테두리와 옅은 배경, 막히면(disabled) 흐려진다
+* (템플릿 가져오기 확인 창의 전체, 추가 항목, 제외 항목 칸)
+* */
+export const SelectableCard = styled(ButtonBase, { shouldForwardProp: (prop) => prop !== 'selected' })<{ selected?: boolean }>(
+  ({ theme, selected = false }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: theme.spacing(0.5),
+    width: '100%',
+    padding: theme.spacing(2),
+    textAlign: 'left',
+    font: 'inherit',
+    color: 'inherit',
+    backgroundColor: selected ? alpha(theme.palette.primary.main, 0.1) : theme.palette.background.paper,
+    border: `1px solid ${selected ? theme.palette.primary.main : theme.palette.lineSubtle}`,
+    borderRadius: theme.shape.cardRadius,
+    '&:hover': { backgroundColor: selected ? alpha(theme.palette.primary.main, 0.16) : theme.palette.rowHover },
+    '&.Mui-disabled': { opacity: 0.4 },
+  }),
+);

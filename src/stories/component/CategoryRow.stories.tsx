@@ -19,6 +19,7 @@ const meta: Meta<typeof CategoryRow> = {
     /* 화면 조각(JSX)은 입력칸으로 바꿀 수 없어서 조작 칸을 끈다 */
     leading: { name: '왼쪽 칸', control: false },
     actions: { name: '오른쪽 칸', control: false },
+    struck: { name: '취소선' },
   },
   args: {
     name: '샘플 분류',
@@ -84,4 +85,12 @@ export const TemplateListRow: Story = {
 /** 템플릿 가져오기 확인 창에서 이미 있어서 제외되는 항목 목록. 오른쪽 칸 없음 */
 export const TemplateExcludedRow: Story = {
   name: '템플릿 확인 창 > 제외 항목',
+}
+
+/** 템플릿 가져오기 확인 창의 전체 보기에서 이미 있어서 제외되는 항목. 이름과 설명에 취소선이 그어진다 */
+export const TemplateImportSkippedRow: Story = {
+  name: '템플릿 가져오기 > 확인 창 > 제외 항목 줄',
+  args: {
+    struck: true,
+  },
 }

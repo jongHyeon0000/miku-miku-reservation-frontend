@@ -8,6 +8,7 @@ import {
   Pill,
   ReceiptBox,
   SectionTitle,
+  SelectableCard,
   SpreadCard,
   ToggleRow,
   TotalDivider,
@@ -18,7 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style'
 import { TonalButton } from '@/app/common/style/CommonButton.style'
 import { DayOfMonthGrid } from '@/app/common/style/CommonForm.style'
-import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style'
+import { Row, SpreadRow, TripleGrid } from '@/app/common/style/CommonLayout.style'
 import { Panel, PanelBody } from '@/app/common/style/CommonList.style'
 import { StateIcon, ThumbFrame } from '@/app/common/style/CommonMedia.style'
 import { BUDGET_START_DAYS } from '@/app/budget/constant/budgetStartDay'
@@ -306,5 +307,28 @@ export const BudgetPaymentWarningReceipt: Story = {
         <BoldText color="error">-1,000원</BoldText>
       </SpreadRow>
     </ReceiptBox>
+  ),
+}
+
+/** 템플릿 가져오기 확인 창(category/template/component/TemplateImportConfirmDialog.tsx)의 보기 카드. 전체, 추가 항목, 제외 항목 칸을 눌러 아래 목록을 거른다. 선택된 칸은 포인트색 테두리, 개수가 0인 칸은 막혀 흐려진다 */
+export const TemplateImportViewCards: Story = {
+  name: '분류 > 템플릿 가져오기 > 확인 창 > 보기 카드',
+  render: () => (
+    <TripleGrid>
+      <SelectableCard selected>
+        <LabelText>전체</LabelText>
+        <Typography variant="h5">10개</Typography>
+      </SelectableCard>
+      <SelectableCard>
+        <LabelText>추가 항목</LabelText>
+        <Typography variant="h5" color="primary">
+          10개
+        </Typography>
+      </SelectableCard>
+      <SelectableCard disabled>
+        <LabelText>제외 항목</LabelText>
+        <Typography variant="h5">0개</Typography>
+      </SelectableCard>
+    </TripleGrid>
   ),
 }
