@@ -7,7 +7,8 @@ import FigureDeadlineText from '@/app/figure/component/common/FigureDeadlineText
 import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
 import { DEADLINE_BLINK_MONTHS } from '@/app/figure/constant/figureStatus';
 import { formatDeliveryMonth, getTotalPrice, isDeadlinePassed, isDeadlineUnder } from '@/app/figure/utils/FigureUtils';
-import { LabelText, LabelValueGrid, LabelValueRow, PriceColumn, PriceText, ValueText } from '@/app/common/style/CommonText.style';
+import { BoldText, LabelText, LabelValueGrid, LabelValueRow, PriceColumn, PriceText, ValueText } from '@/app/common/style/CommonText.style';
+import { Row } from '@/app/common/style/CommonLayout.style';
 import { FillImage, ThumbFrame } from '@/app/common/style/CommonMedia.style';
 import { Box, Typography } from '@mui/material';
 import { SelectCheck } from '@/app/common/style/CommonList.style';
@@ -31,6 +32,9 @@ interface FigureListComponentProps {
 
   /** 선택 모드에서 카드를 눌렀을 때 체크를 켜고 끈다 */
   onToggle?: (figureId: number) => void;
+
+  /** 선택 모드에서 목록 위 전체 선택 체크칸을 눌렀을 때. 없으면 전체 선택 줄을 그리지 않는다 */
+  onToggleAll?: () => void;
 }
 
 /**
@@ -43,6 +47,7 @@ const FigureListComponent = ({
   selectMode = false,
   checkedIds = [],
   onToggle,
+  onToggleAll,
 }: FigureListComponentProps) => {
   const today = todayString();
 
@@ -57,8 +62,17 @@ const FigureListComponent = ({
     }
   };
 
+  const checkedCount = figures.filter((figure) => checkedIds.includes(figure.figureId)).length;
+  const allChecked = figures.length > 0 && checkedCount === figures.length;
+
   return (
     <ListBox>
+      {selectMode && onToggleAll !== undefined && (
+        <Row>
+          <SelectCheck checked={allChecked} indeterminate={checkedCount > 0 && !allChecked} onChange={onToggleAll} slotProps={{ input: { 'aria-label': '전체 선택' } }} />
+          <BoldText variant="body2">전체 선택</BoldText>
+        </Row>
+      )}
       {figures.map((figure, index) => {
         const genre = figure.characters[0].groupName;
         const checked = checkedIds.includes(figure.figureId);

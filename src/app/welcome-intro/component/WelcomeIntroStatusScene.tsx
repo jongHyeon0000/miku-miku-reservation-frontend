@@ -62,7 +62,6 @@ const WelcomeIntroStatusScene = () => {
                 actionLabel={bulk ? getTransitionLabel(bulk) : ''}
                 onEnterMode={noop}
                 onExitMode={noop}
-                onToggleAll={noop}
                 onAction={noop}
                 onInsert={noop}
               />
@@ -74,6 +73,7 @@ const WelcomeIntroStatusScene = () => {
               blinkUrgent={false}
               selectMode={mode !== null}
               checkedIds={checkedIds}
+              onToggleAll={noop}
             />
           </FieldStack>
           {modalOpen && bulk && (

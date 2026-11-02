@@ -17,8 +17,8 @@ interface SelectBarProps {
   /** 동작 버튼 글자 (예: 삭제, 구매완료로 변경) */
   actionLabel: string;
 
-  /** 전체 선택 (이미 전부 체크돼 있으면 전체 해제) */
-  onToggleAll: () => void;
+  /** 전체 선택 (이미 전부 체크돼 있으면 전체 해제). 없으면 전체 선택 칸을 그리지 않는다(목록 위에 따로 있는 화면) */
+  onToggleAll?: () => void;
 
   /** 동작 버튼을 눌렀을 때 */
   onAction: () => void;
@@ -37,11 +37,13 @@ const SelectBar = ({ danger, checkedCount, shownCount, actionLabel, onToggleAll,
   return (
     <Bar>
       <Group>
-        <SelectAllLabel
-          label="전체 선택"
-          disabled={shownCount === 0}
-          control={<Checkbox size="small" checked={allChecked} indeterminate={checkedCount > 0 && !allChecked} onChange={onToggleAll} />}
-        />
+        {onToggleAll !== undefined && (
+          <SelectAllLabel
+            label="전체 선택"
+            disabled={shownCount === 0}
+            control={<Checkbox size="small" checked={allChecked} indeterminate={checkedCount > 0 && !allChecked} onChange={onToggleAll} />}
+          />
+        )}
       </Group>
       <Group>
         <ActionButton onClick={onAction} disabled={checkedCount === 0}>

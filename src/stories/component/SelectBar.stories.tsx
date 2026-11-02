@@ -40,15 +40,21 @@ export const CategorySelectBar: Story = {
   },
 }
 
-/** 상품 목록 헤더의 상품 관리 모드(src/app/figure/component/list/FigureListActions.tsx). 경고색 삭제 버튼, 나가는 버튼이 따로 있어 나가기 없음 */
+/** 상품 목록 헤더의 상품 관리 모드(src/app/figure/component/list/FigureListActions.tsx). 전체 선택은 목록 위 체크칸 줄이 맡아 칸이 없고, 경고색 삭제 버튼과 나가기만 있다 */
 export const FigureManageSelectBar: Story = {
   name: '상품 목록 > 헤더 > 상품 관리',
+  args: {
+    onToggleAll: undefined,
+    onCancel: handleNoop,
+  },
 }
 
-/** 상품 목록 헤더의 상태 변경 모드. 일반색 동작 버튼, 나가기 없음 */
+/** 상품 목록 헤더의 상태 변경 모드. 전체 선택 칸 없이 일반색 동작 버튼과 나가기 */
 export const FigureStatusSelectBar: Story = {
   name: '상품 목록 > 헤더 > 상태 변경',
   args: {
+    onToggleAll: undefined,
+    onCancel: handleNoop,
     danger: false,
     actionLabel: '구매완료로 변경',
   },

@@ -25,9 +25,6 @@ interface FigureListActionsProps {
   /** 나가기 */
   onExitMode: () => void;
 
-  /** 전체 선택 */
-  onToggleAll: () => void;
-
   /** 도구줄의 동작 버튼 */
   onAction: () => void;
 
@@ -36,8 +33,8 @@ interface FigureListActionsProps {
 }
 
 /**
- * 상품 목록 헤더의 버튼 줄. 칸 순서는 항상 [상품 관리] [상태 변경] [상품 등록]이고,
- * 켜진 모드의 칸이 나가기가 되며 그 왼쪽에 선택 도구줄이 놓인다(표시 전용).
+ * 상품 목록 헤더의 버튼 줄(표시 전용). 평소는 [상품 관리] [상태 변경] [상품 등록]이고,
+ * 선택 모드 중에는 [동작] [나가기] 둘만 남는다(전체 선택은 목록 위 체크칸 줄이 맡는다).
  */
 const FigureListActions = ({
   mode,
@@ -48,46 +45,32 @@ const FigureListActions = ({
   actionLabel,
   onEnterMode,
   onExitMode,
-  onToggleAll,
   onAction,
   onInsert,
 }: FigureListActionsProps) => {
-  const manageButton =
-    mode === 'MANAGE' ? (
-      <Button variant="outlined" color="inherit" onClick={onExitMode}>
-        나가기
-      </Button>
-    ) : (
-      <Button variant="outlined" color="inherit" disabled={!hasFigures} onClick={() => onEnterMode('MANAGE')}>
-        상품 관리
-      </Button>
+  if (mode !== null) {
+    return (
+      <SelectBar
+        danger={mode === 'MANAGE'}
+        checkedCount={checkedCount}
+        shownCount={shownCount}
+        actionLabel={actionLabel}
+        onAction={onAction}
+        onCancel={onExitMode}
+      />
     );
-
-  const statusButton =
-    mode === 'STATUS' ? (
-      <Button variant="outlined" color="inherit" onClick={onExitMode}>
-        나가기
-      </Button>
-    ) : (
-      <Button variant="outlined" color="inherit" disabled={!hasFigures} onClick={() => onEnterMode('STATUS')}>
-        상태 변경
-      </Button>
-    );
+  }
 
   return (
     <Row>
-      {mode !== null && (
-        <SelectBar
-          danger={mode === 'MANAGE'}
-          checkedCount={checkedCount}
-          shownCount={shownCount}
-          actionLabel={actionLabel}
-          onToggleAll={onToggleAll}
-          onAction={onAction}
-        />
+      <Button variant="outlined" color="inherit" disabled={!hasFigures} onClick={() => onEnterMode('MANAGE')}>
+        상품 관리
+      </Button>
+      {canChangeStatus && (
+        <Button variant="outlined" color="inherit" disabled={!hasFigures} onClick={() => onEnterMode('STATUS')}>
+          상태 변경
+        </Button>
       )}
-      {manageButton}
-      {canChangeStatus && statusButton}
       <Button variant="contained" startIcon={<AddOutlinedIcon />} onClick={onInsert}>
         상품 등록
       </Button>

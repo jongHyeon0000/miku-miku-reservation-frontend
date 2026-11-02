@@ -198,7 +198,6 @@ const FigureListPage = () => {
           actionLabel={selection.mode === 'STATUS' ? getTransitionLabel(bulkTransition!) : '삭제'}
           onEnterMode={selection.enterMode}
           onExitMode={selection.exitMode}
-          onToggleAll={selection.toggleAllIds}
           onAction={selection.mode === 'STATUS' ? handleCheckedStatusChange : handleCheckedDelete}
           onInsert={() => navigate('/figures/new')}
         />
@@ -216,7 +215,7 @@ const FigureListPage = () => {
               paidAmount={sumPaidAmount(shownFigures)}
             />
           </TabRow>
-          <Conditions>
+          <Conditions selectMode={selection.mode !== null}>
             <FigureFilterBar
               options={options}
               filters={active.filters}
@@ -255,6 +254,7 @@ const FigureListPage = () => {
               selectMode={selection.mode !== null}
               checkedIds={selection.checkedIds}
               onToggle={selection.toggleId}
+              onToggleAll={selection.toggleAllIds}
             />
           )}
         </>
@@ -300,9 +300,10 @@ const TabRow = styled(Box)(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
 }));
 
-/** 필터 줄과 고른 필터 칩. 아래 카드 목록과는 크게 띄운다 */
-const Conditions = styled(Box)(({ theme }) => ({
-  marginBottom: theme.spacing(4.5),
+/** 필터 줄과 고른 필터 칩. 아래 카드 목록과는 크게 띄운다(선택 모드에서는 전체 선택 줄 때문에 줄인다) */
+const Conditions = styled(Box, { shouldForwardProp: (prop) => prop !== 'selectMode' })<{ selectMode: boolean }>(({ theme, selectMode }) => ({
+  /* 선택 모드에서는 목록 위에 전체 선택 줄이 붙으므로 간격을 줄여 줄이 필터에 가깝게 한다(헤더 아래 간격과 같은 값) */
+  marginBottom: selectMode ? theme.spacing(1) : theme.spacing(4.5),
 }));
 
 /** 목록 화면의 제목 줄. 아래 탭 줄과 가깝게 붙인다 */
