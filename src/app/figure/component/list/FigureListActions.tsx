@@ -1,5 +1,4 @@
 import { Button } from '@mui/material';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import SelectBar from '@/app/common/component/SelectBar';
 import type { SelectMode } from '@/app/figure/constant/figureSelect';
 import { Row } from '@/app/common/style/CommonLayout.style';
@@ -8,7 +7,7 @@ interface FigureListActionsProps {
   /** 켜진 선택 모드. 평소는 null */
   mode: SelectMode | null;
 
-  /** 상품이 하나라도 있는지 (없으면 상품 관리를 막는다) */
+  /** 상품이 하나라도 있는지 (없으면 상품 삭제를 막는다) */
   hasFigures: boolean;
 
   /** 이 탭에서 상태 변경을 쓸 수 있는지 (전체, 배송완료 탭은 쓸 수 없어 버튼을 숨긴다) */
@@ -28,13 +27,11 @@ interface FigureListActionsProps {
   /** 도구줄의 동작 버튼 */
   onAction: () => void;
 
-  /** 상품 등록 */
-  onInsert: () => void;
 }
 
 /**
- * 상품 목록 헤더의 버튼 줄(표시 전용). 평소는 [상품 관리] [상태 변경] [상품 등록]이고,
- * 선택 모드 중에는 [동작] [나가기] 둘만 남는다(전체 선택은 목록 위 체크칸 줄이 맡는다).
+ * 상품 목록의 목록 작업 버튼들(표시 전용, 필터 줄 오른쪽 맨 앞에 놓인다). 평소는 [상품 삭제] [상태 변경]이고,
+ * 선택 모드 중에는 [나가기] [동작] 둘만 남는다(전체 선택은 목록 위 체크칸 줄이 맡는다).
  */
 const FigureListActions = ({
   mode,
@@ -46,7 +43,6 @@ const FigureListActions = ({
   onEnterMode,
   onExitMode,
   onAction,
-  onInsert,
 }: FigureListActionsProps) => {
   if (mode !== null) {
     return (
@@ -64,16 +60,13 @@ const FigureListActions = ({
   return (
     <Row>
       <Button variant="outlined" color="inherit" disabled={!hasFigures} onClick={() => onEnterMode('MANAGE')}>
-        상품 관리
+        상품 삭제
       </Button>
       {canChangeStatus && (
         <Button variant="outlined" color="inherit" disabled={!hasFigures} onClick={() => onEnterMode('STATUS')}>
           상태 변경
         </Button>
       )}
-      <Button variant="contained" startIcon={<AddOutlinedIcon />} onClick={onInsert}>
-        상품 등록
-      </Button>
     </Row>
   );
 };

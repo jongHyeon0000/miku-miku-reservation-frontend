@@ -63,7 +63,6 @@ const WelcomeIntroStatusScene = () => {
                 onEnterMode={noop}
                 onExitMode={noop}
                 onAction={noop}
-                onInsert={noop}
               />
             </EndRow>
             <FigureStatusTabs tab={tab} counts={COUNTS} onChange={noop} />

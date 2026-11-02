@@ -4,6 +4,7 @@ import { FIGURE_SORT_OPTIONS, type FigureSortKey } from '@/app/figure/constant/f
 import type { FigureFilterOptions, FigureFilterValue, FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilter';
 import { formatDeliveryMonth } from '@/app/figure/utils/FigureUtils';
 import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
+import type { ReactNode } from 'react';
 import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -31,12 +32,15 @@ interface FigureFilterBarProps {
 
   /** 필터 초기화 */
   onReset: () => void;
+
+  /** 오른쪽 묶음 맨 앞(배송월 앞)에 놓을 목록 작업 버튼들 (상품 삭제, 상태 변경 등) */
+  actions?: ReactNode;
 }
 
 const SORT_OPTIONS = FIGURE_SORT_OPTIONS.map((option) => ({ value: option.key, label: option.label }));
 
 /**
- * 필터 줄 (한 줄 고정). 왼쪽에 분류 필터, 오른쪽에 배송월과 정렬, 맨 오른쪽에 필터 초기화.
+ * 필터 줄 (한 줄 고정). 왼쪽에 분류 필터, 오른쪽에 목록 작업 버튼(actions), 배송월과 정렬, 맨 오른쪽에 필터 초기화.
  */
 const FigureFilterBar = ({
   options,
@@ -47,6 +51,7 @@ const FigureFilterBar = ({
   onMonthChange,
   onSortChange,
   onReset,
+  actions,
 }: FigureFilterBarProps) => {
   return (
     <SpreadRow>
@@ -84,6 +89,7 @@ const FigureFilterBar = ({
       </Row>
 
       <RightSide>
+        {actions}
         <FigureFlatFilter
           allLabel="배송월 전체"
           options={options.months.map((option) => ({ value: option, label: formatDeliveryMonth(option) }))}

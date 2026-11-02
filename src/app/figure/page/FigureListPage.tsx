@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Dayjs } from 'dayjs';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { Box, Button } from '@mui/material';
 import { showConfirmAlert } from '@/app/common/utils/AlertUtils';
 import { todayString } from '@/app/common/utils/CommonUtils';
@@ -189,18 +190,9 @@ const FigureListPage = () => {
         <PageTitle variant="h4" component="h1">
           상품
         </PageTitle>
-        <FigureListActions
-          mode={selection.mode}
-          hasFigures={figures.length > 0}
-          canChangeStatus={bulkTransition !== undefined}
-          checkedCount={selection.checkedIds.length}
-          shownCount={shownFigures.length}
-          actionLabel={selection.mode === 'STATUS' ? getTransitionLabel(bulkTransition!) : '삭제'}
-          onEnterMode={selection.enterMode}
-          onExitMode={selection.exitMode}
-          onAction={selection.mode === 'STATUS' ? handleCheckedStatusChange : handleCheckedDelete}
-          onInsert={() => navigate('/figures/new')}
-        />
+        <Button variant="contained" startIcon={<AddOutlinedIcon />} onClick={() => navigate('/figures/new')}>
+          상품 등록
+        </Button>
       </ListHeader>
 
       {figureList && figureList.code !== API_CODE.OK && <ErrorView message={figureList.message} onRetry={fetchReadFigureList} />}
@@ -225,6 +217,19 @@ const FigureListPage = () => {
               onMonthChange={setMonth}
               onSortChange={setSort}
               onReset={resetFilters}
+              actions={
+                <FigureListActions
+                  mode={selection.mode}
+                  hasFigures={figures.length > 0}
+                  canChangeStatus={bulkTransition !== undefined}
+                  checkedCount={selection.checkedIds.length}
+                  shownCount={shownFigures.length}
+                  actionLabel={selection.mode === 'STATUS' ? getTransitionLabel(bulkTransition!) : '삭제'}
+                  onEnterMode={selection.enterMode}
+                  onExitMode={selection.exitMode}
+                  onAction={selection.mode === 'STATUS' ? handleCheckedStatusChange : handleCheckedDelete}
+                />
+              }
             />
             <FigureFilterChips filters={active.filters} options={options} onClear={(key) => setFilter(key, null)} />
           </Conditions>
