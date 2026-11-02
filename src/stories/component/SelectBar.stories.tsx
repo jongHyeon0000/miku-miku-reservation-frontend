@@ -53,3 +53,19 @@ export const FigureStatusSelectBar: Story = {
     actionLabel: '구매완료로 변경',
   },
 }
+
+/** 선택 도구줄의 아무것도 안 고른 상태. 동작 버튼이 막히고 전체 선택 칸은 빈 칸 */
+export const NoneCheckedSelectBar: Story = {
+  name: '공통 > 선택 도구줄 > 선택 없음',
+  args: {
+    checkedCount: 0,
+  },
+}
+
+/** 선택 도구줄의 전부 고른 상태. 전체 선택 칸이 체크된다 */
+export const AllCheckedSelectBar: Story = {
+  name: '공통 > 선택 도구줄 > 전부 선택',
+  args: {
+    checkedCount: 10,
+  },
+}

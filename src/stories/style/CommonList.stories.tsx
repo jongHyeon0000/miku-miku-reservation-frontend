@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, TextField, Typography } from '@mui/material'
 import PageNumbers from '@/app/common/component/PageNumbers'
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style'
 import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style'
 import { FieldStack, FormBody } from '@/app/common/style/CommonForm.style'
 import { EndRow, Row } from '@/app/common/style/CommonLayout.style'
-import { AddButton, AddRow, PagerRow, Panel, PanelBody, RowBox, SelectCheck } from '@/app/common/style/CommonList.style'
+import { AddButton, AddRow, PagerRow, Panel, PanelBody, RowBox, SelectAllLabel, SelectCheck } from '@/app/common/style/CommonList.style'
 import { BoldText, LabelText } from '@/app/common/style/CommonText.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 목록 틀을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
@@ -91,6 +91,18 @@ export const FigureSelectCheck: Story = {
     <Row>
       <SelectCheck />
       <Typography>샘플 상품 카드</Typography>
+    </Row>
+  ),
+}
+
+/** 선택 도구줄의 전체 선택 칸(common/component/SelectBar.tsx). 빈 칸, 일부 선택(줄), 전부 선택(체크) */
+export const SelectAllLabelStates: Story = {
+  name: '상품·분류 > 선택 도구줄 > 전체 선택 칸',
+  render: () => (
+    <Row>
+      <SelectAllLabel label="전체 선택" control={<Checkbox />} />
+      <SelectAllLabel label="전체 선택" control={<Checkbox indeterminate />} />
+      <SelectAllLabel label="전체 선택" control={<Checkbox checked />} />
     </Row>
   ),
 }

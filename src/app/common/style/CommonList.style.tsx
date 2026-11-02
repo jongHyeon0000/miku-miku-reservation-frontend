@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel } from '@mui/material';
 import { SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { alpha, styled } from '@mui/material/styles';
 
@@ -32,6 +32,18 @@ export const PanelBody = styled(Box)(({ theme }) => ({
 export const SelectCheck = styled(Checkbox)(({ theme }) => ({
   alignSelf: 'center',
   marginLeft: theme.spacing(1),
+}));
+
+/** 선택 도구줄의 전체 선택 칸 (체크칸 + 글자를 테두리로 묶어 한 덩어리 버튼처럼 보이게 한다. 상품 목록과 분류 목록이 같이 쓴다) */
+export const SelectAllLabel = styled(FormControlLabel)(({ theme }) => ({
+  margin: 0,
+  paddingRight: theme.spacing(1.5),
+  border: `1px solid ${theme.palette.text.secondary}`,
+  borderRadius: theme.shape.borderRadius,
+  '& .MuiFormControlLabel-label': {
+    ...theme.typography.body2,
+    fontWeight: 700,
+  },
 }));
 
 /** 패널 아래쪽에 붙는 칸 (하위 추가 칸). 위에 선이 있다 */
