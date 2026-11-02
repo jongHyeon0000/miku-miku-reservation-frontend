@@ -10,9 +10,11 @@ import useUploadThumbnail from '@/app/common/service/useUploadThumbnail';
 import { showConfirmAlert } from '@/app/common/utils/AlertUtils';
 import type { ChangePasswordRequestBody } from '@/app/auth/interface/ChangePasswordRequestBody';
 import useAuth from '@/app/auth/service/useAuth';
+import useChangeName from '@/app/auth/service/useChangeName';
 import useChangePassword from '@/app/auth/service/useChangePassword';
 import useReadMe from '@/app/auth/service/useReadMe';
 import useWithdraw from '@/app/auth/service/useWithdraw';
+import ChangeNameDialog from '@/app/my-page/component/ChangeNameDialog';
 import ChangePasswordDialog from '@/app/my-page/component/ChangePasswordDialog';
 import ProfileView from '@/app/my-page/component/ProfileView';
 import WithdrawForm from '@/app/my-page/component/WithdrawForm';
@@ -37,10 +39,12 @@ const MyPagePage = () => {
   const { uploadThumbnailLoading, fetchUploadThumbnail } = useUploadThumbnail();
   const { deleteThumbnailLoading, fetchDeleteThumbnail } = useDeleteThumbnail();
   const { withdrawLoading, fetchWithdraw } = useWithdraw();
+  const { changeNameLoading, fetchChangeName } = useChangeName();
   const { changePasswordLoading, fetchChangePassword } = useChangePassword();
   const showResult = useUiStore((state) => state.showResult);
   const [tab, setTab] = useState<MyPageTabKey>('PROFILE');
   const [thumbnail, setThumbnail] = useState<ThumbnailChange>({ type: 'none' });
+  const [nameDialogOpen, setNameDialogOpen] = useState<boolean>(false);
   const [passwordDialogOpen, setPasswordDialogOpen] = useState<boolean>(false);
 
   const handleTabChange = (_event: SyntheticEvent, value: string) => {
@@ -67,6 +71,16 @@ const MyPagePage = () => {
 
     setThumbnail({ type: 'none' });
     await fetchReadMe();
+  };
+
+  /* 성공하면 창을 닫는다. 내 정보는 훅이 응답으로 이미 바꿨다 */
+  const handleChangeName = async (name: string) => {
+    const res = await fetchChangeName(name);
+    showResult(res);
+
+    if (res.code === API_CODE.OK) {
+      setNameDialogOpen(false);
+    }
   };
 
   /* 성공하면 창을 닫는다. 로그인 상태는 그대로 유지된다(기존 토큰이 계속 유효) */
@@ -118,11 +132,20 @@ const MyPagePage = () => {
           onThumbnailChange={setThumbnail}
           loading={uploadThumbnailLoading || deleteThumbnailLoading || meLoading}
           onSave={handleThumbnailSave}
+          onChangeName={() => setNameDialogOpen(true)}
           onChangePassword={() => setPasswordDialogOpen(true)}
         />
       )}
       {tab === 'WITHDRAW' && <WithdrawForm loading={withdrawLoading} onSubmit={handleWithdraw} />}
 
+      {nameDialogOpen && (
+        <ChangeNameDialog
+          currentName={user!.name}
+          loading={changeNameLoading}
+          onSubmit={handleChangeName}
+          onClose={() => setNameDialogOpen(false)}
+        />
+      )}
       {passwordDialogOpen && (
         <ChangePasswordDialog
           loading={changePasswordLoading}

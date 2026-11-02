@@ -26,15 +26,18 @@ interface ProfileViewProps {
   /** 저장 버튼 (서버 요청은 페이지가 한다) */
   onSave: () => void;
 
+  /** 닉네임 변경 버튼 (창 열기는 페이지가 한다) */
+  onChangeName: () => void;
+
   /** 비밀번호 변경 버튼 (창 열기는 페이지가 한다) */
   onChangePassword: () => void;
 }
 
 /**
  * 내 정보 탭. 왼쪽은 아이디, 이메일, 닉네임, 가입일(표시 전용), 오른쪽은 프로필 이미지 카드(고르면 저장 버튼으로 올린다).
- * 상품 상세와 같은 2:1 배치이고, 비밀번호 변경 버튼은 정보 카드의 맨 아래 오른쪽, 저장 버튼은 이미지 카드의 맨 아래 오른쪽이다.
+ * 상품 상세와 같은 2:1 배치이고, 닉네임 변경, 비밀번호 변경 버튼은 정보 카드의 맨 아래 오른쪽, 저장 버튼은 이미지 카드의 맨 아래 오른쪽이다.
  */
-const ProfileView = ({ user, thumbnail, onThumbnailChange, loading, onSave, onChangePassword }: ProfileViewProps) => {
+const ProfileView = ({ user, thumbnail, onThumbnailChange, loading, onSave, onChangeName, onChangePassword }: ProfileViewProps) => {
   return (
     <SplitLayout>
       <ColumnCard>
@@ -57,6 +60,7 @@ const ProfileView = ({ user, thumbnail, onThumbnailChange, loading, onSave, onCh
           </LabelValueRow>
         </Info>
         <ButtonRow>
+          <TonalButton onClick={onChangeName}>닉네임 변경</TonalButton>
           <TonalButton onClick={onChangePassword}>비밀번호 변경</TonalButton>
         </ButtonRow>
       </ColumnCard>
@@ -83,7 +87,8 @@ const Info = styled(LabelValueGrid)(({ theme }) => ({
   rowGap: theme.spacing(2),
 }));
 
-/** 카드가 길어져도 비밀번호 변경 버튼은 맨 아래 오른쪽에 붙는다 */
-const ButtonRow = styled(EndRow)({
+/** 카드가 길어져도 변경 버튼 줄은 맨 아래 오른쪽에 붙고, 버튼 사이는 창 아래 버튼 줄(`FormActions`)과 같은 간격을 둔다 */
+const ButtonRow = styled(EndRow)(({ theme }) => ({
+  gap: theme.spacing(1),
   marginTop: 'auto',
-});
+}));
