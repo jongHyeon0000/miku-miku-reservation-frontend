@@ -40,14 +40,14 @@ export const CategorySelectBar: Story = {
   },
 }
 
-/** 상품 목록 아래 바의 상품 관리 모드(src/app/figure/page/FigureListPage.tsx). 경고색 삭제 버튼, 나가기는 헤더에 있어 없음 */
+/** 상품 목록 헤더의 상품 관리 모드(src/app/figure/component/list/FigureListActions.tsx). 경고색 삭제 버튼, 나가는 버튼이 따로 있어 나가기 없음 */
 export const FigureManageSelectBar: Story = {
-  name: '상품 목록 > 목록 아래 바 > 상품 관리',
+  name: '상품 목록 > 헤더 > 상품 관리',
 }
 
-/** 상품 목록 아래 바의 상태 변경 모드. 일반색 동작 버튼 */
+/** 상품 목록 헤더의 상태 변경 모드. 일반색 동작 버튼, 나가기 없음 */
 export const FigureStatusSelectBar: Story = {
-  name: '상품 목록 > 목록 아래 바 > 상태 변경',
+  name: '상품 목록 > 헤더 > 상태 변경',
   args: {
     danger: false,
     actionLabel: '구매완료로 변경',

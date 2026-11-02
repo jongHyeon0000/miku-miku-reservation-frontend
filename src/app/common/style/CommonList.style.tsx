@@ -50,20 +50,6 @@ export const SelectAllLabel = styled(FormControlLabel)(({ theme }) => ({
   },
 }));
 
-/** 선택 도구줄을 화면 아래에 붙여 두는 띠 (목록을 스크롤해도 항상 보이고, 목록 끝에서는 마지막 줄 아래에 놓인다. 상품 목록과 소개 장면이 같이 쓴다) */
-export const SelectFloatBar = styled(Box)(({ theme }) => ({
-  position: 'sticky',
-  bottom: theme.spacing(2),
-  zIndex: theme.zIndex.fab,
-  width: 'fit-content',
-  margin: theme.spacing(2, 'auto', 0),
-  padding: theme.spacing(1, 1.5),
-  backgroundColor: theme.palette.background.paper,
-  border: `1px solid ${theme.palette.divider}`,
-  borderRadius: theme.shape.cardRadius,
-  boxShadow: theme.shadows[8],
-}));
-
 /** 패널 아래쪽에 붙는 칸 (하위 추가 칸). 위에 선이 있다 */
 export const AddRow = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1, 2),

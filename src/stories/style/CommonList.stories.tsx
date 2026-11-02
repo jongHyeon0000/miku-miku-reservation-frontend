@@ -6,7 +6,7 @@ import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.
 import { PanelHeader, PanelTop } from '@/app/category/common/style/CategoryPanel.style'
 import { FieldStack, FormBody } from '@/app/common/style/CommonForm.style'
 import { EndRow, Row } from '@/app/common/style/CommonLayout.style'
-import { AddButton, AddRow, PagerRow, Panel, PanelBody, RowBox, SelectAllLabel, SelectCheck, SelectFloatBar } from '@/app/common/style/CommonList.style'
+import { AddButton, AddRow, PagerRow, Panel, PanelBody, RowBox, SelectAllLabel, SelectCheck } from '@/app/common/style/CommonList.style'
 import { BoldText, LabelText } from '@/app/common/style/CommonText.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 목록 틀을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
@@ -104,16 +104,6 @@ export const SelectAllLabelStates: Story = {
       <SelectAllLabel label="전체 선택" control={<Checkbox indeterminate />} />
       <SelectAllLabel label="전체 선택" control={<Checkbox checked />} />
     </Row>
-  ),
-}
-
-/** 상품 목록 선택 모드의 아래 바(src/app/figure/page/FigureListPage.tsx). 화면 아래에 붙고 목록 끝에서는 마지막 줄 아래에 놓인다 */
-export const FigureSelectFloatBar: Story = {
-  name: '상품 목록 > 목록 아래 > 선택 도구 바',
-  render: () => (
-    <SelectFloatBar>
-      <SelectAllLabel label="전체 선택" control={<Checkbox />} />
-    </SelectFloatBar>
   ),
 }
 

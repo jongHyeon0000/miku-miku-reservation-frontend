@@ -1,4 +1,3 @@
-import SelectBar from '@/app/common/component/SelectBar';
 import FigureListActions from '@/app/figure/component/list/FigureListActions';
 import FigureListComponent from '@/app/figure/component/list/FigureListComponent';
 import FigureStatusModal from '@/app/figure/component/common/FigureStatusModal';
@@ -6,7 +5,6 @@ import FigureStatusTabs from '@/app/figure/component/list/FigureStatusTabs';
 import { countByTab, filterByTab } from '@/app/figure/utils/FigureUtils';
 import { findBulkTransition, getTransitionLabel } from '@/app/figure/utils/FigureTransitionUtils';
 import { FieldStack } from '@/app/common/style/CommonForm.style';
-import { SelectFloatBar } from '@/app/common/style/CommonList.style';
 import { EndRow } from '@/app/common/style/CommonLayout.style';
 import { Scene, SceneDemo, SceneDesc, SceneInner } from '@/app/common/style/CommonScene.style';
 import { Highlight } from '@/app/common/style/CommonText.style';
@@ -59,23 +57,16 @@ const WelcomeIntroStatusScene = () => {
                 mode={mode}
                 hasFigures
                 canChangeStatus={bulk !== undefined}
+                checkedCount={checkedIds.length}
+                shownCount={shown.length}
+                actionLabel={bulk ? getTransitionLabel(bulk) : ''}
                 onEnterMode={noop}
                 onExitMode={noop}
+                onToggleAll={noop}
+                onAction={noop}
                 onInsert={noop}
               />
             </EndRow>
-            {mode !== null && (
-              <SelectFloatBar>
-                <SelectBar
-                  danger={false}
-                  checkedCount={checkedIds.length}
-                  shownCount={shown.length}
-                  actionLabel={bulk ? getTransitionLabel(bulk) : ''}
-                  onToggleAll={noop}
-                  onAction={noop}
-                />
-              </SelectFloatBar>
-            )}
             <FigureStatusTabs tab={tab} counts={COUNTS} onChange={noop} />
             <FigureListComponent
               key={JSON.stringify([tab, mode])}

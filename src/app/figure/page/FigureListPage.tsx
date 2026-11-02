@@ -6,10 +6,7 @@ import { showConfirmAlert } from '@/app/common/utils/AlertUtils';
 import { todayString } from '@/app/common/utils/CommonUtils';
 import EmptyView from '@/app/common/component/EmptyView';
 import ErrorView from '@/app/common/component/ErrorView';
-import SelectBar from '@/app/common/component/SelectBar';
 import LoadingOverlay from '@/app/common/component/loading/LoadingOverlay';
-import { SelectFloatBar } from '@/app/common/style/CommonList.style';
-import { Highlight } from '@/app/common/style/CommonText.style';
 import { PageContainer, PageHeader, PageTitle } from '@/app/common/style/CommonPage.style';
 import FigureFilterBar from '@/app/figure/component/filter/FigureFilterBar';
 import FigureFilterChips from '@/app/figure/component/filter/FigureFilterChips';
@@ -25,7 +22,7 @@ import { DEADLINE_ALERT_MONTHS, isUrgentTab, URGENT_ALERT, type FigureTabKey, ty
 import type { FigureTransition } from '@/app/figure/constant/figureTransition';
 import type { FigureStatusFormValues } from '@/app/figure/interface/status/FigureStatusFormValues';
 import useSelection from '@/app/common/hook/useSelection';
-import { SELECT_MODE_NAMES, type SelectMode } from '@/app/figure/constant/figureSelect';
+import type { SelectMode } from '@/app/figure/constant/figureSelect';
 import useCheckBudgetPayment from '@/app/figure/hook/useCheckBudgetPayment';
 import useDeleteFigureList from '@/app/figure/service/list/useDeleteFigureList';
 import useReadFigureList from '@/app/figure/service/list/useReadFigureList';
@@ -190,14 +187,19 @@ const FigureListPage = () => {
     <PageContainer>
       <ListHeader>
         <PageTitle variant="h4" component="h1">
-          {selection.mode === null ? '상품' : <Highlight>{SELECT_MODE_NAMES[selection.mode]}</Highlight>}
+          상품
         </PageTitle>
         <FigureListActions
           mode={selection.mode}
           hasFigures={figures.length > 0}
           canChangeStatus={bulkTransition !== undefined}
+          checkedCount={selection.checkedIds.length}
+          shownCount={shownFigures.length}
+          actionLabel={selection.mode === 'STATUS' ? getTransitionLabel(bulkTransition!) : '삭제'}
           onEnterMode={selection.enterMode}
           onExitMode={selection.exitMode}
+          onToggleAll={selection.toggleAllIds}
+          onAction={selection.mode === 'STATUS' ? handleCheckedStatusChange : handleCheckedDelete}
           onInsert={() => navigate('/figures/new')}
         />
       </ListHeader>
@@ -254,18 +256,6 @@ const FigureListPage = () => {
               checkedIds={selection.checkedIds}
               onToggle={selection.toggleId}
             />
-          )}
-          {selection.mode !== null && (
-            <SelectFloatBar>
-              <SelectBar
-                danger={selection.mode === 'MANAGE'}
-                checkedCount={selection.checkedIds.length}
-                shownCount={shownFigures.length}
-                actionLabel={selection.mode === 'STATUS' ? getTransitionLabel(bulkTransition!) : '삭제'}
-                onToggleAll={selection.toggleAllIds}
-                onAction={selection.mode === 'STATUS' ? handleCheckedStatusChange : handleCheckedDelete}
-              />
-            </SelectFloatBar>
           )}
         </>
       )}
