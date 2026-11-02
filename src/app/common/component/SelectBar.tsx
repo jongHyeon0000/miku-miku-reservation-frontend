@@ -2,7 +2,7 @@ import { Button, Checkbox } from '@mui/material';
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style';
 import { SelectAllLabel } from '@/app/common/style/CommonList.style';
 import { styled } from '@mui/material/styles';
-import { Row } from '@/app/common/style/CommonLayout.style';
+import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
 
 interface SelectBarProps {
   /** 동작 버튼을 경고색으로 그릴지 (삭제처럼 되돌릴 수 없는 동작) */
@@ -23,12 +23,12 @@ interface SelectBarProps {
   /** 동작 버튼을 눌렀을 때 */
   onAction: () => void;
 
-  /** 취소 버튼을 눌렀을 때. 없으면 취소 버튼을 그리지 않는다(나가는 버튼이 따로 있는 화면) */
+  /** 나가기 버튼을 눌렀을 때. 없으면 나가기 버튼을 그리지 않는다(나가는 버튼이 따로 있는 화면) */
   onCancel?: () => void;
 }
 
 /**
- * 선택 모드 도구줄 (전체 선택 칸 · 동작 버튼 · 취소). 상품 목록 헤더와 분류 목록 아래 칸이 같이 쓴다(표시 전용).
+ * 선택 모드 도구줄. 왼쪽은 전체 선택 칸, 오른쪽은 동작 버튼과 나가기. 상품 목록 아래 바와 분류 목록 아래 칸이 같이 쓴다(표시 전용).
  */
 const SelectBar = ({ danger, checkedCount, shownCount, actionLabel, onToggleAll, onAction, onCancel }: SelectBarProps) => {
   const allChecked = shownCount > 0 && checkedCount === shownCount;
@@ -36,15 +36,23 @@ const SelectBar = ({ danger, checkedCount, shownCount, actionLabel, onToggleAll,
 
   return (
     <Bar>
-      <SelectAllLabel
-        label="전체 선택"
-        disabled={shownCount === 0}
-        control={<Checkbox size="small" checked={allChecked} indeterminate={checkedCount > 0 && !allChecked} onChange={onToggleAll} />}
-      />
-      <ActionButton onClick={onAction} disabled={checkedCount === 0}>
-        {actionLabel}
-      </ActionButton>
-      {onCancel !== undefined && <Button onClick={onCancel}>취소</Button>}
+      <Group>
+        <SelectAllLabel
+          label="전체 선택"
+          disabled={shownCount === 0}
+          control={<Checkbox size="small" checked={allChecked} indeterminate={checkedCount > 0 && !allChecked} onChange={onToggleAll} />}
+        />
+      </Group>
+      <Group>
+        <ActionButton onClick={onAction} disabled={checkedCount === 0}>
+          {actionLabel}
+        </ActionButton>
+        {onCancel !== undefined && (
+          <Button variant="outlined" color="inherit" onClick={onCancel}>
+            나가기
+          </Button>
+        )}
+      </Group>
     </Bar>
   );
 };
@@ -53,8 +61,13 @@ export default SelectBar;
 
 /** ───────── styles ───────── */
 
-/** 칸과 버튼이 줄 높이를 같이 따르도록 늘린다 */
-const Bar = styled(Row)({
+/** 왼쪽 묶음과 오른쪽 묶음을 양 끝으로 벌리고, 칸과 버튼이 줄 높이를 같이 따르도록 늘린다 */
+const Bar = styled(SpreadRow)({
   alignItems: 'stretch',
   whiteSpace: 'nowrap',
+});
+
+/** 묶음 안의 칸과 버튼이 높이를 같이 따르도록 늘린다 */
+const Group = styled(Row)({
+  alignItems: 'stretch',
 });

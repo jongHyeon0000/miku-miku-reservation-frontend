@@ -34,16 +34,34 @@ export const SelectCheck = styled(Checkbox)(({ theme }) => ({
   marginLeft: theme.spacing(1),
 }));
 
-/** 선택 도구줄의 전체 선택 칸 (체크칸 + 글자를 테두리로 묶어 한 덩어리 버튼처럼 보이게 한다. 상품 목록과 분류 목록이 같이 쓴다) */
+/** 선택 도구줄의 전체 선택 칸 (체크칸 + 글자를 테두리로 묶어 한 덩어리 버튼처럼 보이게 한다. 체크칸의 위아래 여백은 없애 높이는 줄(옆 버튼)이 정한다. 상품 목록과 분류 목록이 같이 쓴다) */
 export const SelectAllLabel = styled(FormControlLabel)(({ theme }) => ({
   margin: 0,
   paddingRight: theme.spacing(1.5),
   border: `1px solid ${theme.palette.text.secondary}`,
   borderRadius: theme.shape.borderRadius,
+  '& .MuiCheckbox-root': {
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
   '& .MuiFormControlLabel-label': {
     ...theme.typography.body2,
     fontWeight: 700,
   },
+}));
+
+/** 선택 도구줄을 화면 아래에 붙여 두는 띠 (목록을 스크롤해도 항상 보이고, 목록 끝에서는 마지막 줄 아래에 놓인다. 상품 목록과 소개 장면이 같이 쓴다) */
+export const SelectFloatBar = styled(Box)(({ theme }) => ({
+  position: 'sticky',
+  bottom: theme.spacing(2),
+  zIndex: theme.zIndex.fab,
+  width: 'fit-content',
+  margin: theme.spacing(2, 'auto', 0),
+  padding: theme.spacing(1, 1.5),
+  backgroundColor: theme.palette.background.paper,
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: theme.shape.cardRadius,
+  boxShadow: theme.shadows[8],
 }));
 
 /** 패널 아래쪽에 붙는 칸 (하위 추가 칸). 위에 선이 있다 */
