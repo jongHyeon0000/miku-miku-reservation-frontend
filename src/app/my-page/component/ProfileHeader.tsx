@@ -2,8 +2,8 @@ import type { ReactNode } from 'react';
 import dayjs from 'dayjs';
 import { Typography } from '@mui/material';
 import { ColumnCard } from '@/app/common/style/CommonCard.style';
-import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
-import { LabelText, ValueText } from '@/app/common/style/CommonText.style';
+import { SpreadRow } from '@/app/common/style/CommonLayout.style';
+import { Highlight } from '@/app/common/style/CommonText.style';
 import { styled } from '@mui/material/styles';
 
 interface ProfileHeaderProps {
@@ -40,7 +40,9 @@ const ProfileHeader = ({ name, biography, postCount, commentCount, createdAt, me
       <Content>
         <SpreadRow>
           <div>
-            <LabelText>닉네임</LabelText>
+            <Typography>
+              <Highlight>닉네임</Highlight>
+            </Typography>
             <Typography variant="h4" component="p">
               {name}
             </Typography>
@@ -48,19 +50,30 @@ const ProfileHeader = ({ name, biography, postCount, commentCount, createdAt, me
           {actions}
         </SpreadRow>
         <div>
-          <LabelText>자기소개</LabelText>
-          <Typography>{biography}</Typography>
+          <Typography>
+            <Highlight>자기소개</Highlight>
+          </Typography>
+          <Biography>{biography}</Biography>
         </div>
         <StatsRow>
-          <Typography color="text.secondary">
-            글 <ValueText>{postCount}</ValueText>
-          </Typography>
-          <Typography color="text.secondary">
-            답변 <ValueText>{commentCount}</ValueText>
-          </Typography>
-          <Typography color="text.secondary">
-            가입 <ValueText>{dayjs(createdAt).format('YYYY.MM.DD')}</ValueText>
-          </Typography>
+          <Stat>
+            <Typography variant="body2">
+              <Highlight>글</Highlight>
+            </Typography>
+            <StatNumber>{postCount}</StatNumber>
+          </Stat>
+          <Stat>
+            <Typography variant="body2">
+              <Highlight>답변</Highlight>
+            </Typography>
+            <StatNumber>{commentCount}</StatNumber>
+          </Stat>
+          <Stat>
+            <Typography variant="body2">
+              <Highlight>가입</Highlight>
+            </Typography>
+            <StatDate>{dayjs(createdAt).format('YYYY.MM.DD')}</StatDate>
+          </Stat>
         </StatsRow>
       </Content>
     </HeaderCard>
@@ -90,9 +103,41 @@ const Content = styled('div')(({ theme }) => ({
   minWidth: 0,
 }));
 
-/** 글, 답변, 가입일을 한 줄에 둔다. 맨 위에 구분선을 긋는다 */
-const StatsRow = styled(Row)(({ theme }) => ({
-  gap: theme.spacing(3),
-  paddingTop: theme.spacing(2),
+/** 자기소개 글은 이름표보다 조금 크게 보인다 */
+const Biography = styled(Typography)({
+  fontSize: '1.125rem',
+});
+
+/** 글, 답변, 가입을 같은 폭 세 칸으로 나눈다. 맨 위에 구분선을 긋는다 */
+const StatsRow = styled('div')(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
   borderTop: `1px solid ${theme.palette.divider}`,
 }));
+
+/** 이름표(위)와 값(아래)을 가운데로 쌓는 칸. 칸 사이에 옅은 세로선을 긋는다 */
+const Stat = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: theme.spacing(0.25),
+  padding: theme.spacing(2, 1, 0),
+  '&:not(:first-of-type)': {
+    borderLeft: `1px solid ${theme.palette.lineSubtle}`,
+  },
+}));
+
+/** 글, 답변 수. 크고 굵은 고정폭 글꼴 */
+const StatNumber = styled(Typography)(({ theme }) => ({
+  ...theme.typography.mono,
+  fontSize: '1.75rem',
+  fontWeight: 700,
+  lineHeight: 1.2,
+}));
+
+/** 가입일. 숫자 칸보다 작은 글자이고, 칸 높이가 같도록 줄 높이를 글자 크기에 비례해 맞춘다(1.75 × 1.2 ÷ 1.25) */
+const StatDate = styled(Typography)({
+  fontSize: '1.25rem',
+  fontWeight: 500,
+  lineHeight: 1.68,
+});
