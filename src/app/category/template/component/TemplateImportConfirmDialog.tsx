@@ -9,7 +9,7 @@ import { SelectableCard } from '@/app/common/style/CommonCard.style';
 import { DialogFieldStack, FormActions } from '@/app/common/style/CommonForm.style';
 import { TripleGrid } from '@/app/common/style/CommonLayout.style';
 import { Panel } from '@/app/common/style/CommonList.style';
-import { LabelText } from '@/app/common/style/CommonText.style';
+import { Highlight, LabelText } from '@/app/common/style/CommonText.style';
 
 /** 확인 창이 보여 주는 목록 (전체는 한 그룹 안에서 추가 항목 뒤에 제외 항목이 이어진다) */
 type ImportView = 'all' | 'added' | 'skipped';
@@ -88,7 +88,7 @@ const TemplateImportConfirmDialog = ({ template, preview, loading, onConfirm, on
 
   return (
     <Dialog open onClose={onCancel} fullWidth maxWidth="md">
-      <DialogTitle>'{template.name}'을(를) 가져올까요?</DialogTitle>
+      <DialogTitle>템플릿 '<Highlight>{template.name}</Highlight>' 을(를) 가져올까요?</DialogTitle>
       <DialogContent>
         <DialogFieldStack>
           <TripleGrid>
