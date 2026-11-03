@@ -89,7 +89,7 @@ export const validatePasswordConfirm = (confirm: string, formValues: SignupFormV
 };
 
 /**
- * [회원가입 페이지]
+ * [회원가입 페이지, 프로필 수정 창]
  *
  * 닉네임: 앞뒤 공백을 뺀 1~20자
  */
@@ -102,6 +102,21 @@ export const validateName = (value: string): string | undefined => {
 
   if (trimmed.length > 20) {
     return '닉네임은 20자 이하로 입력해 주세요.';
+  }
+
+  return undefined;
+};
+
+/**
+ * [프로필 수정 창]
+ *
+ * 자기소개: 선택 입력, 앞뒤 공백을 뺀 300자 이하 (이모지도 1자로 센다)
+ */
+export const validateBiography = (value: string): string | undefined => {
+  const length = [...value.trim()].length;
+
+  if (length > 300) {
+    return '자기소개는 300자 이하로 입력해 주세요.';
   }
 
   return undefined;

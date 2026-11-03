@@ -9,13 +9,14 @@ import useDeleteThumbnail from '@/app/common/service/useDeleteThumbnail';
 import useUploadThumbnail from '@/app/common/service/useUploadThumbnail';
 import { showConfirmAlert } from '@/app/common/utils/AlertUtils';
 import type { ChangePasswordRequestBody } from '@/app/auth/interface/ChangePasswordRequestBody';
+import type { UpdateProfileRequestBody } from '@/app/auth/interface/UpdateProfileRequestBody';
 import useAuth from '@/app/auth/service/useAuth';
-import useChangeName from '@/app/auth/service/useChangeName';
 import useChangePassword from '@/app/auth/service/useChangePassword';
 import useReadMe from '@/app/auth/service/useReadMe';
+import useUpdateProfile from '@/app/auth/service/useUpdateProfile';
 import useWithdraw from '@/app/auth/service/useWithdraw';
-import ChangeNameDialog from '@/app/my-page/component/ChangeNameDialog';
 import ChangePasswordDialog from '@/app/my-page/component/ChangePasswordDialog';
+import EditProfileDialog from '@/app/my-page/component/EditProfileDialog';
 import ProfileView from '@/app/my-page/component/ProfileView';
 import WithdrawForm from '@/app/my-page/component/WithdrawForm';
 import { isMyPageTabKey, MY_PAGE_TABS, type MyPageTabKey } from '@/app/my-page/constant/myPageTab';
@@ -39,12 +40,12 @@ const MyPagePage = () => {
   const { uploadThumbnailLoading, fetchUploadThumbnail } = useUploadThumbnail();
   const { deleteThumbnailLoading, fetchDeleteThumbnail } = useDeleteThumbnail();
   const { withdrawLoading, fetchWithdraw } = useWithdraw();
-  const { changeNameLoading, fetchChangeName } = useChangeName();
+  const { updateProfileLoading, fetchUpdateProfile } = useUpdateProfile();
   const { changePasswordLoading, fetchChangePassword } = useChangePassword();
   const showResult = useUiStore((state) => state.showResult);
   const [tab, setTab] = useState<MyPageTabKey>('PROFILE');
   const [thumbnail, setThumbnail] = useState<ThumbnailChange>({ type: 'none' });
-  const [nameDialogOpen, setNameDialogOpen] = useState<boolean>(false);
+  const [profileDialogOpen, setProfileDialogOpen] = useState<boolean>(false);
   const [passwordDialogOpen, setPasswordDialogOpen] = useState<boolean>(false);
 
   const handleTabChange = (_event: SyntheticEvent, value: string) => {
@@ -74,12 +75,12 @@ const MyPagePage = () => {
   };
 
   /* 성공하면 창을 닫는다. 내 정보는 훅이 응답으로 이미 바꿨다 */
-  const handleChangeName = async (name: string) => {
-    const res = await fetchChangeName(name);
+  const handleUpdateProfile = async (body: UpdateProfileRequestBody) => {
+    const res = await fetchUpdateProfile(body);
     showResult(res);
 
     if (res.code === API_CODE.OK) {
-      setNameDialogOpen(false);
+      setProfileDialogOpen(false);
     }
   };
 
@@ -132,18 +133,19 @@ const MyPagePage = () => {
           onThumbnailChange={setThumbnail}
           loading={uploadThumbnailLoading || deleteThumbnailLoading || meLoading}
           onSave={handleThumbnailSave}
-          onChangeName={() => setNameDialogOpen(true)}
+          onEditProfile={() => setProfileDialogOpen(true)}
           onChangePassword={() => setPasswordDialogOpen(true)}
         />
       )}
       {tab === 'WITHDRAW' && <WithdrawForm loading={withdrawLoading} onSubmit={handleWithdraw} />}
 
-      {nameDialogOpen && (
-        <ChangeNameDialog
+      {profileDialogOpen && (
+        <EditProfileDialog
           currentName={user!.name}
-          loading={changeNameLoading}
-          onSubmit={handleChangeName}
-          onClose={() => setNameDialogOpen(false)}
+          currentBiography={user!.biography ? user!.biography : ''}
+          loading={updateProfileLoading}
+          onSubmit={handleUpdateProfile}
+          onClose={() => setProfileDialogOpen(false)}
         />
       )}
       {passwordDialogOpen && (

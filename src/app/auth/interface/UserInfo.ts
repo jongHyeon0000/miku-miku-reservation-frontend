@@ -14,6 +14,9 @@ export interface UserInfo {
   /** 프로필 이미지 주소 ('/uploads/...'). 없으면 필드가 오지 않는다 */
   thumbnailUrl?: string;
 
+  /** 자기소개 (300자 이하). 비어 있으면 필드가 오지 않는다 */
+  biography?: string;
+
   /** 가입 일시 */
   createdAt: string;
 
