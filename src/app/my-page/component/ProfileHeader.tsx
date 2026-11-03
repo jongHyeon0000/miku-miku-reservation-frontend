@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import dayjs from 'dayjs';
 import { Typography } from '@mui/material';
-import { ColumnCard, Pill } from '@/app/common/style/CommonCard.style';
+import { ColumnCard } from '@/app/common/style/CommonCard.style';
 import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { LabelText, ValueText } from '@/app/common/style/CommonText.style';
 import { styled } from '@mui/material/styles';
@@ -13,10 +13,10 @@ interface ProfileHeaderProps {
   /** 자기소개. 없으면 비어 보인다 */
   biography?: string;
 
-  /** 쓴 글 수 (백엔드 연동 전 임시 값) */
+  /** 쓴 글 수 */
   postCount: number;
 
-  /** 쓴 답변 수 (백엔드 연동 전 임시 값) */
+  /** 쓴 답변 수 */
   commentCount: number;
 
   /** 가입 일시 */
@@ -32,7 +32,6 @@ interface ProfileHeaderProps {
 /**
  * 프로필 머리 카드. 왼쪽은 사진 자리, 오른쪽은 닉네임, 자기소개, 글, 답변, 가입일.
  * 고치는 부분(업로더, 버튼)은 밖에서 꽂아서, 남의 프로필에서도 같은 모양으로 쓸 수 있다.
- * 글, 답변 수는 아직 임시 값이라 개발중 표시를 붙였다(연동하면 표시를 뺀다).
  */
 const ProfileHeader = ({ name, biography, postCount, commentCount, createdAt, media, actions }: ProfileHeaderProps) => {
   return (
@@ -59,7 +58,6 @@ const ProfileHeader = ({ name, biography, postCount, commentCount, createdAt, me
           <Typography color="text.secondary">
             답변 <ValueText>{commentCount}</ValueText>
           </Typography>
-          <DraftBadge>개발중</DraftBadge>
           <Typography color="text.secondary">
             가입 <ValueText>{dayjs(createdAt).format('YYYY.MM.DD')}</ValueText>
           </Typography>
@@ -97,12 +95,4 @@ const StatsRow = styled(Row)(({ theme }) => ({
   gap: theme.spacing(3),
   paddingTop: theme.spacing(2),
   borderTop: `1px solid ${theme.palette.divider}`,
-}));
-
-/** 임시 값 옆의 개발중 표시 */
-const DraftBadge = styled(Pill)(({ theme }) => ({
-  padding: theme.spacing(0.125, 1),
-  fontSize: '0.75rem',
-  color: theme.palette.text.secondary,
-  border: `1px solid ${theme.palette.divider}`,
 }));

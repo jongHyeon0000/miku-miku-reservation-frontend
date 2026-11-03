@@ -69,6 +69,16 @@ export const PriceColumn = styled(Box)(({ theme }) => ({
 }));
 
 /**
+* 두 줄까지 보이고 길면 …로 줄이는 글자 (상품 카드 이름, 마이페이지 최근 답변 내용). 글자 크기는 쓰는 곳에서 정한다
+* */
+export const ClampText = styled(Typography)({
+  display: '-webkit-box',
+  overflow: 'hidden',
+  WebkitBoxOrient: 'vertical',
+  WebkitLineClamp: 2,
+}) as typeof Typography;
+
+/**
 * 굵은 일반 글자 (목록 항목 이름, 부제목 등)
 * */
 export const BoldText = styled(Typography)({

@@ -15,8 +15,3 @@ type Story = StoryObj<typeof UnderConstructionView>
 export const StatsBody: Story = {
   name: '통계 > 본문 > 화면 전체',
 }
-
-/** 마이페이지(src/app/my-page/page/MyPagePage.tsx)의 최근 글, 최근 답변 탭 본문 */
-export const MyPageTabs: Story = {
-  name: '마이페이지 > 탭 본문 > 최근 글, 최근 답변',
-}

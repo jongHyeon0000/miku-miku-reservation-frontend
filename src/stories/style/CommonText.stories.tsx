@@ -5,6 +5,7 @@ import { ColumnCard, SpreadCard } from '@/app/common/style/CommonCard.style'
 import { blinkAnimate, blinkTransition } from '@/app/common/style/CommonMotion.style'
 import {
   BoldText,
+  ClampText,
   Highlight,
   LabelText,
   LabelValueGrid,
@@ -162,6 +163,26 @@ export const ProfileInfo: Story = {
       </LabelValueGrid>
       <TonalButton>비밀번호 변경</TonalButton>
     </ColumnCard>
+  ),
+}
+
+/** 상품 목록 카드의 이름(figure/component/list/FigureListComponent.tsx). 두 줄까지 보이고 길면 …로 줄인다. 글자 크기는 카드가 정한다 */
+export const FigureCardName: Story = {
+  name: '상품 목록 > 카드 > 이름',
+  render: () => (
+    <ClampText variant="h6" component="div">
+      상태변경한바퀴둘러보기/빈썸네일테스트
+    </ClampText>
+  ),
+}
+
+/** 마이페이지 최근 답변 탭(my-page/component/ActivityList.tsx)의 답변 내용. 두 줄까지 보이고 길면 …로 줄인다 */
+export const ActivityCommentContent: Story = {
+  name: '마이페이지 > 최근 답변 > 내용',
+  render: () => (
+    <ClampText>
+      정리 감사합니다 덕분에 놓치지 않았어요. 다음 달 것도 부탁드려요. 마감일이 겹치는 게 많아서 정말 도움이 됩니다. 앞으로도 잘 부탁드립니다.
+    </ClampText>
   ),
 }
 

@@ -7,7 +7,7 @@ import FigureDeadlineText from '@/app/figure/component/common/FigureDeadlineText
 import type { FigureSummary } from '@/app/figure/interface/common/FigureSummary';
 import { DEADLINE_BLINK_MONTHS } from '@/app/figure/constant/figureStatus';
 import { formatDeliveryMonth, getTotalPrice, isDeadlinePassed, isDeadlineUnder } from '@/app/figure/utils/FigureUtils';
-import { BoldText, LabelText, LabelValueGrid, LabelValueRow, PriceColumn, PriceText, ValueText } from '@/app/common/style/CommonText.style';
+import { BoldText, ClampText, LabelText, LabelValueGrid, LabelValueRow, PriceColumn, PriceText, ValueText } from '@/app/common/style/CommonText.style';
 import { Row } from '@/app/common/style/CommonLayout.style';
 import { FillImage, ThumbFrame } from '@/app/common/style/CommonMedia.style';
 import { Box, Typography } from '@mui/material';
@@ -211,12 +211,8 @@ const Names = styled(Box)(({ theme }) => ({
   gap: theme.spacing(1),
 }));
 
-const FigureName = styled(Typography)({
-  display: '-webkit-box',
-  overflow: 'hidden',
+const FigureName = styled(ClampText)({
   fontSize: '1.375rem',
-  WebkitBoxOrient: 'vertical',
-  WebkitLineClamp: 2,
 }) as typeof Typography;
 
 /** 이름표(Label)와 값(Value)이 두 줄로 선 칸. 이름표 칸 폭은 가장 긴 이름표를 따른다 */

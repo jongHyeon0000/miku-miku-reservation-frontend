@@ -1,9 +1,8 @@
-import { useState, type SyntheticEvent } from 'react';
+import { useEffect, useState, type SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Tab } from '@mui/material';
 import LoadingOverlay from '@/app/common/component/loading/LoadingOverlay';
 import ThumbnailUploader from '@/app/common/component/ThumbnailUploader';
-import UnderConstructionView from '@/app/common/component/UnderConstructionView';
 import type { ThumbnailChange } from '@/app/common/interface/ThumbnailChange';
 import { TonalButton } from '@/app/common/style/CommonButton.style';
 import { FieldStack } from '@/app/common/style/CommonForm.style';
@@ -24,13 +23,12 @@ import ChangePasswordDialog from '@/app/my-page/component/ChangePasswordDialog';
 import EditProfileDialog from '@/app/my-page/component/EditProfileDialog';
 import ProfileHeader from '@/app/my-page/component/ProfileHeader';
 import ProfileView from '@/app/my-page/component/ProfileView';
+import UserCommentList from '@/app/my-page/component/UserCommentList';
+import UserPostList from '@/app/my-page/component/UserPostList';
 import WithdrawForm from '@/app/my-page/component/WithdrawForm';
 import { isMyPageTabKey, MY_PAGE_TABS, type MyPageTabKey } from '@/app/my-page/constant/myPageTab';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import { useUiStore } from '@/store/uiStore';
-
-/** 프로필 머리의 글, 답변 수. 백엔드 연동 전 임시 값이라 화면에 개발중 표시를 붙였다 */
-const PROFILE_STATS = { postCount: 12, commentCount: 34 };
 
 const WITHDRAW_ALERT = {
   title: '정말 탈퇴할까요?',
@@ -40,7 +38,7 @@ const WITHDRAW_ALERT = {
 
 /**
  * 마이페이지 (/my-page)
- * 위에 프로필 머리(이미지 포함)가 항상 보이고, 아래 내 정보, 최근 글, 최근 답변, 회원 탈퇴를 탭으로 나눈다. 탭은 주소 없이 화면 상태로만 바꾼다. 최근 글, 최근 답변은 아직 개발중이다.
+ * 위에 프로필 머리(이미지 포함)가 항상 보이고, 아래 내 정보, 최근 글, 최근 답변, 회원 탈퇴를 탭으로 나눈다. 탭은 주소 없이 화면 상태로만 바꾼다. 열릴 때 내 정보를 다시 읽어 글, 답변 수를 최신으로 맞춘다.
  */
 const MyPagePage = () => {
   const navigate = useNavigate();
@@ -56,6 +54,12 @@ const MyPagePage = () => {
   const [thumbnail, setThumbnail] = useState<ThumbnailChange>({ type: 'none' });
   const [profileDialogOpen, setProfileDialogOpen] = useState<boolean>(false);
   const [passwordDialogOpen, setPasswordDialogOpen] = useState<boolean>(false);
+
+  /* 마이페이지가 열릴 때마다 내 정보를 다시 읽는다(커뮤니티에서 글을 쓰고 돌아오면 글, 답변 수가 바뀌어 있어야 한다) */
+  useEffect(() => {
+    fetchReadMe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const imageLoading = uploadThumbnailLoading || deleteThumbnailLoading || meLoading;
 
@@ -134,8 +138,8 @@ const MyPagePage = () => {
       <ProfileHeader
         name={user!.name}
         biography={user!.biography}
-        postCount={PROFILE_STATS.postCount}
-        commentCount={PROFILE_STATS.commentCount}
+        postCount={user!.postCount}
+        commentCount={user!.commentCount}
         createdAt={user!.createdAt}
         media={
           <FieldStack>
@@ -157,8 +161,8 @@ const MyPagePage = () => {
       </UnderlineTabs>
 
       {tab === 'PROFILE' && <ProfileView user={user!} onChangePassword={() => setPasswordDialogOpen(true)} />}
-      {tab === 'POSTS' && <UnderConstructionView />}
-      {tab === 'COMMENTS' && <UnderConstructionView />}
+      {tab === 'POSTS' && <UserPostList userId={user!.userId} />}
+      {tab === 'COMMENTS' && <UserCommentList userId={user!.userId} />}
       {tab === 'WITHDRAW' && <WithdrawForm loading={withdrawLoading} onSubmit={handleWithdraw} />}
 
       {profileDialogOpen && (

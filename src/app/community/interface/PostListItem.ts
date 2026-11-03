@@ -13,7 +13,7 @@ interface PostListItemHidden {
 }
 
 /** 정상 글 한 줄 (GET /api/post 의 items 한 건). 본문(content)은 목록에 없다 */
-interface PostListItemNormal {
+export interface PostListItemNormal {
   /** 게시글 id */
   postId: number;
 
