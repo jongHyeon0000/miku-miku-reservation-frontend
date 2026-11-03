@@ -1,8 +1,13 @@
 import { useState, type SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Tab } from '@mui/material';
+import { Button, Tab } from '@mui/material';
 import LoadingOverlay from '@/app/common/component/loading/LoadingOverlay';
+import ThumbnailUploader from '@/app/common/component/ThumbnailUploader';
+import UnderConstructionView from '@/app/common/component/UnderConstructionView';
 import type { ThumbnailChange } from '@/app/common/interface/ThumbnailChange';
+import { TonalButton } from '@/app/common/style/CommonButton.style';
+import { FieldStack } from '@/app/common/style/CommonForm.style';
+import { EndRow } from '@/app/common/style/CommonLayout.style';
 import { PageContainer, PageHeader, PageTitle } from '@/app/common/style/CommonPage.style';
 import { UnderlineTabs } from '@/app/common/style/CommonTabs.style';
 import useDeleteThumbnail from '@/app/common/service/useDeleteThumbnail';
@@ -17,11 +22,15 @@ import useUpdateProfile from '@/app/auth/service/useUpdateProfile';
 import useWithdraw from '@/app/auth/service/useWithdraw';
 import ChangePasswordDialog from '@/app/my-page/component/ChangePasswordDialog';
 import EditProfileDialog from '@/app/my-page/component/EditProfileDialog';
+import ProfileHeader from '@/app/my-page/component/ProfileHeader';
 import ProfileView from '@/app/my-page/component/ProfileView';
 import WithdrawForm from '@/app/my-page/component/WithdrawForm';
 import { isMyPageTabKey, MY_PAGE_TABS, type MyPageTabKey } from '@/app/my-page/constant/myPageTab';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 import { useUiStore } from '@/store/uiStore';
+
+/** 프로필 머리의 글, 답변 수. 백엔드 연동 전 임시 값이라 화면에 개발중 표시를 붙였다 */
+const PROFILE_STATS = { postCount: 12, commentCount: 34 };
 
 const WITHDRAW_ALERT = {
   title: '정말 탈퇴할까요?',
@@ -31,7 +40,7 @@ const WITHDRAW_ALERT = {
 
 /**
  * 마이페이지 (/my-page)
- * 내 정보(프로필 이미지 포함)와 회원 탈퇴를 탭으로 나눈다. 탭은 주소 없이 화면 상태로만 바꾼다.
+ * 위에 프로필 머리(이미지 포함)가 항상 보이고, 아래 내 정보, 최근 글, 최근 답변, 회원 탈퇴를 탭으로 나눈다. 탭은 주소 없이 화면 상태로만 바꾼다. 최근 글, 최근 답변은 아직 개발중이다.
  */
 const MyPagePage = () => {
   const navigate = useNavigate();
@@ -47,6 +56,8 @@ const MyPagePage = () => {
   const [thumbnail, setThumbnail] = useState<ThumbnailChange>({ type: 'none' });
   const [profileDialogOpen, setProfileDialogOpen] = useState<boolean>(false);
   const [passwordDialogOpen, setPasswordDialogOpen] = useState<boolean>(false);
+
+  const imageLoading = uploadThumbnailLoading || deleteThumbnailLoading || meLoading;
 
   const handleTabChange = (_event: SyntheticEvent, value: string) => {
     if (isMyPageTabKey(value)) {
@@ -120,23 +131,34 @@ const MyPagePage = () => {
         </PageTitle>
       </PageHeader>
 
+      <ProfileHeader
+        name={user!.name}
+        biography={user!.biography}
+        postCount={PROFILE_STATS.postCount}
+        commentCount={PROFILE_STATS.commentCount}
+        createdAt={user!.createdAt}
+        media={
+          <FieldStack>
+            <ThumbnailUploader currentUrl={user!.thumbnailUrl} value={thumbnail} onChange={setThumbnail} disabled={imageLoading} />
+            <EndRow>
+              <Button variant="contained" disabled={imageLoading || thumbnail.type === 'none'} onClick={handleThumbnailSave}>
+                저장
+              </Button>
+            </EndRow>
+          </FieldStack>
+        }
+        actions={<TonalButton onClick={() => setProfileDialogOpen(true)}>프로필 수정</TonalButton>}
+      />
+
       <UnderlineTabs value={tab} onChange={handleTabChange}>
         {Object.entries(MY_PAGE_TABS).map(([key, name]) => (
           <Tab key={key} value={key} label={name} />
         ))}
       </UnderlineTabs>
 
-      {tab === 'PROFILE' && (
-        <ProfileView
-          user={user!}
-          thumbnail={thumbnail}
-          onThumbnailChange={setThumbnail}
-          loading={uploadThumbnailLoading || deleteThumbnailLoading || meLoading}
-          onSave={handleThumbnailSave}
-          onEditProfile={() => setProfileDialogOpen(true)}
-          onChangePassword={() => setPasswordDialogOpen(true)}
-        />
-      )}
+      {tab === 'PROFILE' && <ProfileView user={user!} onChangePassword={() => setPasswordDialogOpen(true)} />}
+      {tab === 'POSTS' && <UnderConstructionView />}
+      {tab === 'COMMENTS' && <UnderConstructionView />}
       {tab === 'WITHDRAW' && <WithdrawForm loading={withdrawLoading} onSubmit={handleWithdraw} />}
 
       {profileDialogOpen && (
@@ -156,7 +178,7 @@ const MyPagePage = () => {
         />
       )}
 
-      <LoadingOverlay open={uploadThumbnailLoading || deleteThumbnailLoading || meLoading || withdrawLoading} />
+      <LoadingOverlay open={imageLoading || withdrawLoading} />
     </PageContainer>
   );
 };
