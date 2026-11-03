@@ -28,7 +28,7 @@ interface SelectBarProps {
 }
 
 /**
- * 선택 모드 도구줄. 왼쪽은 전체 선택 칸, 오른쪽은 나가기와 동작 버튼. 상품 목록 헤더와 분류 목록 아래 칸이 같이 쓴다(표시 전용).
+ * 선택 모드 도구줄. 왼쪽은 전체 선택 칸, 오른쪽은 동작 버튼과 나가기(나가기는 항상 맨 오른쪽). 상품 목록 헤더와 분류 목록 아래 칸이 같이 쓴다(표시 전용).
  */
 const SelectBar = ({ danger, checkedCount, shownCount, actionLabel, onToggleAll, onAction, onCancel }: SelectBarProps) => {
   const allChecked = shownCount > 0 && checkedCount === shownCount;
@@ -46,14 +46,14 @@ const SelectBar = ({ danger, checkedCount, shownCount, actionLabel, onToggleAll,
         )}
       </Group>
       <Group>
+        <ActionButton onClick={onAction} disabled={checkedCount === 0}>
+          {actionLabel}
+        </ActionButton>
         {onCancel !== undefined && (
           <Button variant="outlined" color="inherit" onClick={onCancel}>
             나가기
           </Button>
         )}
-        <ActionButton onClick={onAction} disabled={checkedCount === 0}>
-          {actionLabel}
-        </ActionButton>
       </Group>
     </Bar>
   );

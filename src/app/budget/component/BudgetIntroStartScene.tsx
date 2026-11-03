@@ -6,7 +6,7 @@ import { DayOfMonthGrid, FormBody } from '@/app/common/style/CommonForm.style';
 import { cardEnterVariants } from '@/app/common/style/CommonMotion.style';
 import { Scene, SceneDesc, SceneEyebrow, SceneTitle } from '@/app/common/style/CommonScene.style';
 import { StateStack } from '@/app/common/style/CommonState.style';
-import { Highlight, LabelText } from '@/app/common/style/CommonText.style';
+import { LabelText } from '@/app/common/style/CommonText.style';
 import { validateBudgetDefaultBudget } from '@/app/common/utils/ValidationUtils';
 import useSceneActive from '@/app/common/hook/useSceneActive';
 import { BUDGET_START_DAYS } from '@/app/budget/constant/budgetStartDay';
