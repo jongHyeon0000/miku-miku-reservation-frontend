@@ -22,7 +22,7 @@ export default meta
 
 type Story = StoryObj<typeof ErrorView>
 
-/** 조회에 실패한 모든 화면(카테고리 축별 본문, 상품 목록, 상품 상세, 상품 폼, 커뮤니티 목록, 글 상세, 글 폼, 댓글 영역, 템플릿 창). 서버 메시지와 다시 시도 버튼 */
+/** 조회에 실패한 모든 화면(카테고리 축별 본문, 상품 목록, 상품 상세, 상품 폼, 커뮤니티 목록, 글 상세, 글 폼, 댓글 영역, 템플릿 창, 타인 프로필). 서버 메시지와 다시 시도 버튼 */
 export const ReadFailedWithRetry: Story = {
   name: '조회 실패 화면 > 본문 > 다시 시도',
   args: {

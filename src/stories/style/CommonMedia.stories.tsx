@@ -39,6 +39,23 @@ export const FigureDetailThumbnail: Story = {
   ),
 }
 
+/** 타인 프로필(my-page/page/UserProfilePage.tsx) 프로필 머리 왼쪽의 사진 칸. 보기 전용이고, 사진이 없으면 큰 이미지 아이콘 */
+export const UserProfileThumbnail: Story = {
+  name: '타인 프로필 > 프로필 머리 > 사진 칸',
+  render: () => (
+    <>
+      <ThumbFrame>
+        <FillImage src={sampleImage} alt="샘플 사용자" />
+      </ThumbFrame>
+      <ThumbFrame>
+        <StateIcon size="lg">
+          <ImageOutlinedIcon fontSize="inherit" color="disabled" />
+        </StateIcon>
+      </ThumbFrame>
+    </>
+  ),
+}
+
 /** 상품 목록(figure/component/list/FigureListComponent.tsx)과 소개 화면 롤링(welcome-intro/component/WelcomeIntroHero.tsx)의 썸네일 칸. 이미지가 없으면 이미지 아이콘 */
 export const FigureListThumbnail: Story = {
   name: '상품 목록 > 카드 > 썸네일 칸',

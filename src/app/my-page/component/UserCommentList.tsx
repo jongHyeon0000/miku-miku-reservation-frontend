@@ -15,7 +15,7 @@ interface UserCommentListProps {
 }
 
 /**
- * 프로필의 최근 댓글 탭. 탭이 열릴 때 읽고, 줄을 누르면 댓글이 달린 글로 간다.
+ * 마이페이지와 타인 프로필의 최근 댓글 탭. 탭이 열릴 때 읽고, 줄을 누르면 댓글이 달린 글로 간다.
  * 줄마다 댓글 내용(두 줄까지)과 "RE: 글 제목", 날짜를 보여 준다.
  */
 const UserCommentList = ({ userId }: UserCommentListProps) => {

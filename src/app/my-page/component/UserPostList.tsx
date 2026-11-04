@@ -1,7 +1,7 @@
 import { Button, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate } from 'react-router-dom';
-import type { UserInfo } from '@/app/auth/interface/UserInfo';
+import type { UserProfile } from '@/app/auth/interface/UserProfile';
 import EmptyView from '@/app/common/component/EmptyView';
 import ErrorView from '@/app/common/component/ErrorView';
 import LoadingOverlay from '@/app/common/component/loading/LoadingOverlay';
@@ -14,12 +14,12 @@ import ActivityList from '@/app/my-page/component/ActivityList';
 import { API_CODE } from '@/config/axios/constant/apiCode';
 
 interface UserPostListProps {
-  /** 글을 보여 줄 사용자 (id 로 읽고, 이름과 글 수는 글 전체 보기에 쓴다) */
-  user: UserInfo;
+  /** 글을 보여 줄 사용자 (id 로 읽고, 이름과 글 수는 글 전체 보기에 쓴다). 마이페이지는 내 정보, 타인 프로필은 그 사람 프로필을 넘긴다 */
+  user: UserProfile;
 }
 
 /**
- * 프로필의 최근 글 탭. 탭이 열릴 때 읽고, 줄을 누르면 그 글로 간다.
+ * 마이페이지와 타인 프로필의 최근 글 탭. 탭이 열릴 때 읽고, 줄을 누르면 그 글로 간다.
  * 목록 맨 아래 오른쪽에 글 전체 보기가 있고, 누르면 커뮤니티에서 이 사용자의 글만 본다.
  */
 const UserPostList = ({ user }: UserPostListProps) => {

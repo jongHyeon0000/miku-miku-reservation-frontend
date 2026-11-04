@@ -64,3 +64,14 @@ export const MyPageTabs: Story = {
     </UnderlineTabs>
   ),
 }
+
+/** 타인 프로필(my-page/page/UserProfilePage.tsx)의 탭. 마이페이지와 같은 탭 줄에 최근 글, 최근 댓글 두 개 */
+export const UserProfileTabs: Story = {
+  name: '타인 프로필 > 위 > 탭',
+  render: () => (
+    <UnderlineTabs value="POSTS">
+      <Tab value="POSTS" label="최근 글" />
+      <Tab value="COMMENTS" label="최근 댓글" />
+    </UnderlineTabs>
+  ),
+}

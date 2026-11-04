@@ -13,12 +13,13 @@ import FigureDetailPage from '@/app/figure/page/FigureDetailPage';
 import FigureFormPage from '@/app/figure/page/FigureFormPage';
 import FigureListPage from '@/app/figure/page/FigureListPage';
 import MyPagePage from '@/app/my-page/page/MyPagePage';
+import UserProfilePage from '@/app/my-page/page/UserProfilePage';
 import WelcomeIntroPage from '@/app/welcome-intro/page/WelcomeIntroPage';
 import StatsPage from '@/app/stats/page/StatsPage';
 import NotFoundPage from '@/app/common/page/NotFoundPage';
 
 /** 라우트 종류. gnb 는 상단 메뉴에 나오는 라우트 */
-type RouteKind = 'root' | 'gnb' | 'intro' | 'login' | 'signup' | 'find-id' | 'reset-password' | 'figure' | 'community-post' | 'my-page' | 'not-found';
+type RouteKind = 'root' | 'gnb' | 'intro' | 'login' | 'signup' | 'find-id' | 'reset-password' | 'figure' | 'community-post' | 'my-page' | 'user-profile' | 'not-found';
 
 type RouteType = {
   path: string;
@@ -31,7 +32,7 @@ type RouteType = {
 
 /**
 * 상단 메뉴(GNB)와 로그인 검사가 이 표 하나를 같이 쓴다.
-* 마이페이지는 탭을 화면 상태로 바꾸므로 서브 라우트가 없다.
+* 마이페이지와 타인 프로필은 탭을 화면 상태로 바꾸므로 서브 라우트가 없다.
 * */
 export const APP_ROUTES: readonly RouteType[] = [
   { path: '/', nameKr: '홈', element: <Navigate to="/figures" replace />, type: 'root', requireAuth: false },
@@ -58,6 +59,7 @@ export const APP_ROUTES: readonly RouteType[] = [
   { path: '/intro', nameKr: '소개', element: <WelcomeIntroPage />, type: 'intro', requireAuth: false },
 
   { path: '/my-page', nameKr: '마이페이지', element: <MyPagePage />, type: 'my-page', requireAuth: true },
+  { path: '/profile/:userId', nameKr: '프로필', element: <UserProfilePage />, type: 'user-profile', requireAuth: true },
 
   { path: '*', nameKr: '찾을 수 없음', element: <NotFoundPage />, type: 'not-found', requireAuth: false },
 ] as const;
