@@ -43,6 +43,11 @@ const PostListPage = () => {
     setSearchParams(toPostListSearchParams({ ...query, ...values, page: 1 }));
   };
 
+  /* 작성자, 검색 대상, 검색어, 쪽 조건을 모두 떼고 전체 목록 1쪽을 본다 */
+  const handleReset = () => {
+    setSearchParams({});
+  };
+
   const handleOpen = (postId: number) => {
     navigate(`/community/${postId}`);
   };
@@ -74,7 +79,7 @@ const PostListPage = () => {
           )}
         </PageTitle>
         {/* 주소의 검색 조건이 바뀌면(뒤로 가기 등) 칸을 새로 그려 처음 값을 다시 맞춘다 */}
-        <PostSearchBar key={`${query.searchType}:${query.keyword}`} value={query} onSearch={handleSearch} />
+        <PostSearchBar key={`${query.searchType}:${query.keyword}`} value={query} onSearch={handleSearch} onReset={handleReset} />
       </PageHeader>
 
       {postListPage && postListPage.code !== API_CODE.OK && <ErrorView message={postListPage.message} onRetry={fetchReadPostList} />}

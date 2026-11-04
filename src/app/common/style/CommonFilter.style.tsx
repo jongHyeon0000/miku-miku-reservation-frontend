@@ -104,3 +104,15 @@ export const FilterSearchInput = styled(InputBase)(({ theme }) => ({
   },
   '& .MuiSvgIcon-root': { fontSize: '1.125rem', color: theme.palette.text.secondary },
 }));
+
+/**
+* 필터 줄 맨 오른쪽의 초기화 버튼 (상품 목록 필터 초기화, 게시판 검색 초기화). 흐린 글자와 선이고, 마우스를 올리면 금색이다.
+* 쓰는 곳에서 variant="outlined" color="inherit" 로 쓴다
+* */
+export const FilterResetButton = styled(Button)(({ theme }) => ({
+  flexShrink: 0,
+  fontWeight: 400,
+  color: theme.palette.text.secondary,
+  borderColor: theme.palette.divider,
+  '&:hover': { color: theme.palette.primary.main, borderColor: theme.palette.primary.main },
+}));

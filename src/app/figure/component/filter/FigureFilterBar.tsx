@@ -3,9 +3,9 @@ import CommonFlatFilter from '@/app/common/component/CommonFlatFilter';
 import { FIGURE_SORT_OPTIONS, type FigureSortKey } from '@/app/figure/constant/figureSortOptions';
 import type { FigureFilterOptions, FigureFilterValue, FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilter';
 import { formatDeliveryMonth } from '@/app/figure/utils/FigureUtils';
+import { FilterResetButton } from '@/app/common/style/CommonFilter.style';
 import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
 import type { ReactNode } from 'react';
-import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 interface FigureFilterBarProps {
@@ -101,9 +101,9 @@ const FigureFilterBar = ({
           value={sort}
           onChange={(value) => onSortChange(value as FigureSortKey)}
         />
-        <ResetButton variant="outlined" color="inherit" onClick={onReset}>
+        <FilterResetButton variant="outlined" color="inherit" onClick={onReset}>
           필터 초기화
-        </ResetButton>
+        </FilterResetButton>
       </RightSide>
     </SpreadRow>
   );
@@ -117,11 +117,3 @@ const RightSide = styled(Row)({
   marginLeft: 'auto',
   flexShrink: 0,
 });
-
-const ResetButton = styled(Button)(({ theme }) => ({
-  flexShrink: 0,
-  fontWeight: 400,
-  color: theme.palette.text.secondary,
-  borderColor: theme.palette.divider,
-  '&:hover': { color: theme.palette.primary.main, borderColor: theme.palette.primary.main },
-}));

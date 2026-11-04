@@ -3,7 +3,7 @@ import { Button, Typography } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import CommonFlatFilter from '@/app/common/component/CommonFlatFilter'
 import { TonalButton } from '@/app/common/style/CommonButton.style'
-import { FilterSearchInput } from '@/app/common/style/CommonFilter.style'
+import { FilterResetButton, FilterSearchInput } from '@/app/common/style/CommonFilter.style'
 import { ColumnCard } from '@/app/common/style/CommonCard.style'
 import { Row } from '@/app/common/style/CommonLayout.style'
 import { PageContainer, PageHeader, PageTitle } from '@/app/common/style/CommonPage.style'
@@ -18,7 +18,7 @@ export default meta
 
 type Story = StoryObj
 
-/** 커뮤니티 목록(community/page/PostListPage.tsx)의 제목 줄. 왼쪽 제목, 오른쪽 검색 줄(community/component/list/PostSearchBar.tsx) */
+/** 커뮤니티 목록(community/page/PostListPage.tsx)의 제목 줄. 왼쪽 제목, 오른쪽 검색 줄(community/component/list/PostSearchBar.tsx)과 맨 오른쪽 초기화 */
 export const ListPageHeader: Story = {
   name: '커뮤니티 목록 > 위 > 제목 줄',
   render: () => (
@@ -40,6 +40,9 @@ export const ListPageHeader: Story = {
           />
           <FilterSearchInput placeholder="검색어를 입력하세요" endAdornment={<SearchIcon />} />
           <TonalButton>검색</TonalButton>
+          <FilterResetButton variant="outlined" color="inherit">
+            초기화
+          </FilterResetButton>
         </Row>
       </PageHeader>
     </PageContainer>

@@ -3,7 +3,7 @@ import { List, ListItemText } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import SearchIcon from '@mui/icons-material/Search'
-import { FilterButton, FilterColumn, FilterDot, FilterItem, FilterSearchInput, FilterSubColumn } from '@/app/common/style/CommonFilter.style'
+import { FilterButton, FilterColumn, FilterDot, FilterItem, FilterResetButton, FilterSearchInput, FilterSubColumn } from '@/app/common/style/CommonFilter.style'
 import { Row } from '@/app/common/style/CommonLayout.style'
 
 /** 견본 이름은 실제로 쓰이는 곳(화면 > 위치 > 요소)이다. 필터 모양을 새로 쓰거나 쓰는 곳이 바뀌면 여기도 같이 고친다 */
@@ -69,4 +69,24 @@ export const FigureFilterColumns: Story = {
 export const CommunitySearchInput: Story = {
   name: '커뮤니티 목록 > 검색 줄 > 검색어 칸',
   render: () => <FilterSearchInput placeholder="검색어를 입력하세요" endAdornment={<SearchIcon />} />,
+}
+
+/** 상품 목록 필터 줄 맨 오른쪽의 필터 초기화(figure/component/filter/FigureFilterBar.tsx). 흐린 글자와 선, 마우스를 올리면 금색 */
+export const FigureFilterReset: Story = {
+  name: '상품 목록 > 필터 줄 > 필터 초기화',
+  render: () => (
+    <FilterResetButton variant="outlined" color="inherit">
+      필터 초기화
+    </FilterResetButton>
+  ),
+}
+
+/** 커뮤니티 목록 검색 줄 맨 오른쪽의 초기화(community/component/list/PostSearchBar.tsx). 작성자, 검색 조건을 모두 떼고 전체 목록으로 */
+export const CommunitySearchReset: Story = {
+  name: '커뮤니티 목록 > 검색 줄 > 초기화',
+  render: () => (
+    <FilterResetButton variant="outlined" color="inherit">
+      초기화
+    </FilterResetButton>
+  ),
 }

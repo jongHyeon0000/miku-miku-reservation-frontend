@@ -2,7 +2,7 @@ import { Controller, useForm } from 'react-hook-form';
 import SearchIcon from '@mui/icons-material/Search';
 import CommonFlatFilter from '@/app/common/component/CommonFlatFilter';
 import { TonalButton } from '@/app/common/style/CommonButton.style';
-import { FilterSearchInput } from '@/app/common/style/CommonFilter.style';
+import { FilterResetButton, FilterSearchInput } from '@/app/common/style/CommonFilter.style';
 import { POST_SEARCH_TYPE_OPTIONS, type PostSearchType } from '@/app/community/constant/postSearchTypes';
 import type { PostSearchValues } from '@/app/community/interface/PostListQuery';
 import { styled } from '@mui/material/styles';
@@ -13,13 +13,16 @@ interface PostSearchBarProps {
 
   /** 검색 버튼이나 Enter 를 눌렀을 때 */
   onSearch: (values: PostSearchValues) => void;
+
+  /** 초기화 버튼을 눌렀을 때 */
+  onReset: () => void;
 }
 
 /**
  * 게시판 제목 줄 오른쪽의 검색 줄. 검색 대상(제목+내용, 제목, 내용, 작성자)을 고르고 검색어를 넣는다.
- * 대상을 바꾸는 것만으로는 검색하지 않고, 검색 버튼이나 Enter 를 눌러야 검색한다.
+ * 대상을 바꾸는 것만으로는 검색하지 않고, 검색 버튼이나 Enter 를 눌러야 검색한다. 맨 오른쪽 초기화는 상품 목록의 필터 초기화와 같은 자리, 같은 모양이다.
  */
-const PostSearchBar = ({ value, onSearch }: PostSearchBarProps) => {
+const PostSearchBar = ({ value, onSearch, onReset }: PostSearchBarProps) => {
   const { control, register, handleSubmit } = useForm<PostSearchValues>({ defaultValues: value });
 
   return (
@@ -42,6 +45,9 @@ const PostSearchBar = ({ value, onSearch }: PostSearchBarProps) => {
         {...register('keyword')}
       />
       <TonalButton type="submit">검색</TonalButton>
+      <FilterResetButton variant="outlined" color="inherit" onClick={onReset}>
+        초기화
+      </FilterResetButton>
     </SearchForm>
   );
 };
