@@ -61,6 +61,25 @@ export const CommunitySearchButton: Story = {
   render: () => <TonalButton type="submit">검색</TonalButton>,
 }
 
+/** 상단 메뉴 내 사진의 프로필 팝오버(common/component/GNB.tsx) 맨 아래 버튼 줄. 반씩 나눈 내 프로필 보기와 로그아웃 */
+export const GnbProfileButtons: Story = {
+  name: '상단 메뉴 > 프로필 팝오버 > 내 프로필 보기, 로그아웃',
+  render: () => (
+    <Row>
+      <TonalButton fullWidth>내 프로필 보기</TonalButton>
+      <Button variant="outlined" color="inherit" fullWidth>
+        로그아웃
+      </Button>
+    </Row>
+  ),
+}
+
+/** 커뮤니티 글과 댓글 작성자의 프로필 팝오버(community/component/common/PostAuthorPopover.tsx) 맨 아래 버튼. 꽉 찬 폭, 내 프로필이면 글자가 내 프로필 보기 */
+export const PostAuthorProfileButton: Story = {
+  name: '커뮤니티 글 상세 > 프로필 팝오버 > 프로필 보기',
+  render: () => <TonalButton fullWidth>프로필 보기</TonalButton>,
+}
+
 /** 템플릿 가져오기 창 목록 줄의 작은 가져오기 버튼(category/template/component/TemplateImportDialog.tsx)과 회원가입의 인증 코드 받기, 확인 버튼(auth/component/SignupForm.tsx) */
 export const SmallActionButton: Story = {
   name: '템플릿 창, 회원가입 > 줄 안 > 작은 버튼',

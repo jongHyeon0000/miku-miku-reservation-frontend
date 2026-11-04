@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AppBar, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tab, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, IconButton, Tab, Toolbar, Typography } from '@mui/material';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import useAuth from '@/app/auth/service/useAuth';
 import { PROTECTED_CATEGORY_NAME } from '@/app/category/common/constant/categoryAxes';
 import type { ShopGroup } from '@/app/category/shop/interface/ShopGroup';
 import useReadShopList from '@/app/category/shop/service/useReadShopList';
+import CommonProfilePopover from '@/app/common/component/CommonProfilePopover';
 import GnbShopPanel from '@/app/common/component/GnbShopPanel';
 import mainIcon from '@/assets/common/main-icon.png';
+import { TonalButton } from '@/app/common/style/CommonButton.style';
+import { Row } from '@/app/common/style/CommonLayout.style';
 import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
 import { HoverTabs } from '@/app/common/style/CommonTabs.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
@@ -121,22 +122,22 @@ const GNB = () => {
                 <AccountCircleOutlinedIcon />
               )}
             </IconButton>
-            <Menu anchorEl={anchorEl} open={anchorEl !== null} onClose={handleCloseMenu}>
-              <MenuName variant="subtitle2">{user!.name}</MenuName>
-              <Divider />
-              <MenuItem onClick={handleMyPage}>
-                <ListItemIcon>
-                  <PersonOutlinedIcon fontSize="small" />
-                </ListItemIcon>
-                마이페이지
-              </MenuItem>
-              <MenuItem onClick={handleLogout}>
-                <ListItemIcon>
-                  <LogoutOutlinedIcon fontSize="small" />
-                </ListItemIcon>
-                로그아웃
-              </MenuItem>
-            </Menu>
+            <CommonProfilePopover
+              anchorEl={anchorEl}
+              align="right"
+              onClose={handleCloseMenu}
+              profile={user!}
+              actions={
+                <Row>
+                  <TonalButton fullWidth onClick={handleMyPage}>
+                    내 프로필 보기
+                  </TonalButton>
+                  <Button variant="outlined" color="inherit" fullWidth onClick={handleLogout}>
+                    로그아웃
+                  </Button>
+                </Row>
+              }
+            />
           </>
         ) : (
           <>
@@ -176,10 +177,6 @@ const BrandIcon = styled('img')(({ theme }) => ({
   height: '2rem',
   borderRadius: theme.shape.borderRadius,
 }));
-
-const MenuName = styled(Typography)(({ theme }) => ({
-  padding: theme.spacing(1, 2),
-})) as typeof Typography;
 
 const Spacer = styled('div')({ flexGrow: 1 });
 

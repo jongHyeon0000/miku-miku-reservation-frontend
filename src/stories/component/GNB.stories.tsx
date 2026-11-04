@@ -80,7 +80,7 @@ export default meta
 
 type Story = StoryObj<typeof GNB>
 
-/** 앱 전체(src/App.tsx)의 맨 위 고정 메뉴. 로그인한 상태. 메뉴 탭, 판매처 탭(마우스를 올리면 패널이 열린다), 프로필 버튼(누르면 마이페이지, 로그아웃) */
+/** 앱 전체(src/App.tsx)의 맨 위 고정 메뉴. 로그인한 상태. 메뉴 탭, 판매처 탭(마우스를 올리면 패널이 열린다), 프로필 버튼(누르면 프로필 팝오버: 내 프로필 보기, 로그아웃) */
 export const GnbLoggedIn: Story = {
   name: '앱 전체 > 맨 위 > 로그인 상태 메뉴',
   decorators: [withAuth(true, SAMPLE_USER)],

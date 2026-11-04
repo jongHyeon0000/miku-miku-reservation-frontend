@@ -145,7 +145,7 @@ export const MediumAvatar: Story = {
   ),
 }
 
-/** 상품 분류 선택 창(figure/component/form/FigurePickDialog.tsx)의 선택 카드 사진. 큰 크기 */
+/** 상품 분류 선택 창(figure/component/form/FigurePickDialog.tsx)의 선택 카드 사진과 프로필 팝오버(common/component/CommonProfilePopover.tsx)의 사진. 큰 크기 */
 export const LargeAvatar: Story = {
   name: '상품 폼 > 분류 선택 창 > 큰 사진',
   render: () => (

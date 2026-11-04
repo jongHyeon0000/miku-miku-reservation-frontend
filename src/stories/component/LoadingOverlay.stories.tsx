@@ -26,7 +26,7 @@ export default meta
 
 type Story = StoryObj<typeof LoadingOverlay>
 
-/** 저장, 삭제, 로그인처럼 끝날 때까지 다른 조작을 막는 모든 화면(로그인, 회원가입, 상품 목록, 카테고리 본문, 글 상세, 마이페이지 등). 훅의 loading 값을 그대로 넘긴다 */
+/** 저장, 삭제, 로그인처럼 끝날 때까지 다른 조작을 막는 모든 화면(로그인, 회원가입, 상품 목록, 카테고리 본문, 글 상세, 마이페이지, 작성자 프로필 팝오버 등). 훅의 loading 값을 그대로 넘긴다 */
 export const SavingOverlay: Story = {
   name: '저장, 삭제 중 > 화면 전체 > 로딩 표시',
 }

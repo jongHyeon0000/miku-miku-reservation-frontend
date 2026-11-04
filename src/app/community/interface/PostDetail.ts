@@ -9,6 +9,9 @@ export interface PostDetail {
   /** 본문 (에디터가 만든 HTML) */
   content: string;
 
+  /** 작성자 id. 작성자를 눌러 프로필 팝오버를 띄울 때 쓴다 */
+  userId: number;
+
   /** 작성자 이름 */
   authorName: string;
 

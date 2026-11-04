@@ -63,11 +63,7 @@ const UserProfilePage = () => {
       </PageHeader>
 
       <ProfileHeader
-        name={profile.name}
-        biography={profile.biography}
-        postCount={profile.postCount}
-        commentCount={profile.commentCount}
-        createdAt={profile.createdAt}
+        profile={profile}
         media={
           <ThumbFrame>
             {profile.thumbnailUrl ? (

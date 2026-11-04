@@ -1,4 +1,5 @@
-import { Divider, Typography } from '@mui/material';
+import { useState, type MouseEvent } from 'react';
+import { ButtonBase, Divider, Typography } from '@mui/material';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import HtmlView from '@/app/common/component/HtmlView';
@@ -8,6 +9,7 @@ import { ThumbAvatar } from '@/app/common/style/CommonMedia.style';
 import { PageTitle } from '@/app/common/style/CommonPage.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 import PostAuthorLine from '@/app/community/component/common/PostAuthorLine';
+import PostAuthorPopover from '@/app/community/component/common/PostAuthorPopover';
 import type { PostDetail } from '@/app/community/interface/PostDetail';
 import { Dot } from '@/app/community/style/PostMeta.style';
 import { styled } from '@mui/material/styles';
@@ -19,8 +21,15 @@ interface PostDetailCardProps {
 
 /**
  * 글 한 장. 제목, 작성자 줄(사진, 닉네임, 날짜, 고친 글이면 수정됨), 본문, 맨 아래 조회와 댓글 수를 보여 준다.
+ * 작성자 사진이나 이름을 누르면 그 자리에 작성자 프로필 팝오버가 뜬다.
  */
 const PostDetailCard = ({ post }: PostDetailCardProps) => {
+  const [profileAnchorEl, setProfileAnchorEl] = useState<HTMLElement | null>(null);
+
+  const handleOpenProfile = (e: MouseEvent<HTMLElement>) => {
+    setProfileAnchorEl(e.currentTarget);
+  };
+
   return (
     <ColumnCard>
       <PageTitle variant="h5" component="h1">
@@ -28,9 +37,18 @@ const PostDetailCard = ({ post }: PostDetailCardProps) => {
       </PageTitle>
 
       <Row>
-        <ThumbAvatar size="sm" src={imageUrl(post.authorThumbnailUrl)} />
-        <PostAuthorLine name={post.authorName} createdAt={post.createdAt} updatedAt={post.updatedAt} />
+        <ButtonBase onClick={handleOpenProfile}>
+          <ThumbAvatar size="sm" src={imageUrl(post.authorThumbnailUrl)} />
+        </ButtonBase>
+        <PostAuthorLine
+          name={post.authorName}
+          createdAt={post.createdAt}
+          updatedAt={post.updatedAt}
+          onOpenProfile={handleOpenProfile}
+          profileOpen={profileAnchorEl !== null}
+        />
       </Row>
+      <PostAuthorPopover userId={post.userId} anchorEl={profileAnchorEl} onClose={() => setProfileAnchorEl(null)} />
 
       <Divider />
       <HtmlView html={post.content} />

@@ -31,7 +31,7 @@ export const FigureFilterButtons: Story = {
   ),
 }
 
-/** 분류 버튼을 눌렀을 때 뜨는 상위 목록과, 상위에 마우스를 올리면 옆에 뜨는 하위 목록. 실제로는 팝오버(FilterPopover) 안에 뜬다 */
+/** 분류 버튼을 눌렀을 때 뜨는 상위 목록과, 상위에 마우스를 올리면 옆에 뜨는 하위 목록. 실제로는 팝오버(FilterPopover) 안에 뜬다. 프로필 팝오버 카드(CommonProfile.style)가 이 면과 팝오버를 이어받는다 */
 export const FigureFilterColumns: Story = {
   name: '상품 목록 > 필터 줄 > 펼친 분류 목록',
   render: () => (

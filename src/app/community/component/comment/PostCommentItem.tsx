@@ -1,9 +1,11 @@
-import { Typography } from '@mui/material';
+import { useState, type MouseEvent } from 'react';
+import { ButtonBase, Typography } from '@mui/material';
 import { Row, SpreadRow } from '@/app/common/style/CommonLayout.style';
 import { FillImage, ThumbAvatar } from '@/app/common/style/CommonMedia.style';
 import { imageUrl } from '@/app/common/utils/CommonUtils';
 import PostCommentMenu from '@/app/community/component/comment/PostCommentMenu';
 import PostAuthorLine from '@/app/community/component/common/PostAuthorLine';
+import PostAuthorPopover from '@/app/community/component/common/PostAuthorPopover';
 import type { PostComment } from '@/app/community/interface/PostComment';
 import type { PostHiddenStatus } from '@/app/community/interface/PostStatus';
 import {
@@ -45,9 +47,11 @@ interface PostCommentItemProps {
 /**
  * 댓글 한 줄. 사진, 이름과 날짜, 이미지(글 위), 글을 보여 준다. 답글이면 글 앞에 @이름이 붙는다.
  * 삭제나 탈퇴로 가려진 댓글은 내용 없이 날짜와 안내 글자만 보여 준다.
+ * 정상 댓글은 작성자 사진이나 이름을 누르면 그 자리에 작성자 프로필 팝오버가 뜬다(가려진 댓글은 누를 수 없다).
  * 이미지만 있는 댓글은 글 줄 없이 이미지만 그린다(답글이면 @이름은 남긴다). 내 댓글이면 이름 줄 오른쪽 끝에 ⋮ 메뉴(수정, 삭제)가 있다. "답글" 버튼은 정상 댓글과 가려진 최상위 댓글에 있다(가려진 최상위 댓글 아래에도 서버가 답글을 받는다). 가려진 답글에는 없다.
  */
 const PostCommentItem = ({ comment, hasReplies, onReply, onEdit, onDelete }: PostCommentItemProps) => {
+  const [profileAnchorEl, setProfileAnchorEl] = useState<HTMLElement | null>(null);
   const canReply = comment.status === 'NORMAL' || comment.parentPostCommentId === undefined;
 
   const replyButton = canReply && (
@@ -76,6 +80,10 @@ const PostCommentItem = ({ comment, hasReplies, onReply, onEdit, onDelete }: Pos
     );
   }
 
+  const handleOpenProfile = (e: MouseEvent<HTMLElement>) => {
+    setProfileAnchorEl(e.currentTarget);
+  };
+
   const hasImages = comment.images.length > 0;
   const hasMention = comment.mentionUserName !== undefined;
   const hasContent = comment.content !== undefined && comment.content !== '';
@@ -83,12 +91,20 @@ const PostCommentItem = ({ comment, hasReplies, onReply, onEdit, onDelete }: Pos
   return (
     <CommentRow>
       <AvatarColumn>
-        <ThumbAvatar size="sm" src={imageUrl(comment.authorThumbnailUrl)} />
+        <ButtonBase onClick={handleOpenProfile}>
+          <ThumbAvatar size="sm" src={imageUrl(comment.authorThumbnailUrl)} />
+        </ButtonBase>
         {hasReplies && <Rail />}
       </AvatarColumn>
       <CommentBody>
         <SpreadRow>
-          <PostAuthorLine name={comment.authorName} createdAt={comment.createdAt} updatedAt={comment.updatedAt} />
+          <PostAuthorLine
+            name={comment.authorName}
+            createdAt={comment.createdAt}
+            updatedAt={comment.updatedAt}
+            onOpenProfile={handleOpenProfile}
+            profileOpen={profileAnchorEl !== null}
+          />
           {comment.mine && <PostCommentMenu onEdit={onEdit} onDelete={onDelete} />}
         </SpreadRow>
         {hasImages && (
@@ -106,6 +122,7 @@ const PostCommentItem = ({ comment, hasReplies, onReply, onEdit, onDelete }: Pos
         )}
         {replyButton}
       </CommentBody>
+      <PostAuthorPopover userId={comment.userId} anchorEl={profileAnchorEl} onClose={() => setProfileAnchorEl(null)} />
     </CommentRow>
   );
 };

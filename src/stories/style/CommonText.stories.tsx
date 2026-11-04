@@ -186,6 +186,16 @@ export const ActivityCommentContent: Story = {
   ),
 }
 
+/** 프로필 팝오버(common/component/CommonProfilePopover.tsx)의 자기소개. 작은 글자로 두 줄까지 보이고 길면 …로 줄인다 */
+export const ProfilePopoverBiography: Story = {
+  name: '상단 메뉴, 커뮤니티 > 프로필 팝오버 > 자기소개',
+  render: () => (
+    <ClampText variant="body2">
+      피규어 예약 장부 쓰는 사람입니다. 미쿠 위주로 모아요. 넨도, 피그마, 스케일 가리지 않습니다. 마감일이 겹치는 게 많아서 장부로 정리하고 있어요.
+    </ClampText>
+  ),
+}
+
 /** 분류 줄의 이름(category/common/component/CategoryRow.tsx)과 커뮤니티 작성자 이름(community/component/common/PostAuthorLine.tsx). 굵은 글자 */
 export const BoldName: Story = {
   name: '카테고리, 커뮤니티 > 줄 > 굵은 이름',

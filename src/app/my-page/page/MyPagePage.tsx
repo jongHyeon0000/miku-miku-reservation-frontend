@@ -136,11 +136,7 @@ const MyPagePage = () => {
       </PageHeader>
 
       <ProfileHeader
-        name={user!.name}
-        biography={user!.biography}
-        postCount={user!.postCount}
-        commentCount={user!.commentCount}
-        createdAt={user!.createdAt}
+        profile={user!}
         media={
           <FieldStack>
             <ThumbnailUploader currentUrl={user!.thumbnailUrl} value={thumbnail} onChange={setThumbnail} disabled={imageLoading} />
