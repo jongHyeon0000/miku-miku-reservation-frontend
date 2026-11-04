@@ -103,8 +103,8 @@ export const toReplyTarget = (parentPostCommentId: number, target: PostComment):
 };
 
 /**
- * 화면 주소의 쿼리(?page=&searchType=&keyword=)를 목록 조건으로 바꾼다.
- * 쪽이 1보다 작거나 숫자가 아니면 1쪽, 검색 대상이 4종이 아니면 기본(제목+내용)이다.
+ * 화면 주소의 쿼리(?page=&searchType=&keyword=&authorId=&authorName=)를 목록 조건으로 바꾼다.
+ * 쪽이 1보다 작거나 숫자가 아니면 1쪽, 검색 대상이 4종이 아니면 기본(제목+내용), 작성자 번호가 1 이상의 정수가 아니면 작성자 조건 없음이다.
  */
 export const toPostListQuery = (searchParams: URLSearchParams): PostListQuery => {
   const pageParam = Number(searchParams.get('page'));
@@ -117,18 +117,31 @@ export const toPostListQuery = (searchParams: URLSearchParams): PostListQuery =>
   const keywordParam = searchParams.get('keyword');
   const keyword = keywordParam !== null ? keywordParam : '';
 
-  return { page, searchType, keyword };
+  const authorIdParam = Number(searchParams.get('authorId'));
+  const authorId = Number.isInteger(authorIdParam) && authorIdParam >= 1 ? authorIdParam : null;
+
+  const authorNameParam = searchParams.get('authorName');
+  const authorName = authorNameParam !== null ? authorNameParam : '';
+
+  return { page, searchType, keyword, authorId, authorName };
 };
 
 /**
- * 목록 조건을 화면 주소의 쿼리로 바꾼다. 검색어가 없으면 쪽 번호만 남긴다.
+ * 목록 조건을 화면 주소의 쿼리로 바꾼다. 검색어가 없으면 검색 대상과 검색어는 빼고, 작성자 조건은 검색어와 상관없이 남긴다.
  */
 export const toPostListSearchParams = (query: PostListQuery): Record<string, string> => {
+  const params: Record<string, string> = { page: String(query.page) };
   const keyword = query.keyword.trim();
 
-  if (keyword === '') {
-    return { page: String(query.page) };
+  if (keyword !== '') {
+    params.searchType = query.searchType;
+    params.keyword = keyword;
   }
 
-  return { page: String(query.page), searchType: query.searchType, keyword };
+  if (query.authorId !== null) {
+    params.authorId = String(query.authorId);
+    params.authorName = query.authorName;
+  }
+
+  return params;
 };

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { Box, Button, Checkbox, TextField, Typography } from '@mui/material'
 import PageNumbers from '@/app/common/component/PageNumbers'
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style'
@@ -157,6 +158,26 @@ export const PostListPanel: Story = {
       </Box>
       <PagerRow>
         <PageNumbers page={1} totalPages={3} onChange={() => undefined} />
+      </PagerRow>
+    </Panel>
+  ),
+}
+
+/** 마이페이지 최근 글 탭(my-page/component/ActivityList.tsx, UserPostList.tsx). 줄마다 위에 제목, 아래에 정보 한 줄. 맨 아래 칸 오른쪽에 글 전체 보기 */
+export const MyPagePostPanel: Story = {
+  name: '마이페이지 > 최근 글 > 글 목록 패널',
+  render: () => (
+    <Panel>
+      <RowBox>
+        <Typography>샘플 글 제목 하나</Typography>
+      </RowBox>
+      <RowBox>
+        <Typography>샘플 글 제목 둘</Typography>
+      </RowBox>
+      <PagerRow>
+        <EndRow>
+          <Button endIcon={<ArrowForwardIcon />}>글 전체 보기 (23)</Button>
+        </EndRow>
       </PagerRow>
     </Panel>
   ),

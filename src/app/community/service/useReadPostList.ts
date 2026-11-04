@@ -12,8 +12,8 @@ const POST_PAGE_SIZE = 10;
 
 /**
  * 게시글 목록 조회 훅 (GET /api/post)
- * 쪽 번호와 검색 조건마다 결과가 따로 보관된다. 검색이 아니면 삭제되거나 탈퇴한 글도 자리에 남아 내려오고,
- * 검색어가 있으면 정상 글만 내려온다.
+ * 쪽 번호와 검색, 작성자 조건마다 결과가 따로 보관된다. 조건이 없으면 삭제되거나 탈퇴한 글도 자리에 남아 내려오고,
+ * 검색어나 작성자 조건이 있으면 정상 글만 내려온다. 작성자 조건이 없으면 authorId 를 보내지 않는다(axios 가 null 값은 빼고 보낸다).
  */
 const useReadPostList = (query: PostListQuery) => {
   const { data, isLoading, refetch } = useQuery({
@@ -21,7 +21,13 @@ const useReadPostList = (query: PostListQuery) => {
     queryFn: async (): Promise<ApiResponse<PageData<PostListItem> | null>> => {
       try {
         const res = await api.get<ApiResponse<PageData<PostListItem> | null>>('/api/post', {
-          params: { searchType: query.searchType, keyword: query.keyword, page: query.page, size: POST_PAGE_SIZE },
+          params: {
+            authorId: query.authorId,
+            searchType: query.searchType,
+            keyword: query.keyword,
+            page: query.page,
+            size: POST_PAGE_SIZE,
+          },
         });
         return res.data;
       } catch (err) {

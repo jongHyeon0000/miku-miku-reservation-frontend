@@ -1,6 +1,6 @@
 import type { KeyboardEvent, ReactNode } from 'react';
 import { GroupStack } from '@/app/common/style/CommonLayout.style';
-import { Panel, RowBox } from '@/app/common/style/CommonList.style';
+import { PagerRow, Panel, RowBox } from '@/app/common/style/CommonList.style';
 import { styled } from '@mui/material/styles';
 
 /** 활동 목록의 한 줄 */
@@ -21,13 +21,16 @@ interface ActivityListProps {
 
   /** 줄을 눌렀을 때 */
   onOpen: (id: number) => void;
+
+  /** 패널 맨 아래 칸에 넣을 내용 (최근 글의 글 전체 보기). 없으면 칸도 없다 */
+  footer?: ReactNode;
 }
 
 /**
  * 프로필의 최근 글, 최근 답변 목록. 줄마다 위에 큰 글, 아래에 작은 정보 한 줄을 보여 준다.
- * 줄 틀은 커뮤니티 목록과 같은 Panel, RowBox 다.
+ * 줄 틀은 커뮤니티 목록과 같은 Panel, RowBox 이고, 맨 아래 칸은 커뮤니티 목록의 쪽 번호 칸과 같은 PagerRow 다.
  */
-const ActivityList = ({ items, onOpen }: ActivityListProps) => {
+const ActivityList = ({ items, onOpen, footer }: ActivityListProps) => {
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>, id: number) => {
     if (event.key !== 'Enter' && event.key !== ' ') {
       return;
@@ -53,6 +56,7 @@ const ActivityList = ({ items, onOpen }: ActivityListProps) => {
           </GroupStack>
         </ActivityRow>
       ))}
+      {footer !== undefined && <PagerRow>{footer}</PagerRow>}
     </Panel>
   );
 };

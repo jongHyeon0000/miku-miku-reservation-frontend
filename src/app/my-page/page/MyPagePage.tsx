@@ -161,7 +161,7 @@ const MyPagePage = () => {
       </UnderlineTabs>
 
       {tab === 'PROFILE' && <ProfileView user={user!} onChangePassword={() => setPasswordDialogOpen(true)} />}
-      {tab === 'POSTS' && <UserPostList userId={user!.userId} />}
+      {tab === 'POSTS' && <UserPostList user={user!} />}
       {tab === 'COMMENTS' && <UserCommentList userId={user!.userId} />}
       {tab === 'WITHDRAW' && <WithdrawForm loading={withdrawLoading} onSubmit={handleWithdraw} />}
 

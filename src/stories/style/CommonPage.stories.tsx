@@ -46,6 +46,26 @@ export const ListPageHeader: Story = {
   ),
 }
 
+/** 커뮤니티 목록(community/page/PostListPage.tsx)을 마이페이지의 글 전체 보기로 열었을 때의 제목. 구분 기호는 흐린 글자, 작성자 부분은 금색 */
+export const AuthorListPageTitle: Story = {
+  name: '커뮤니티 목록 > 위 > 작성자 글 제목',
+  render: () => (
+    <PageContainer>
+      <PageHeader>
+        <PageTitle variant="h4" component="h1">
+          커뮤니티{' '}
+          <Typography component="span" variant="inherit" color="text.secondary">
+            ›
+          </Typography>{' '}
+          <Typography component="span" variant="inherit" color="primary">
+            샘플 작성자님의 글
+          </Typography>
+        </PageTitle>
+      </PageHeader>
+    </PageContainer>
+  ),
+}
+
 /** 상품 상세(figure/page/FigureDetailPage.tsx)의 제목 줄. 오른쪽에 버튼 여러 개를 한 줄로 */
 export const DetailPageHeader: Story = {
   name: '상품 상세 > 위 > 제목 줄',

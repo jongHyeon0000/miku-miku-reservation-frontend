@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { Button, Link, Typography } from '@mui/material'
 import { TonalButton, TonalDangerButton } from '@/app/common/style/CommonButton.style'
 import { ColumnCard, MediaCard, SelectableCard, SpreadCard } from '@/app/common/style/CommonCard.style'
@@ -110,6 +111,16 @@ export const CommunityWriteButton: Story = {
   render: () => (
     <EndRow>
       <Button variant="contained">글 쓰기</Button>
+    </EndRow>
+  ),
+}
+
+/** 마이페이지 최근 글 탭(my-page/component/UserPostList.tsx) 목록 맨 아래 칸 오른쪽의 글 전체 보기 */
+export const MyPagePostMoreButton: Story = {
+  name: '마이페이지 > 최근 글 > 글 전체 보기',
+  render: () => (
+    <EndRow>
+      <Button endIcon={<ArrowForwardIcon />}>글 전체 보기 (23)</Button>
     </EndRow>
   ),
 }

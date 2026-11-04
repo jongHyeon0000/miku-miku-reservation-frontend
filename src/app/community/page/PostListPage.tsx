@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import EmptyView from '@/app/common/component/EmptyView';
 import ErrorView from '@/app/common/component/ErrorView';
@@ -15,7 +15,8 @@ import { styled } from '@mui/material/styles';
 
 /**
  * 게시판 목록 화면 (/community)
- * 보는 쪽과 검색 조건은 주소의 ?page=&searchType=&keyword= 에 두어서, 글을 보고 뒤로 가거나 새로고침해도 같은 목록이 보인다.
+ * 보는 쪽과 검색, 작성자 조건은 주소의 ?page=&searchType=&keyword=&authorId=&authorName= 에 두어서, 글을 보고 뒤로 가거나 새로고침해도 같은 목록이 보인다.
+ * 작성자 조건(마이페이지의 글 전체 보기)이 있으면 제목이 "커뮤니티 › ○○○님의 글"이 되고, 검색해도 작성자 조건은 유지된다.
  */
 const PostListPage = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const PostListPage = () => {
 
   const query = toPostListQuery(searchParams);
   const searching = query.keyword.trim() !== '';
+  const authorFiltered = query.authorId !== null;
 
   const { postListPage, postListLoading, fetchReadPostList } = useReadPostList(query);
 
@@ -36,9 +38,9 @@ const PostListPage = () => {
     setSearchParams(toPostListSearchParams({ ...query, page: nextPage }));
   };
 
-  /* 검색 결과는 쪽 수가 달라서 1쪽부터 본다 */
+  /* 검색 결과는 쪽 수가 달라서 1쪽부터 본다. 작성자 조건은 그대로 둔다 */
   const handleSearch = (values: PostSearchValues) => {
-    setSearchParams(toPostListSearchParams({ ...values, page: 1 }));
+    setSearchParams(toPostListSearchParams({ ...query, ...values, page: 1 }));
   };
 
   const handleOpen = (postId: number) => {
@@ -46,13 +48,30 @@ const PostListPage = () => {
   };
 
   /* 글이 하나도 없을 때의 문구. 글 쓰기 버튼은 아래 오른쪽에 따로 있다 */
-  const emptyMessage = searching ? '검색 결과가 없어요' : '아직 글이 없어요';
+  let emptyMessage = '아직 글이 없어요';
+
+  if (searching) {
+    emptyMessage = '검색 결과가 없어요';
+  } else if (authorFiltered) {
+    emptyMessage = '작성한 글이 없어요';
+  }
 
   return (
     <PageContainer>
       <PageHeader>
         <PageTitle variant="h4" component="h1">
           커뮤니티
+          {authorFiltered && (
+            <>
+              {' '}
+              <Typography component="span" variant="inherit" color="text.secondary">
+                ›
+              </Typography>{' '}
+              <Typography component="span" variant="inherit" color="primary">
+                {query.authorName}님의 글
+              </Typography>
+            </>
+          )}
         </PageTitle>
         {/* 주소의 검색 조건이 바뀌면(뒤로 가기 등) 칸을 새로 그려 처음 값을 다시 맞춘다 */}
         <PostSearchBar key={`${query.searchType}:${query.keyword}`} value={query} onSearch={handleSearch} />
