@@ -146,7 +146,7 @@ const MyPagePage = () => {
             <ThumbnailUploader currentUrl={user!.thumbnailUrl} value={thumbnail} onChange={setThumbnail} disabled={imageLoading} />
             <EndRow>
               <Button variant="contained" disabled={imageLoading || thumbnail.type === 'none'} onClick={handleThumbnailSave}>
-                저장
+                이미지 저장
               </Button>
             </EndRow>
           </FieldStack>
