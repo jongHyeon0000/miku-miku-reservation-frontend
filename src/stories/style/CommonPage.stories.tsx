@@ -1,5 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button, Typography } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
+import CommonFlatFilter from '@/app/common/component/CommonFlatFilter'
+import { TonalButton } from '@/app/common/style/CommonButton.style'
+import { FilterSearchInput } from '@/app/common/style/CommonFilter.style'
 import { ColumnCard } from '@/app/common/style/CommonCard.style'
 import { Row } from '@/app/common/style/CommonLayout.style'
 import { PageContainer, PageHeader, PageTitle } from '@/app/common/style/CommonPage.style'
@@ -14,7 +18,7 @@ export default meta
 
 type Story = StoryObj
 
-/** 커뮤니티 목록(community/page/PostListPage.tsx), 마이페이지, 카테고리 화면의 제목 줄. 왼쪽 제목, 오른쪽 동작 버튼 */
+/** 커뮤니티 목록(community/page/PostListPage.tsx)의 제목 줄. 왼쪽 제목, 오른쪽 검색 줄(community/component/list/PostSearchBar.tsx) */
 export const ListPageHeader: Story = {
   name: '커뮤니티 목록 > 위 > 제목 줄',
   render: () => (
@@ -23,7 +27,20 @@ export const ListPageHeader: Story = {
         <PageTitle variant="h4" component="h1">
           커뮤니티
         </PageTitle>
-        <Button variant="contained">글 쓰기</Button>
+        <Row>
+          <CommonFlatFilter
+            options={[
+              { value: 'TITLE_CONTENT', label: '제목+내용' },
+              { value: 'TITLE', label: '제목' },
+              { value: 'CONTENT', label: '내용' },
+              { value: 'AUTHOR', label: '작성자' },
+            ]}
+            value="TITLE_CONTENT"
+            onChange={() => {}}
+          />
+          <FilterSearchInput placeholder="검색어를 입력하세요" endAdornment={<SearchIcon />} />
+          <TonalButton>검색</TonalButton>
+        </Row>
       </PageHeader>
     </PageContainer>
   ),

@@ -55,7 +55,7 @@ export const DialogCloseButton: Story = {
   render: () => <TonalButton>닫기</TonalButton>,
 }
 
-/** 커뮤니티 목록 위 검색 줄의 검색 버튼(community/component/list/PostSearchBar.tsx). 검색어 칸 오른쪽 */
+/** 커뮤니티 목록 제목 줄 오른쪽 검색 줄의 검색 버튼(community/component/list/PostSearchBar.tsx). 검색어 칸 오른쪽 */
 export const CommunitySearchButton: Story = {
   name: '커뮤니티 목록 > 검색 줄 > 검색 버튼',
   render: () => <TonalButton type="submit">검색</TonalButton>,

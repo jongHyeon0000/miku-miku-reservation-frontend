@@ -16,7 +16,7 @@ interface PostSearchBarProps {
 }
 
 /**
- * 게시판 목록 위 검색 줄. 검색 대상(제목+내용, 제목, 내용, 작성자)을 고르고 검색어를 넣는다.
+ * 게시판 제목 줄 오른쪽의 검색 줄. 검색 대상(제목+내용, 제목, 내용, 작성자)을 고르고 검색어를 넣는다.
  * 대상을 바꾸는 것만으로는 검색하지 않고, 검색 버튼이나 Enter 를 눌러야 검색한다.
  */
 const PostSearchBar = ({ value, onSearch }: PostSearchBarProps) => {
@@ -46,13 +46,11 @@ const PostSearchBar = ({ value, onSearch }: PostSearchBarProps) => {
   );
 };
 
-/** 검색 줄. 오른쪽에 붙이고, 칸 사이는 Row 와 같은 간격, 아래 목록과는 PageHeader 아래 여백과 같은 간격이다 */
+/** 검색 줄. 칸 사이는 Row 와 같은 간격이다(제목 줄 PageHeader 가 오른쪽 끝으로 민다) */
 const SearchForm = styled('form')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'flex-end',
   gap: theme.spacing(1),
-  marginBottom: theme.spacing(3),
 }));
 
 export default PostSearchBar;

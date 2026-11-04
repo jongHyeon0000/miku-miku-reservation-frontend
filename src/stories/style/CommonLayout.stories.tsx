@@ -104,6 +104,16 @@ export const EndSaveButton: Story = {
   ),
 }
 
+/** 커뮤니티 목록(community/page/PostListPage.tsx) 아래 오른쪽의 글 쓰기 버튼 */
+export const CommunityWriteButton: Story = {
+  name: '커뮤니티 목록 > 목록 아래 > 글 쓰기 버튼',
+  render: () => (
+    <EndRow>
+      <Button variant="contained">글 쓰기</Button>
+    </EndRow>
+  ),
+}
+
 /** 상품 상세(figure/page/FigureDetailPage.tsx)와 상품 폼(figure/page/FigureFormPage.tsx). 왼쪽 정보 카드, 오른쪽에 썸네일 카드와 일정 카드가 세로로 쌓인다 */
 export const SplitWithSideColumn: Story = {
   name: '상품 > 상세, 폼 > 2열 배치와 오른쪽 열',

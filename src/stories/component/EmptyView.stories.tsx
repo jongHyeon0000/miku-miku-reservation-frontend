@@ -58,16 +58,11 @@ export const FigureListNoMatch: Story = {
   },
 }
 
-/** 커뮤니티 목록 화면(src/app/community/page/PostListPage.tsx)에 글이 하나도 없을 때 */
+/** 커뮤니티 목록 화면(src/app/community/page/PostListPage.tsx)에 글이 하나도 없을 때. 글 쓰기 버튼은 목록 아래 오른쪽에 따로 있어서 동작 칸 없음 */
 export const CommunityListEmpty: Story = {
   name: '커뮤니티 목록 > 본문 > 글 없음',
   args: {
     message: '아직 글이 없어요',
-    action: (
-      <Button variant="contained" onClick={handleNoop}>
-        글 쓰기
-      </Button>
-    ),
   },
 }
 

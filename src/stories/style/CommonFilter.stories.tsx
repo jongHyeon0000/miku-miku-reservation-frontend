@@ -65,7 +65,7 @@ export const FigureFilterColumns: Story = {
   ),
 }
 
-/** 커뮤니티 목록 위 검색 줄의 검색어 칸(community/component/list/PostSearchBar.tsx). 누르고 있으면 금색 테두리 */
+/** 커뮤니티 목록 제목 줄 오른쪽 검색 줄의 검색어 칸(community/component/list/PostSearchBar.tsx). 누르고 있으면 금색 테두리 */
 export const CommunitySearchInput: Story = {
   name: '커뮤니티 목록 > 검색 줄 > 검색어 칸',
   render: () => <FilterSearchInput placeholder="검색어를 입력하세요" endAdornment={<SearchIcon />} />,

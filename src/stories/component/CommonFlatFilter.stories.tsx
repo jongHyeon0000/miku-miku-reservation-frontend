@@ -50,7 +50,7 @@ export const FigureSortFilter: Story = {
   },
 }
 
-/** 커뮤니티 목록 위 검색 줄의 검색 대상(community/component/list/PostSearchBar.tsx). 전체 항목 없이 항상 하나가 골라져 있다 */
+/** 커뮤니티 목록 제목 줄 오른쪽 검색 줄의 검색 대상(community/component/list/PostSearchBar.tsx). 전체 항목 없이 항상 하나가 골라져 있다 */
 export const CommunitySearchType: Story = {
   name: '커뮤니티 목록 > 검색 줄 > 검색 대상',
   args: {

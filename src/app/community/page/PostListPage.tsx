@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import EmptyView from '@/app/common/component/EmptyView';
 import ErrorView from '@/app/common/component/ErrorView';
 import LoadingOverlay from '@/app/common/component/loading/LoadingOverlay';
+import { EndRow } from '@/app/common/style/CommonLayout.style';
 import { PageContainer, PageHeader, PageTitle } from '@/app/common/style/CommonPage.style';
 import PostListTable from '@/app/community/component/list/PostListTable';
 import PostSearchBar from '@/app/community/component/list/PostSearchBar';
@@ -10,6 +11,7 @@ import type { PostSearchValues } from '@/app/community/interface/PostListQuery';
 import useReadPostList from '@/app/community/service/useReadPostList';
 import { toPostListQuery, toPostListSearchParams } from '@/app/community/utils/PostUtils';
 import { API_CODE } from '@/config/axios/constant/apiCode';
+import { styled } from '@mui/material/styles';
 
 /**
  * 게시판 목록 화면 (/community)
@@ -43,19 +45,8 @@ const PostListPage = () => {
     navigate(`/community/${postId}`);
   };
 
-  /* 글이 하나도 없을 때. 검색 중이면 결과가 없다는 문구만 보여 준다 */
-  const emptyView = searching ? (
-    <EmptyView message="검색 결과가 없어요" />
-  ) : (
-    <EmptyView
-      message="아직 글이 없어요"
-      action={
-        <Button variant="contained" onClick={() => navigate('/community/new')}>
-          글 쓰기
-        </Button>
-      }
-    />
-  );
+  /* 글이 하나도 없을 때의 문구. 글 쓰기 버튼은 아래 오른쪽에 따로 있다 */
+  const emptyMessage = searching ? '검색 결과가 없어요' : '아직 글이 없어요';
 
   return (
     <PageContainer>
@@ -63,25 +54,34 @@ const PostListPage = () => {
         <PageTitle variant="h4" component="h1">
           커뮤니티
         </PageTitle>
-        <Button variant="contained" onClick={() => navigate('/community/new')}>
-          글 쓰기
-        </Button>
+        {/* 주소의 검색 조건이 바뀌면(뒤로 가기 등) 칸을 새로 그려 처음 값을 다시 맞춘다 */}
+        <PostSearchBar key={`${query.searchType}:${query.keyword}`} value={query} onSearch={handleSearch} />
       </PageHeader>
-
-      {/* 주소의 검색 조건이 바뀌면(뒤로 가기 등) 칸을 새로 그려 처음 값을 다시 맞춘다 */}
-      <PostSearchBar key={`${query.searchType}:${query.keyword}`} value={query} onSearch={handleSearch} />
 
       {postListPage && postListPage.code !== API_CODE.OK && <ErrorView message={postListPage.message} onRetry={fetchReadPostList} />}
 
-      {pageData !== null && items.length === 0 && emptyView}
+      {pageData !== null && items.length === 0 && <EmptyView message={emptyMessage} />}
 
       {items.length > 0 && (
         <PostListTable items={items} page={query.page} totalPages={totalPages} onOpen={handleOpen} onChangePage={handleChangePage} />
+      )}
+
+      {pageData !== null && (
+        <WriteRow>
+          <Button variant="contained" onClick={() => navigate('/community/new')}>
+            글 쓰기
+          </Button>
+        </WriteRow>
       )}
 
       <LoadingOverlay open={postListLoading} />
     </PageContainer>
   );
 };
+
+/** 목록 아래 오른쪽의 글 쓰기 줄. 목록과의 간격은 글 쓰기 화면의 본문과 버튼 줄 사이(FormBody gap)와 같다 */
+const WriteRow = styled(EndRow)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+}));
 
 export default PostListPage;
