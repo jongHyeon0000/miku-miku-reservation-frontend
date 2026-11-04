@@ -71,6 +71,14 @@ export const CommunityListEmpty: Story = {
   },
 }
 
+/** 커뮤니티 목록 화면에서 검색 결과가 없을 때. 동작 칸 없음 */
+export const CommunitySearchEmpty: Story = {
+  name: '커뮤니티 목록 > 본문 > 검색 결과 없음',
+  args: {
+    message: '검색 결과가 없어요',
+  },
+}
+
 /** 글 상세의 댓글 영역(src/app/community/component/comment/PostCommentSection.tsx)과 템플릿 가져오기 창(src/app/category/template/component/TemplateImportDialog.tsx). 동작 칸 없음 */
 export const MessageOnly: Story = {
   name: '글 상세 > 댓글 > 댓글 없음',

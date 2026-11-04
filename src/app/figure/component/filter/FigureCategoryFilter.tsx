@@ -2,7 +2,7 @@ import { useRef, useState, type MouseEvent } from 'react';
 import { Box, List, ListItemText } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { FilterButton, FilterColumn, FilterDot, FilterItem, FilterPopover, FilterSubColumn, FilterSubWrap } from '@/app/figure/style/FigureFilter.style';
+import { FilterButton, FilterColumn, FilterDot, FilterItem, FilterPopover, FilterSubColumn, FilterSubWrap } from '@/app/common/style/CommonFilter.style';
 import type { FigureFilterOptionGroup, FigureFilterOptionItem, FigureFilterValue } from '@/app/figure/interface/FigureFilter';
 import { styled } from '@mui/material/styles';
 

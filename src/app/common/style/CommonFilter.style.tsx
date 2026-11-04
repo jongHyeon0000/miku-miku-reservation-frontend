@@ -1,7 +1,7 @@
-import { Box, Button, ListItemButton, Popover } from '@mui/material';
+import { Box, Button, InputBase, ListItemButton, Popover } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
-/** 필터 줄의 칸 일곱 개(분류 5개, 배송월, 정렬)가 같이 쓰는 버튼. 고른 값이 있으면(filled) 금색 테두리와 글자로 표시한다 */
+/** 필터 줄의 칸(상품의 분류 5개, 배송월, 정렬, 게시판 검색 대상)이 같이 쓰는 버튼. 고른 값이 있으면(filled) 금색 테두리와 글자로 표시한다 */
 export const FilterButton = styled(Button, { shouldForwardProp: (prop) => prop !== 'filled' })<{ filled?: boolean }>(
   ({ theme, filled = false }) => ({
     flexShrink: 0,
@@ -82,4 +82,25 @@ export const FilterDot = styled('span')(({ theme }) => ({
   marginLeft: theme.spacing(0.75),
   backgroundColor: theme.palette.primary.main,
   borderRadius: '50%',
+}));
+
+/**
+* 필터 줄의 검색어 칸 (게시판 검색). FilterButton 과 같은 면, 선, 모서리를 쓰고, 누르고 있으면 금색 테두리다.
+* 높이는 버튼과 같은 구조(위아래 여백, 줄 높이, 글자 크기)로 맞춰 나란히 놓으면 같은 높이가 된다. 오른쪽 아이콘은 흐린 글자색이다.
+* */
+export const FilterSearchInput = styled(InputBase)(({ theme }) => ({
+  width: theme.spacing(35),
+  gap: theme.spacing(1),
+  padding: theme.spacing(0, 1.25, 0, 1.75),
+  backgroundColor: theme.palette.background.paper,
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: theme.shape.borderRadius,
+  fontSize: theme.typography.button.fontSize,
+  '&:hover, &.Mui-focused': { borderColor: theme.palette.primary.main },
+  '& .MuiInputBase-input': {
+    height: 'auto',
+    padding: theme.spacing(0.625, 0),
+    lineHeight: theme.typography.button.lineHeight,
+  },
+  '& .MuiSvgIcon-root': { fontSize: '1.125rem', color: theme.palette.text.secondary },
 }));

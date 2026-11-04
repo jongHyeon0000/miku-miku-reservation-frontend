@@ -1,5 +1,5 @@
 import FigureCategoryFilter from '@/app/figure/component/filter/FigureCategoryFilter';
-import FigureFlatFilter from '@/app/figure/component/filter/FigureFlatFilter';
+import CommonFlatFilter from '@/app/common/component/CommonFlatFilter';
 import { FIGURE_SORT_OPTIONS, type FigureSortKey } from '@/app/figure/constant/figureSortOptions';
 import type { FigureFilterOptions, FigureFilterValue, FigureFilterKey, FigureFilters } from '@/app/figure/interface/FigureFilter';
 import { formatDeliveryMonth } from '@/app/figure/utils/FigureUtils';
@@ -90,13 +90,13 @@ const FigureFilterBar = ({
 
       <RightSide>
         {actions}
-        <FigureFlatFilter
+        <CommonFlatFilter
           allLabel="배송월 전체"
           options={options.months.map((option) => ({ value: option, label: formatDeliveryMonth(option) }))}
           value={month}
           onChange={onMonthChange}
         />
-        <FigureFlatFilter
+        <CommonFlatFilter
           options={SORT_OPTIONS}
           value={sort}
           onChange={(value) => onSortChange(value as FigureSortKey)}

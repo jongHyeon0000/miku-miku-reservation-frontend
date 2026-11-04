@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { List, ListItemText } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { FilterButton, FilterColumn, FilterItem, FilterPopover } from '@/app/figure/style/FigureFilter.style';
+import { FilterButton, FilterColumn, FilterItem, FilterPopover } from '@/app/common/style/CommonFilter.style';
 
-interface FigureFlatFilterOption {
+interface CommonFlatFilterOption {
   value: string;
   label: string;
 }
 
-interface FigureFlatFilterProps {
+interface CommonFlatFilterProps {
   /** 맨 위 "전체" 항목의 이름 (예: "배송월 전체"). 없으면 전체 항목 없이 항상 하나가 선택된다(정렬) */
   allLabel?: string;
 
   /** 고를 수 있는 값 */
-  options: FigureFlatFilterOption[];
+  options: readonly CommonFlatFilterOption[];
 
   /** 지금 고른 값. 전체이면 null */
   value: string | null;
@@ -23,10 +23,10 @@ interface FigureFlatFilterProps {
 }
 
 /**
- * 한 줄 목록에서 하나를 고르는 필터 칸 (배송월, 정렬).
+ * 한 줄 목록에서 하나를 고르는 필터 칸 (상품의 배송월, 정렬, 게시판 검색 대상).
  * 분류 필터(FigureCategoryFilter)와 같은 버튼과 목록 모양을 쓴다.
  */
-const FigureFlatFilter = ({ allLabel, options, value, onChange }: FigureFlatFilterProps) => {
+const CommonFlatFilter = ({ allLabel, options, value, onChange }: CommonFlatFilterProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleFilterSelect = (next: string | null) => {
@@ -71,4 +71,4 @@ const FigureFlatFilter = ({ allLabel, options, value, onChange }: FigureFlatFilt
   );
 };
 
-export default FigureFlatFilter;
+export default CommonFlatFilter;

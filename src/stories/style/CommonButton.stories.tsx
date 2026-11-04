@@ -55,6 +55,12 @@ export const DialogCloseButton: Story = {
   render: () => <TonalButton>닫기</TonalButton>,
 }
 
+/** 커뮤니티 목록 위 검색 줄의 검색 버튼(community/component/list/PostSearchBar.tsx). 검색어 칸 오른쪽 */
+export const CommunitySearchButton: Story = {
+  name: '커뮤니티 목록 > 검색 줄 > 검색 버튼',
+  render: () => <TonalButton type="submit">검색</TonalButton>,
+}
+
 /** 템플릿 가져오기 창 목록 줄의 작은 가져오기 버튼(category/template/component/TemplateImportDialog.tsx)과 회원가입의 인증 코드 받기, 확인 버튼(auth/component/SignupForm.tsx) */
 export const SmallActionButton: Story = {
   name: '템플릿 창, 회원가입 > 줄 안 > 작은 버튼',

@@ -1,6 +1,8 @@
 import { THUMBNAIL_EXTENSIONS, THUMBNAIL_MAX_BYTES } from '@/app/common/constant/thumbnailFile';
 import type { PostComment } from '@/app/community/interface/PostComment';
 import type { PostCommentReplyTarget } from '@/app/community/interface/PostCommentReplyTarget';
+import { DEFAULT_POST_SEARCH_TYPE, POST_SEARCH_TYPE_OPTIONS } from '@/app/community/constant/postSearchTypes';
+import type { PostListQuery } from '@/app/community/interface/PostListQuery';
 
 /**
  * 서버가 준 날짜시간('2026-10-26T10:30:00')을 '2026.10.26' 모양으로 바꾼다.
@@ -98,4 +100,35 @@ export const toReplyTarget = (parentPostCommentId: number, target: PostComment):
   }
 
   return { parentPostCommentId, mentionUserId: target.userId, mentionUserName: target.authorName };
+};
+
+/**
+ * 화면 주소의 쿼리(?page=&searchType=&keyword=)를 목록 조건으로 바꾼다.
+ * 쪽이 1보다 작거나 숫자가 아니면 1쪽, 검색 대상이 4종이 아니면 기본(제목+내용)이다.
+ */
+export const toPostListQuery = (searchParams: URLSearchParams): PostListQuery => {
+  const pageParam = Number(searchParams.get('page'));
+  const page = Number.isInteger(pageParam) && pageParam >= 1 ? pageParam : 1;
+
+  const searchTypeParam = searchParams.get('searchType');
+  const matchedOption = POST_SEARCH_TYPE_OPTIONS.find((option) => option.value === searchTypeParam);
+  const searchType = matchedOption !== undefined ? matchedOption.value : DEFAULT_POST_SEARCH_TYPE;
+
+  const keywordParam = searchParams.get('keyword');
+  const keyword = keywordParam !== null ? keywordParam : '';
+
+  return { page, searchType, keyword };
+};
+
+/**
+ * 목록 조건을 화면 주소의 쿼리로 바꾼다. 검색어가 없으면 쪽 번호만 남긴다.
+ */
+export const toPostListSearchParams = (query: PostListQuery): Record<string, string> => {
+  const keyword = query.keyword.trim();
+
+  if (keyword === '') {
+    return { page: String(query.page) };
+  }
+
+  return { page: String(query.page), searchType: query.searchType, keyword };
 };
