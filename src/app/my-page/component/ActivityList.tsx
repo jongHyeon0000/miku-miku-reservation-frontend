@@ -8,7 +8,7 @@ export interface ActivityListItem {
   /** 줄을 가리는 번호 (눌렀을 때 onOpen 으로 돌아온다) */
   id: number;
 
-  /** 위에 크게 보이는 글 (글은 제목, 답변은 내용) */
+  /** 위에 크게 보이는 글 (글은 제목, 댓글은 내용) */
   main: ReactNode;
 
   /** 아래에 작게 보이는 정보 한 줄 */
@@ -27,7 +27,7 @@ interface ActivityListProps {
 }
 
 /**
- * 프로필의 최근 글, 최근 답변 목록. 줄마다 위에 큰 글, 아래에 작은 정보 한 줄을 보여 준다.
+ * 프로필의 최근 글, 최근 댓글 목록. 줄마다 위에 큰 글, 아래에 작은 정보 한 줄을 보여 준다.
  * 줄 틀은 커뮤니티 목록과 같은 Panel, RowBox 이고, 맨 아래 칸은 커뮤니티 목록의 쪽 번호 칸과 같은 PagerRow 다.
  */
 const ActivityList = ({ items, onOpen, footer }: ActivityListProps) => {

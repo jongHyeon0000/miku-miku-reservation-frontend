@@ -1,6 +1,6 @@
 import type { PostListQuery } from '@/app/community/interface/PostListQuery';
 
-/** 커뮤니티 보관 키. all 은 전부, page 는 글 목록 한 쪽(검색 조건 포함), pageAll 은 글 목록 모든 쪽, detail 은 글 상세 한 건, commentList 는 그 글의 댓글 전체, userPostList 와 userCommentList 는 그 사용자의 최근 글과 최근 답변 */
+/** 커뮤니티 보관 키. all 은 전부, page 는 글 목록 한 쪽(검색 조건 포함), pageAll 은 글 목록 모든 쪽, detail 은 글 상세 한 건, commentList 는 그 글의 댓글 전체, userPostList 와 userCommentList 는 그 사용자의 최근 글과 최근 댓글 */
 export const postKeys = {
   all: ['post'] as const,
   userPostList: (userId: number) => [...postKeys.all, 'user-post-list', userId] as const,

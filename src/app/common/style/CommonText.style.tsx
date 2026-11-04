@@ -69,7 +69,7 @@ export const PriceColumn = styled(Box)(({ theme }) => ({
 }));
 
 /**
-* 두 줄까지 보이고 길면 …로 줄이는 글자 (상품 카드 이름, 마이페이지 최근 답변 내용). 글자 크기는 쓰는 곳에서 정한다
+* 두 줄까지 보이고 길면 …로 줄이는 글자 (상품 카드 이름, 마이페이지 최근 댓글 내용). 글자 크기는 쓰는 곳에서 정한다
 * */
 export const ClampText = styled(Typography)({
   display: '-webkit-box',

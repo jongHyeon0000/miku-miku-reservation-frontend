@@ -5,12 +5,12 @@ import { toApiResponse } from '@/config/axios/utils/toApiResponse';
 import { postKeys } from '@/app/community/constant/postQueryKeys';
 import type { UserCommentItem } from '@/app/community/interface/UserCommentItem';
 
-/** 프로필에 보여 줄 최근 답변 수 */
+/** 프로필에 보여 줄 최근 댓글 수 */
 const USER_COMMENT_SIZE = 5;
 
 /**
- * 사용자의 최근 답변 조회 훅 (GET /api/user/{userId}/comment)
- * 페이지 없이 최근 답변만 최신순 배열로 온다. enabled 가 false 면 읽지 않는다(탭을 열었을 때만 읽는다).
+ * 사용자의 최근 댓글 조회 훅 (GET /api/user/{userId}/comment)
+ * 페이지 없이 최근 댓글만 최신순 배열로 온다. enabled 가 false 면 읽지 않는다(탭을 열었을 때만 읽는다).
  */
 const useReadUserCommentList = (userId: number, enabled: boolean) => {
   const { data, isLoading, refetch } = useQuery({

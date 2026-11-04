@@ -176,9 +176,9 @@ export const FigureCardName: Story = {
   ),
 }
 
-/** 마이페이지 최근 답변 탭(my-page/component/ActivityList.tsx)의 답변 내용. 두 줄까지 보이고 길면 …로 줄인다 */
+/** 마이페이지 최근 댓글 탭(my-page/component/ActivityList.tsx)의 댓글 내용. 두 줄까지 보이고 길면 …로 줄인다 */
 export const ActivityCommentContent: Story = {
-  name: '마이페이지 > 최근 답변 > 내용',
+  name: '마이페이지 > 최근 댓글 > 내용',
   render: () => (
     <ClampText>
       정리 감사합니다 덕분에 놓치지 않았어요. 다음 달 것도 부탁드려요. 마감일이 겹치는 게 많아서 정말 도움이 됩니다. 앞으로도 잘 부탁드립니다.

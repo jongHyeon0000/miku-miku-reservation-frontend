@@ -38,7 +38,7 @@ const WITHDRAW_ALERT = {
 
 /**
  * 마이페이지 (/my-page)
- * 위에 프로필 머리(이미지 포함)가 항상 보이고, 아래 내 정보, 최근 글, 최근 답변, 회원 탈퇴를 탭으로 나눈다. 탭은 주소 없이 화면 상태로만 바꾼다. 열릴 때 내 정보를 다시 읽어 글, 답변 수를 최신으로 맞춘다.
+ * 위에 프로필 머리(이미지 포함)가 항상 보이고, 아래 내 정보, 최근 글, 최근 댓글, 회원 탈퇴를 탭으로 나눈다. 탭은 주소 없이 화면 상태로만 바꾼다. 열릴 때 내 정보를 다시 읽어 글, 댓글 수를 최신으로 맞춘다.
  */
 const MyPagePage = () => {
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ const MyPagePage = () => {
   const [profileDialogOpen, setProfileDialogOpen] = useState<boolean>(false);
   const [passwordDialogOpen, setPasswordDialogOpen] = useState<boolean>(false);
 
-  /* 마이페이지가 열릴 때마다 내 정보를 다시 읽는다(커뮤니티에서 글을 쓰고 돌아오면 글, 답변 수가 바뀌어 있어야 한다) */
+  /* 마이페이지가 열릴 때마다 내 정보를 다시 읽는다(커뮤니티에서 글을 쓰고 돌아오면 글, 댓글 수가 바뀌어 있어야 한다) */
   useEffect(() => {
     fetchReadMe();
     // eslint-disable-next-line react-hooks/exhaustive-deps

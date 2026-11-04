@@ -16,7 +16,7 @@ interface ProfileHeaderProps {
   /** 쓴 글 수 */
   postCount: number;
 
-  /** 쓴 답변 수 */
+  /** 쓴 댓글 수 */
   commentCount: number;
 
   /** 가입 일시 */
@@ -30,7 +30,7 @@ interface ProfileHeaderProps {
 }
 
 /**
- * 프로필 머리 카드. 왼쪽은 사진 자리, 오른쪽은 닉네임, 자기소개, 글, 답변, 가입일.
+ * 프로필 머리 카드. 왼쪽은 사진 자리, 오른쪽은 닉네임, 자기소개, 글, 댓글, 가입일.
  * 고치는 부분(업로더, 버튼)은 밖에서 꽂아서, 남의 프로필에서도 같은 모양으로 쓸 수 있다.
  */
 const ProfileHeader = ({ name, biography, postCount, commentCount, createdAt, media, actions }: ProfileHeaderProps) => {
@@ -64,7 +64,7 @@ const ProfileHeader = ({ name, biography, postCount, commentCount, createdAt, me
           </Stat>
           <Stat>
             <Typography variant="body2">
-              <Highlight>답변</Highlight>
+              <Highlight>댓글</Highlight>
             </Typography>
             <StatNumber>{commentCount}</StatNumber>
           </Stat>
@@ -108,7 +108,7 @@ const Biography = styled(Typography)({
   fontSize: '1.125rem',
 });
 
-/** 글, 답변, 가입을 같은 폭 세 칸으로 나눈다. 맨 위에 구분선을 긋는다 */
+/** 글, 댓글, 가입을 같은 폭 세 칸으로 나눈다. 맨 위에 구분선을 긋는다 */
 const StatsRow = styled('div')(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
@@ -127,7 +127,7 @@ const Stat = styled('div')(({ theme }) => ({
   },
 }));
 
-/** 글, 답변 수. 크고 굵은 고정폭 글꼴 */
+/** 글, 댓글 수. 크고 굵은 고정폭 글꼴 */
 const StatNumber = styled(Typography)(({ theme }) => ({
   ...theme.typography.mono,
   fontSize: '1.75rem',

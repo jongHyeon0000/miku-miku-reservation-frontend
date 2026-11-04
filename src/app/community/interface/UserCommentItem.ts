@@ -1,4 +1,4 @@
-/** 사용자가 쓴 최근 답변 한 건 (GET /api/user/{userId}/comment 의 data 한 건). 정상 댓글과 답글 중 달린 글도 정상인 것만 온다 */
+/** 사용자가 쓴 최근 댓글 한 건 (GET /api/user/{userId}/comment 의 data 한 건). 정상 댓글과 답글 중 달린 글도 정상인 것만 온다 */
 export interface UserCommentItem {
   /** 댓글 id */
   postCommentId: number;
